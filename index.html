@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peachz Hub — ศูนย์รวมนักเขียน &amp; นักแปล</title>
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#f97316" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23fb7185'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='32' fill='url(%23g)'/%3E%3Ctext x='64' y='84' font-size='68' text-anchor='middle'%3E%F0%9F%A7%AC%3C/text%3E%3C/svg%3E" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Prompt', 'Sarabun', 'system-ui', 'sans-serif'],
+            serif: ['Sarabun', 'Prompt', 'serif']
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --hub-bg: #fff9f5;
+      --hub-surface: #ffffff;
+      --hub-subtle: #fff1e6;
+      --hub-border: #fed7aa;
+      --hub-text: #1c1917;
+      --hub-sub: #78716c;
+      --hub-accent: #f97316;
+    }
+    html.dark {
+      --hub-bg: #0b1120;
+      --hub-surface: #111827;
+      --hub-subtle: #1e293b;
+      --hub-border: #334155;
+      --hub-text: #f1f5f9;
+      --hub-sub: #94a3b8;
+      --hub-accent: #fb7185;
+    }
+    body {
+      font-family: 'Prompt', 'Sarabun', system-ui, sans-serif;
+      background-color: var(--hub-bg);
+      color: var(--hub-text);
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    .hub-surface {
+      background-color: var(--hub-surface);
+      border-color: var(--hub-border);
+    }
+    .hub-subtle {
+      background-color: var(--hub-subtle);
+      border-color: var(--hub-border);
+    }
+    .hub-text-sub {
+      color: var(--hub-sub);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-orange-500/30">
+
+  <!-- =====================================================================
+       SOLE-OWNER LOGIN GATE
+       ===================================================================== -->
+  <div id="loginGate" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm">
+    <div class="max-w-md w-full rounded-3xl bg-white dark:bg-slate-900 border border-orange-200 dark:border-slate-700 shadow-2xl p-6 sm:p-8 text-center space-y-5">
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500 text-white text-3xl flex items-center justify-center shadow-lg">
+        🧬
+      </div>
+      <div class="space-y-1.5">
+        <h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Peachz Hub</h1>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+          ศูนย์รวมควบคุม Peachz Writer &amp; Reader Suite (เฉพาะบัญชีเจ้าของคลัง)
+        </p>
+      </div>
+      <div id="gateWarning" class="hidden text-left text-xs rounded-2xl p-3 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-200 leading-relaxed"></div>
+      <button id="btnGateLogin" type="button"
+        class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-95 text-white font-semibold text-sm shadow-md flex items-center justify-center gap-2.5 transition active:scale-[0.99] disabled:opacity-60">
+        <svg class="w-5 h-5 bg-white rounded-full p-0.5 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        <span>เข้าสู่ระบบด้วย Google</span>
+      </button>
+      <p class="text-[11px] text-slate-400 dark:text-slate-500">
+        เชื่อมตรงกับฐานข้อมูล Cloud เดียวกับ Peachz Haus Studio, น้องหมาช่วยแปล, NovelTrans Studio และ Peachz Shelf
+      </p>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       APP SHELL
+       ===================================================================== -->
+  <div id="appShell" class="hidden min-h-screen flex flex-col">
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-30 hub-surface border-b backdrop-blur bg-opacity-95 px-3 sm:px-6 py-2.5">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
+        <!-- Left Brand -->
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500 text-white text-lg flex items-center justify-center shadow-sm shrink-0">
+            🧬
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <h1 class="font-bold text-sm sm:text-base truncate">Peachz Hub</h1>
+              <span class="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-orange-500/15 text-orange-600 dark:text-orange-300 border border-orange-500/30">
+                Suite Center v1.0
+              </span>
+            </div>
+            <p id="syncStatusSub" class="text-[11px] hub-text-sub truncate">รอซิงค์ข้อมูลจาก Cloud...</p>
+          </div>
+        </div>
+
+        <!-- Right Toolbar -->
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <button id="btnRefreshAll" type="button" title="โหลดข้อมูลล่าสุดจากทุกแอป"
+            class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-90 flex items-center gap-1.5 transition active:scale-95">
+            <span id="refreshIcon">🔄</span>
+            <span class="hidden sm:inline">รีเฟรช</span>
+          </button>
+
+          <button id="btnToggleTheme" type="button" title="สลับโหมดมืด/สว่าง"
+            class="p-2 rounded-xl hub-subtle border text-xs hover:opacity-90 transition">
+            ☀️
+          </button>
+
+          <!-- Peachz Suite Switcher -->
+          <div id="peachzSuiteMenuWrap" class="relative shrink-0">
+            <button id="btnPeachzSuiteMenu" type="button" aria-expanded="false" title="สลับไปยังแอปอื่นใน Peachz Suite"
+              class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl hub-subtle border text-xs font-semibold flex items-center gap-1 hover:opacity-90 transition">
+              <span>🍑</span>
+              <span class="hidden sm:inline">แอป</span>
+              <span class="text-[10px] opacity-70">▾</span>
+            </button>
+            <div id="peachzSuiteDropdown" class="hidden absolute right-0 mt-2 w-64 rounded-2xl hub-surface border shadow-2xl p-1.5 z-50 text-left space-y-0.5">
+              <div class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide hub-text-sub">Peachz Writer &amp; Reader Suite</div>
+              <a href="https://dblack-dev.github.io/peachz-pwa/" target="_blank" rel="noopener"
+                class="flex items-center justify-between gap-2 px-2.5 py-2 rounded-xl hover:bg-orange-500/10 text-xs transition">
+                <span>🍑 Peachz Haus Studio</span>
+                <span class="text-[10px] hub-text-sub">จัดหน้า</span>
+              </a>
+              <a href="https://dblack-dev.github.io/pomehelpmami/" target="_blank" rel="noopener"
+                class="flex items-center justify-between gap-2 px-2.5 py-2 rounded-xl hover:bg-orange-500/10 text-xs transition">
+                <span>🐶 น้องหมาช่วยแปล (3 AI)</span>
+                <span class="text-[10px] hub-text-sub">เทียบแปล</span>
+              </a>
+              <a href="https://dblack-dev.github.io/noveltransstudio/" target="_blank" rel="noopener"
+                class="flex items-center justify-between gap-2 px-2.5 py-2 rounded-xl hover:bg-orange-500/10 text-xs transition">
+                <span>📖 NovelTrans Studio</span>
+                <span class="text-[10px] hub-text-sub">แปล+Bible</span>
+              </a>
+              <a href="https://dblack-dev.github.io/peachz-shelf/" target="_blank" rel="noopener"
+                class="flex items-center justify-between gap-2 px-2.5 py-2 rounded-xl hover:bg-orange-500/10 text-xs transition">
+                <span>📚 Peachz Shelf</span>
+                <span class="text-[10px] hub-text-sub">ชั้นอ่าน</span>
+              </a>
+              <div class="flex items-center justify-between gap-2 px-2.5 py-2 rounded-xl bg-gradient-to-r from-rose-500/15 to-orange-500/15 text-orange-600 dark:text-orange-300 text-xs font-semibold">
+                <span>🧬 Peachz Hub</span>
+                <span class="text-[10px]">ใช้งานอยู่</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Menu -->
+          <div id="userMenuWrap" class="relative">
+            <button id="btnUserMenu" type="button"
+              class="flex items-center gap-1.5 p-1 sm:pr-2.5 rounded-xl hub-subtle border hover:opacity-90 transition">
+              <img id="userAvatarImg" src="" alt="โปรไฟล์" referrerpolicy="no-referrer" class="w-7 h-7 rounded-lg object-cover hidden" />
+              <span id="userAvatarFallback" class="w-7 h-7 rounded-lg bg-gradient-to-br from-rose-500 to-orange-500 text-white text-xs font-bold flex items-center justify-center">D</span>
+              <span id="userDisplayName" class="hidden md:inline text-xs font-medium max-w-[110px] truncate"></span>
+            </button>
+            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-60 rounded-2xl hub-surface border shadow-2xl p-3 z-50 space-y-2.5">
+              <div class="pb-2.5 border-b border-slate-200 dark:border-slate-700">
+                <div id="userDropdownName" class="text-xs font-semibold truncate">ผู้ใช้</div>
+                <div id="userDropdownEmail" class="text-[11px] hub-text-sub truncate"></div>
+              </div>
+              <button id="btnLogout" type="button"
+                class="w-full py-2 px-3 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-500 text-xs font-semibold transition">
+                ออกจากระบบ
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Bar -->
+      <nav aria-label="หมวดหมู่หลัก" class="max-w-7xl mx-auto mt-2.5 flex items-center gap-1.5 overflow-x-auto pb-0.5 custom-scrollbar">
+        <button id="tabOverview" type="button" data-tab="overview"
+          class="hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-gradient-to-r from-rose-500 to-orange-500 text-white shadow-sm">
+          🏠 ภาพรวม &amp; เป้าหมาย
+        </button>
+        <button id="tabApiQuota" type="button" data-tab="api"
+          class="hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition hub-subtle border hover:opacity-90">
+          🔑 คีย์ API &amp; ลิมิต Google
+        </button>
+        <button id="tabBible" type="button" data-tab="bible"
+          class="hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition hub-subtle border hover:opacity-90">
+          📚 คลังศัพท์รวมข้ามแอป
+        </button>
+        <button id="tabTools" type="button" data-tab="tools"
+          class="hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition hub-subtle border hover:opacity-90">
+          🧰 เครื่องมือเร็ว &amp; Prompt
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-5 space-y-5">
+
+      <!-- ===================================================================
+           TAB 1: OVERVIEW, LAUNCHER & DAILY GOAL / POMODORO
+           =================================================================== -->
+      <section id="panelOverview" class="space-y-5">
+        <!-- 4 KPI Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div class="rounded-2xl hub-surface border p-4 space-y-1.5 shadow-sm">
+            <div class="text-[11px] font-semibold hub-text-sub flex items-center justify-between">
+              <span>📚 นิยายบนชั้นอ่าน</span>
+              <span class="text-orange-500">Shelf</span>
+            </div>
+            <div id="kpiShelfNovels" class="text-2xl font-bold">-</div>
+            <div id="kpiShelfSub" class="text-[11px] hub-text-sub truncate">กำลังโหลด...</div>
+          </div>
+
+          <div class="rounded-2xl hub-surface border p-4 space-y-1.5 shadow-sm">
+            <div class="text-[11px] font-semibold hub-text-sub flex items-center justify-between">
+              <span>✍️ คำในสตูดิโอ</span>
+              <span class="text-rose-500">Haus</span>
+            </div>
+            <div id="kpiHausWords" class="text-2xl font-bold">-</div>
+            <div id="kpiHausSub" class="text-[11px] hub-text-sub truncate">กำลังโหลด...</div>
+          </div>
+
+          <div class="rounded-2xl hub-surface border p-4 space-y-1.5 shadow-sm">
+            <div class="text-[11px] font-semibold hub-text-sub flex items-center justify-between">
+              <span>📖 คลังศัพท์ &amp; ตัวละครรวม</span>
+              <span class="text-indigo-500">Bible</span>
+            </div>
+            <div id="kpiTotalTerms" class="text-2xl font-bold">-</div>
+            <div id="kpiTermsSub" class="text-[11px] hub-text-sub truncate">กำลังโหลด...</div>
+          </div>
+
+          <div class="rounded-2xl hub-surface border p-4 space-y-1.5 shadow-sm">
+            <div class="text-[11px] font-semibold hub-text-sub flex items-center justify-between">
+              <span>🔑 API Keys ที่บันทึกไว้</span>
+              <span class="text-emerald-500">Vault</span>
+            </div>
+            <div id="kpiTotalKeys" class="text-2xl font-bold">-</div>
+            <div id="kpiKeysSub" class="text-[11px] hub-text-sub truncate">กำลังโหลด...</div>
+          </div>
+        </div>
+
+        <!-- Live Handoff Queue Banner Card -->
+        <div id="hubHandoffCard" class="rounded-3xl hub-surface border p-4 sm:p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="min-w-0 space-y-1">
+            <div class="flex items-center gap-2 text-xs font-bold text-orange-500">
+              <span>🍑</span>
+              <span>คิวส่งงานข้ามแอป (localStorage: peachz_suite_handoff_v1)</span>
+            </div>
+            <div id="hubHandoffStatusText" class="text-xs sm:text-sm hub-text-sub">กำลังตรวจสอบคิว...</div>
+          </div>
+          <div id="hubHandoffActions" class="flex flex-wrap items-center gap-2 shrink-0"></div>
+        </div>
+
+        <!-- 4 App Launcher Cards -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm sm:text-base font-bold flex items-center gap-2">🚀 แอปทั้งหมดใน Peachz Suite</h2>
+            <span class="text-[11px] hub-text-sub">คลิกเพื่อเปิดทำงานทันที</span>
+          </div>
+          <div id="suiteCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3.5"></div>
+        </div>
+
+        <!-- Daily Goal + Focus Sprint Timer -->
+        <div id="goalSection" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <!-- Daily Writing/Translating Goal -->
+          <div class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-4 shadow-sm">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <h3 class="text-sm sm:text-base font-bold">🎯 เป้าหมายเขียน &amp; แปลวันนี้</h3>
+                <p id="goalDateLabel" class="text-[11px] hub-text-sub">บันทึกอัตโนมัติในเบราว์เซอร์ (รีเซ็ตทุกวันใหม่)</p>
+              </div>
+              <button id="btnResetWordBaseline" type="button"
+                class="px-2.5 py-1.5 rounded-xl hub-subtle border text-[11px] font-semibold hover:opacity-90 transition">
+                รีเซ็ตฐานคำ = 0
+              </button>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-medium">คำที่เพิ่มใน Peachz Haus วันนี้</span>
+                <span id="goalWordsProgressLabel" class="font-bold text-orange-500">0 / 3,000 คำ</span>
+              </div>
+              <div class="h-2.5 rounded-full hub-subtle overflow-hidden border">
+                <div id="goalWordsBar" class="h-full bg-gradient-to-r from-rose-500 to-orange-500 transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-medium">จำนวนตอนที่แปล/ปั้นสำเร็จวันนี้</span>
+                <span id="goalChaptersProgressLabel" class="font-bold text-emerald-500">0 / 3 ตอน</span>
+              </div>
+              <div class="h-2.5 rounded-full hub-subtle overflow-hidden border">
+                <div id="goalChaptersBar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1">
+              <label class="text-[11px] space-y-1">
+                <span class="hub-text-sub block">เป้าคำ/วัน</span>
+                <input id="inputWordGoal" type="number" min="100" step="100" value="3000"
+                  class="w-full px-2.5 py-1.5 rounded-xl hub-subtle border text-xs focus:outline-none focus:ring-2 focus:ring-orange-500/40" />
+              </label>
+              <label class="text-[11px] space-y-1">
+                <span class="hub-text-sub block">เป้าตอน/วัน</span>
+                <input id="inputChapterGoal" type="number" min="1" step="1" value="3"
+                  class="w-full px-2.5 py-1.5 rounded-xl hub-subtle border text-xs focus:outline-none focus:ring-2 focus:ring-orange-500/40" />
+              </label>
+              <div class="flex items-end gap-1.5 col-span-2 sm:col-span-1">
+                <button id="btnAddChapterDone" type="button"
+                  class="flex-1 py-1.5 px-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-semibold transition">
+                  +1 ตอน
+                </button>
+                <button id="btnSubChapterDone" type="button"
+                  class="py-1.5 px-2.5 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-80 transition">
+                  -1
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pomodoro Focus Sprint Timer -->
+          <div class="rounded-3xl hub-surface border p-4 sm:p-5 flex flex-col justify-between space-y-4 shadow-sm">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <h3 class="text-sm sm:text-base font-bold">⏱️ Focus Sprint Timer</h3>
+                <p class="text-[11px] hub-text-sub">จับเวลารอบปั่นนิยาย/แปลงาน พร้อมเสียงกระดิ่งเตือนเบา ๆ เมื่อครบ</p>
+              </div>
+              <div class="flex items-center gap-1">
+                <button type="button" data-sprint-mins="15" class="sprint-preset-btn px-2 py-1 rounded-lg hub-subtle border text-[11px] font-semibold">15m</button>
+                <button type="button" data-sprint-mins="25" class="sprint-preset-btn px-2 py-1 rounded-lg bg-orange-500 text-white text-[11px] font-semibold">25m</button>
+                <button type="button" data-sprint-mins="45" class="sprint-preset-btn px-2 py-1 rounded-lg hub-subtle border text-[11px] font-semibold">45m</button>
+              </div>
+            </div>
+
+            <div class="py-3 text-center rounded-2xl hub-subtle border">
+              <div id="sprintTimerDisplay" class="text-4xl sm:text-5xl font-bold tracking-wider font-mono text-orange-500">25:00</div>
+              <div id="sprintStatusLabel" class="text-[11px] hub-text-sub mt-1">พร้อมเริ่มรอบ 25 นาที (ทำสำเร็จวันนี้: 0 รอบ)</div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button id="btnSprintStart" type="button"
+                class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-95 text-white text-xs font-semibold shadow-sm transition">
+                ▶ เริ่มจับเวลา
+              </button>
+              <button id="btnSprintPause" type="button"
+                class="px-4 py-2.5 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-85 transition">
+                ⏸ พัก
+              </button>
+              <button id="btnSprintReset" type="button"
+                class="px-4 py-2.5 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-85 transition">
+                ↺ รีเซ็ต
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           TAB 2: API KEY VAULT, LIVE TEST & GOOGLE QUOTA/COST TRACKER
+           =================================================================== -->
+      <section id="panelApiQuota" class="hidden space-y-5">
+        <!-- Key Vault Card -->
+        <div class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-4 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 class="text-sm sm:text-base font-bold flex items-center gap-2">
+                <span>🔑 คลัง API Key รวมข้ามแอป</span>
+                <span id="vaultKeyCountBadge" class="px-2 py-0.5 rounded-full text-[11px] bg-orange-500/15 text-orange-500 font-semibold">0 คีย์</span>
+              </h2>
+              <p class="text-[11px] hub-text-sub">รวมคีย์จากทั้ง 4 แอปอัตโนมัติ (แบบอ่านอย่างเดียว) พร้อมกดทดสอบสถานะ &amp; ดูโมเดลที่คีย์เรียกใช้งานได้จริง</p>
+            </div>
+            <button id="btnTestAllKeys" type="button"
+              class="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-95 text-white text-xs font-semibold shadow-sm transition shrink-0">
+              ⚡ ทดสอบทุกคีย์ Gemini
+            </button>
+          </div>
+          <div id="apiKeysList" class="space-y-3"></div>
+        </div>
+
+        <!-- Daily Quota & Translate Tracker + Reference -->
+        <div id="quotaTrackerSection" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <!-- Left: Manual & Quick Counters -->
+          <div class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-4 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-sm sm:text-base font-bold">📊 บันทึกโควตา &amp; การใช้งาน Google</h3>
+                <p class="text-[11px] hub-text-sub">Gemini รีเซ็ตทุกวัน / Cloud Translate Free 500k ตัวอักษรรีเซ็ตทุกเดือน</p>
+              </div>
+              <button id="btnResetQuotaToday" type="button" class="px-2.5 py-1 rounded-xl hub-subtle border text-[11px] font-semibold">ล้างยอด</button>
+            </div>
+
+            <!-- Gemini RPD Tracker -->
+            <div class="rounded-2xl hub-subtle border p-3.5 space-y-2.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-semibold">✨ Gemini API Requests วันนี้</span>
+                <span id="quotaGeminiLabel" class="font-bold text-orange-500">0 / 250 req</span>
+              </div>
+              <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                <div id="quotaGeminiBar" class="h-full bg-orange-500 transition-all" style="width: 0%"></div>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5 pt-1">
+                <button type="button" data-add-gemini="1" class="px-2.5 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+1 req</button>
+                <button type="button" data-add-gemini="10" class="px-2.5 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+10 req</button>
+                <button type="button" data-add-gemini="50" class="px-2.5 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+50 req</button>
+                <input id="inputGeminiLimit" type="number" min="10" step="10" value="250" title="ตั้งเป้ารอบ RPD เพื่อเตือนสายตา"
+                  class="ml-auto w-24 px-2 py-1 rounded-lg hub-surface border text-[11px] text-right" />
+              </div>
+            </div>
+
+            <!-- Google Translate Monthly 500k Tracker -->
+            <div class="rounded-2xl hub-subtle border p-3.5 space-y-2.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-semibold">🌐 Google Translate (โควตา Cloud ฟรี/เดือน)</span>
+                <span id="quotaTranslateLabel" class="font-bold text-emerald-500">0 / 500,000 ตัวอักษร</span>
+              </div>
+              <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                <div id="quotaTranslateBar" class="h-full bg-emerald-500 transition-all" style="width: 0%"></div>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5 pt-1">
+                <button type="button" data-add-trans="2000" class="px-2.5 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+2,000 ตัวอักษร</button>
+                <button type="button" data-add-trans="5000" class="px-2.5 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+5,000 ตัวอักษร</button>
+                <button type="button" data-add-trans="10000" class="px-2.5 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+10,000 ตัวอักษร</button>
+              </div>
+              <p class="text-[11px] hub-text-sub leading-relaxed">
+                หมายเหตุ: ปุ่มแปลด่วนฟรีบนเว็บ (GTX/Clients5) ไม่กินโควตา Google Cloud Key ของคุณ ส่วน Cloud Translation API Official จะได้ฟรี 500,000 ตัวอักษรแรกต่อเดือน
+              </p>
+            </div>
+
+            <!-- Direct Google Consoles -->
+            <div class="grid grid-cols-2 gap-2 pt-1 text-xs">
+              <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener"
+                class="p-2.5 rounded-xl hub-subtle border hover:opacity-90 flex items-center justify-between font-medium transition">
+                <span>🔑 AI Studio Keys</span>
+                <span>↗</span>
+              </a>
+              <a href="https://aistudio.google.com/usage" target="_blank" rel="noopener"
+                class="p-2.5 rounded-xl hub-subtle border hover:opacity-90 flex items-center justify-between font-medium transition">
+                <span>📈 AI Studio Usage</span>
+                <span>↗</span>
+              </a>
+              <a href="https://console.cloud.google.com/apis/api/generativelanguage.googleapis.com/quotas" target="_blank" rel="noopener"
+                class="p-2.5 rounded-xl hub-subtle border hover:opacity-90 flex items-center justify-between font-medium transition">
+                <span>⚖️ GCP Quotas</span>
+                <span>↗</span>
+              </a>
+              <a href="https://console.cloud.google.com/billing" target="_blank" rel="noopener"
+                class="p-2.5 rounded-xl hub-subtle border hover:opacity-90 flex items-center justify-between font-medium transition">
+                <span>💳 GCP Billing</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Cost Estimator & Tier Reference -->
+          <div class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-4 shadow-sm">
+            <div>
+              <h3 class="text-sm sm:text-base font-bold">💰 คำนวณค่าใช้จ่ายโดยประมาณ (Paid Tier)</h3>
+              <p class="text-[11px] hub-text-sub">ช่วยประเมินค่าแปลนิยายต่อตอนหรือทั้งเล่มก่อนเปิด Paid Tier บน Google Cloud</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <label class="space-y-1">
+                <span class="hub-text-sub block">เรตราคาโมเดล (USD / 1M Tokens)</span>
+                <select id="calcModelRate" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs">
+                  <option value="0.10|0.40">Gemini Flash-Lite (~$0.10 / $0.40)</option>
+                  <option value="0.30|2.50" selected>Gemini Flash (~$0.30 / $2.50)</option>
+                  <option value="1.25|10.00">Gemini Pro (~$1.25 / $10.00)</option>
+                </select>
+              </label>
+              <label class="space-y-1">
+                <span class="hub-text-sub block">เรตค่าเงิน (บาท / 1 USD)</span>
+                <input id="calcUsdToThb" type="number" step="0.5" value="34.5" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs" />
+              </label>
+              <label class="space-y-1">
+                <span class="hub-text-sub block">Input Tokens (ต้นฉบับ+Prompt)</span>
+                <input id="calcInputTokens" type="number" step="1000" value="15000" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs" />
+              </label>
+              <label class="space-y-1">
+                <span class="hub-text-sub block">Output Tokens (คำแปลไทย+Thinking)</span>
+                <input id="calcOutputTokens" type="number" step="1000" value="10000" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs" />
+              </label>
+            </div>
+
+            <div class="rounded-2xl hub-subtle border p-3.5 flex items-center justify-between">
+              <div>
+                <div class="text-[11px] hub-text-sub">ค่าใช้จ่ายประมาณการตาม Token ที่ใส่</div>
+                <div id="calcResultThb" class="text-lg font-bold text-orange-500">฿1.02</div>
+              </div>
+              <div id="calcResultUsd" class="text-xs font-mono hub-text-sub">$0.0295 USD</div>
+            </div>
+
+            <!-- Reference Table -->
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden text-[11px]">
+              <table class="w-full text-left">
+                <thead class="hub-subtle">
+                  <tr>
+                    <th class="px-3 py-2 font-semibold">แพ็กเกจ Gemini</th>
+                    <th class="px-3 py-2 font-semibold">ข้อเด่น/ข้อจำกัดโดยสรุป</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-700/70">
+                  <tr>
+                    <td class="px-3 py-2 font-semibold text-emerald-500">Free Tier</td>
+                    <td class="px-3 py-2 hub-text-sub">ฟรี ไม่ผูกบัตร เหมาะแปลทีละตอน มีจำกัด RPM/RPD ต่อวัน (ติด 429 ได้ง่ายถ้ากดรัว)</td>
+                  </tr>
+                  <tr>
+                    <td class="px-3 py-2 font-semibold text-orange-500">Paid Tier 1</td>
+                    <td class="px-3 py-2 hub-text-sub">ผูก Billing Google Cloud (จ่ายเท่าที่ใช้) โควตา RPM/TPM สูงมาก เหมาะแปล Batch ยกเล่ม</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           TAB 3: UNIFIED CROSS-APP GLOSSARY & CONFLICT DETECTOR
+           =================================================================== -->
+      <section id="panelBible" class="hidden space-y-4">
+        <!-- Conflict Banner -->
+        <div id="bibleConflictBanner" class="hidden rounded-2xl bg-amber-500/15 border border-amber-500/40 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+          <div id="bibleConflictText" class="font-medium text-amber-700 dark:text-amber-300"></div>
+          <button id="btnShowConflictsOnly" type="button"
+            class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-semibold shrink-0 transition">
+            🔍 กรองดูเฉพาะคำที่แปลไม่ตรงกัน
+          </button>
+        </div>
+
+        <!-- Filters & Export Bar -->
+        <div class="rounded-3xl hub-surface border p-4 space-y-3 shadow-sm">
+          <div class="flex flex-col md:flex-row gap-2.5">
+            <input id="bibleSearch" type="search" placeholder="🔎 ค้นหาคำจีน/อังกฤษ, คำแปลไทย, ชื่อเรื่อง หรือหมายเหตุ..."
+              class="flex-1 px-3.5 py-2 rounded-xl hub-subtle border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/40" />
+            <select id="bibleAppFilter" class="px-3 py-2 rounded-xl hub-subtle border text-xs">
+              <option value="all">ทุกแอปใน Suite</option>
+              <option value="noveltransstudio">📖 NovelTrans Studio</option>
+              <option value="pomehelpmami">🐶 น้องหมาช่วยแปล</option>
+              <option value="peachz-shelf">📚 Peachz Shelf</option>
+            </select>
+            <select id="bibleTypeFilter" class="px-3 py-2 rounded-xl hub-subtle border text-xs">
+              <option value="all">ทุกประเภท</option>
+              <option value="character">👤 ตัวละคร</option>
+              <option value="glossary">📝 คำศัพท์เฉพาะ</option>
+              <option value="conflict">⚠️ คำที่แปลต่างกันข้ามแอป/เรื่อง</option>
+            </select>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
+            <div id="bibleCountLabel" class="hub-text-sub font-medium">กำลังโหลดคลังศัพท์...</div>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <button id="btnExportBibleTxt" type="button" class="px-3 py-1.5 rounded-xl hub-subtle border font-semibold hover:opacity-85 transition">
+                📄 Export .txt (=)
+              </button>
+              <button id="btnExportBibleCsv" type="button" class="px-3 py-1.5 rounded-xl hub-subtle border font-semibold hover:opacity-85 transition">
+                📊 Export .csv
+              </button>
+              <button id="btnExportBibleJson" type="button" class="px-3 py-1.5 rounded-xl hub-subtle border font-semibold hover:opacity-85 transition">
+                📦 Export .json
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="rounded-3xl hub-surface border overflow-hidden shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead class="hub-subtle border-b border-slate-200 dark:border-slate-700 text-[11px] uppercase tracking-wide hub-text-sub">
+                <tr>
+                  <th class="px-4 py-3 font-semibold">ต้นฉบับ</th>
+                  <th class="px-4 py-3 font-semibold">คำแปลภาษาไทย</th>
+                  <th class="px-4 py-3 font-semibold">ที่มา / เรื่อง</th>
+                  <th class="px-4 py-3 font-semibold">สถานะ</th>
+                  <th class="px-4 py-3 font-semibold text-right">คัดลอก</th>
+                </tr>
+              </thead>
+              <tbody id="bibleTableBody" class="divide-y divide-slate-200 dark:divide-slate-800"></tbody>
+            </table>
+          </div>
+          <div id="bibleMoreWrap" class="hidden p-3 text-center border-t border-slate-200 dark:border-slate-800">
+            <button id="btnBibleShowAll" type="button" class="px-4 py-1.5 rounded-xl hub-subtle border text-xs font-semibold">
+              แสดงรายการทั้งหมด
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           TAB 4: QUICK WRITER TOOLS & EDITABLE PROMPT VAULT
+           =================================================================== -->
+      <section id="panelTools" class="hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <!-- Quick Cleaner & Word Counter -->
+        <div class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-3.5 shadow-sm flex flex-col">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <h2 class="text-sm sm:text-base font-bold">🧹 นับคำภาษาไทย &amp; ล้างขยะ AI ด่วน</h2>
+              <p class="text-[11px] hub-text-sub">ตัดตัวหนา `**`, เลขอ้างอิง `[1]`, หัวข้อ `###` และนับคำด้วย `Intl.Segmenter('th')`</p>
+            </div>
+          </div>
+
+          <textarea id="quickTextInput" rows="11" placeholder="วางข้อความจาก AI หรือบทนิยายที่ต้องการล้างขยะ / นับคำที่นี่..."
+            class="w-full flex-1 p-3.5 rounded-2xl hub-subtle border text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-orange-500/40 custom-scrollbar"></textarea>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+            <div class="p-2 rounded-xl hub-subtle border">
+              <div class="text-[10px] hub-text-sub">คำไทยจริง</div>
+              <div id="quickStatWords" class="text-sm font-bold text-orange-500">0</div>
+            </div>
+            <div class="p-2 rounded-xl hub-subtle border">
+              <div class="text-[10px] hub-text-sub">~RAW Word</div>
+              <div id="quickStatRaw" class="text-sm font-bold">0</div>
+            </div>
+            <div class="p-2 rounded-xl hub-subtle border">
+              <div class="text-[10px] hub-text-sub">ตัวอักษร</div>
+              <div id="quickStatChars" class="text-sm font-bold">0</div>
+            </div>
+            <div class="p-2 rounded-xl hub-subtle border">
+              <div class="text-[10px] hub-text-sub">~หน้า A5 / เวลาอ่าน</div>
+              <div id="quickStatA5" class="text-sm font-bold">0 หน้า</div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="btnQuickCleanAi" type="button"
+              class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-95 text-white text-xs font-semibold shadow-sm transition">
+              🧹 ล้างขยะ AI 1 คลิก
+            </button>
+            <button id="btnQuickCopyText" type="button" class="px-3.5 py-2 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-85 transition">
+              📋 คัดลอก
+            </button>
+            <button id="btnQuickSendHaus" type="button" class="px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30 text-xs font-semibold transition">
+              🍑 ส่งเข้า Peachz Haus
+            </button>
+            <button id="btnQuickClearText" type="button" class="ml-auto px-3 py-2 rounded-xl text-rose-500 hover:bg-rose-500/10 text-xs font-semibold transition">
+              ล้างช่อง
+            </button>
+          </div>
+        </div>
+
+        <!-- Prompt Vault -->
+        <div class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-4 shadow-sm flex flex-col">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <h2 class="text-sm sm:text-base font-bold">📝 คลัง Prompt ประจำตัว</h2>
+              <p class="text-[11px] hub-text-sub">เก็บคำสั่งเกลาสำนวน / ตรวจตัวละคร ใช้ซ้ำได้ในคลิกเดียว</p>
+            </div>
+            <button id="btnResetDefaultPrompts" type="button" class="px-2.5 py-1 rounded-xl hub-subtle border text-[11px] font-semibold">
+              คืนค่าเริ่มต้น
+            </button>
+          </div>
+
+          <!-- Add New Prompt -->
+          <div class="rounded-2xl hub-subtle border p-3 space-y-2">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <input id="newPromptTitle" type="text" placeholder="ชื่อ Prompt (เช่น เกลานิยายรักจีน)"
+                class="sm:col-span-2 px-3 py-1.5 rounded-xl hub-surface border text-xs focus:outline-none" />
+              <input id="newPromptTag" type="text" placeholder="หมวด (เช่น เกลาสำนวน)"
+                class="px-3 py-1.5 rounded-xl hub-surface border text-xs focus:outline-none" />
+            </div>
+            <textarea id="newPromptBody" rows="2" placeholder="เนื้อหา Prompt..."
+              class="w-full px-3 py-2 rounded-xl hub-surface border text-xs focus:outline-none"></textarea>
+            <div class="flex justify-end">
+              <button id="btnAddPrompt" type="button"
+                class="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition">
+                ＋ เพิ่ม Prompt
+              </button>
+            </div>
+          </div>
+
+          <!-- Prompt List -->
+          <div id="promptVaultList" class="space-y-2.5 max-h-[460px] overflow-y-auto pr-1 custom-scrollbar"></div>
+        </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="pointer-events-none fixed bottom-5 left-1/2 -translate-x-1/2 z-[60] px-4 py-2.5 rounded-2xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-semibold shadow-xl opacity-0 transition-opacity duration-200"></div>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js').then(function (reg) {
+          reg.addEventListener('updatefound', function () {
+            var nw = reg.installing;
+            if (!nw) return;
+            nw.addEventListener('statechange', function () {
+              if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+                nw.postMessage('SKIP_WAITING');
+              }
+            });
+          });
+        }).catch(function (err) { console.warn('Hub SW register failed:', err); });
+      });
+    }
+  </script>
+
+  <!-- Hub Application Module -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signInWithRedirect,
+      getRedirectResult,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      getDocs,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGpnRzcWHDBSaRpEu63NfcK6D8Umh0MJo",
+      authDomain: "peachz-haus-studio.firebaseapp.com",
+      projectId: "peachz-haus-studio",
+      storageBucket: "peachz-haus-studio.firebasestorage.app",
+      messagingSenderId: "287479046466",
+      appId: "1:287479046466:web:f9b35ac2e7d3803162e8db",
+      measurementId: "G-MJEW3T3SCZ"
+    };
+
+    const ALLOWED_OWNER_UID = 'b1nmd1qyK0bd48iLLiBGMF3mtCi1';
+    const ALLOWED_OWNER_EMAIL = 'dew.blackdevil@gmail.com';
+    const SUITE_HANDOFF_KEY = 'peachz_suite_handoff_v1';
+    const HUB_THEME_KEY = 'peachz_hub_theme_v1';
+    const HUB_GOALS_KEY = 'peachz_hub_goals_v1';
+    const HUB_QUOTA_KEY = 'peachz_hub_quota_v1';
+    const HUB_PROMPTS_KEY = 'peachz_hub_prompts_v1';
+
+    const DEFAULT_PROMPTS = [
+      {
+        id: 'p_polish',
+        title: 'เกลาสำนวนนิยายลื่นไหล',
+        tag: 'เกลาสำนวน',
+        body: 'ช่วยเกลาสำนวนภาษาไทยของบทนิยายด้านล่างให้สละสลวย อ่านลื่น เป็นธรรมชาติแบบนิยายแปลมืออาชีพ โดยรักษาความหมายเดิม จังหวะอารมณ์ และสรรพนามตัวละครไว้อย่างครบถ้วน ไม่ตัดทอนรายละเอียด:'
+      },
+      {
+        id: 'p_check_bible',
+        title: 'ตรวจชื่อตัวละคร & สรรพนามซ้ำ',
+        tag: 'ตรวจความต่อเนื่อง',
+        body: 'ช่วยตรวจสอบบทแปลนี้เทียบกับรายชื่อตัวละครและคำศัพท์เฉพาะ เพื่อเช็กว่ามีชื่อตัวละคร คำเรียกขาน หรือระดับความสุภาพ (ผม/ฉัน/นาย/ท่าน/คุณ) จุดไหนหลุดจากคาร์แร็กเตอร์หรือแปลไม่สม่ำเสมอบ้าง:'
+      },
+      {
+        id: 'p_recap',
+        title: 'สรุปเหตุการณ์ท้ายบทอัปเดตคลังเรื่อง',
+        tag: 'สรุป & Bible',
+        body: 'สรุปเหตุการณ์สำคัญในตอนนี้เป็นข้อๆ แบบกระชับแต่ครบปมสำคัญ พร้อมลิสต์ตัวละครที่ปรากฏใหม่ ความสัมพันธ์ที่เปลี่ยนไป และปมปริศนาที่ยังไม่คลี่คลาย:'
+      },
+      {
+        id: 'p_dialogue',
+        title: 'ปรับบทสนทนาให้มีมิติ & อารมณ์',
+        tag: 'บทสนทนา',
+        body: 'ช่วยปรับเฉพาะบทสนทนาในข้อความต่อไปนี้ให้ฟังดูเป็นคำพูดธรรมชาติของมนุษย์ มีน้ำหนักอารมณ์ น้ำเสียงกวน/อ้อน/เกรี้ยวกราดตามบริบท โดยยังคงความหมายเดิมไว้:'
+      }
+    ];
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+
+    const $ = (id) => document.getElementById(id);
+    const thSegmenter = typeof Intl !== 'undefined' && Intl.Segmenter
+      ? new Intl.Segmenter('th', { granularity: 'word' })
+      : null;
+
+    const hubState = {
+      user: null,
+      activeTab: 'overview',
+      loading: false,
+      lastSyncAt: null,
+      haus: { novels: [], chapters: 0, words: 0, rawWords: 0, model: '-', thinking: '-', keys: [], source: '-' },
+      pome: { glossaryCount: 0, glossary: [], keys: [], model: '-', paragraphs: 0, source: '-' },
+      novelTrans: { novels: [], termsCount: 0, charsCount: 0, summariesCount: 0, keys: [], model: '-', source: '-' },
+      shelf: { novels: [], totalChapters: 0, glossaryCount: 0, glossary: [], keys: [], model: '-', transEngine: '-', source: '-' },
+      unifiedKeys: [],
+      keyTestResults: {},
+      unifiedBible: [],
+      conflictSourceKeys: new Set(),
+      bibleShowAll: false,
+      sprint: {
+        minutes: 25,
+        remainingSec: 25 * 60,
+        running: false,
+        intervalId: null,
+        completedToday: 0
+      }
+    };
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const el = $('toast');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.remove('opacity-0');
+      el.classList.add('opacity-100');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        el.classList.add('opacity-0');
+        el.classList.remove('opacity-100');
+      }, 2800);
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function safeJsonParse(raw, fallback = null) {
+      if (typeof raw !== 'string' || !raw.trim()) return fallback;
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function safeLocalGet(key, fallback = '') {
+      try {
+        const v = localStorage.getItem(key);
+        return v === null ? fallback : v;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function safeLocalSet(key, val) {
+      try {
+        localStorage.setItem(key, val);
+      } catch (e) {}
+    }
+
+    function getLocalDateKey() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    function getLocalMonthKey() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    }
+
+    function countThaiStats(text) {
+      const raw = String(text || '');
+      const trimmed = raw.trim();
+      if (!trimmed) {
+        return { words: 0, rawWords: 0, chars: 0, a5Pages: 0, readMins: 0 };
+      }
+      const noSpaceChars = trimmed.replace(/\s+/g, '').length;
+      let words = 0;
+      if (thSegmenter) {
+        for (const seg of thSegmenter.segment(trimmed)) {
+          if (seg.isWordLike) words++;
+        }
+      } else {
+        words = trimmed.split(/\s+/).filter(Boolean).length;
+      }
+      const rawWords = Math.max(0, Math.round(noSpaceChars / 4.1));
+      const a5Pages = Number((words / 270).toFixed(1));
+      const readMins = Math.max(1, Math.round(words / 200));
+      return { words, rawWords, chars: noSpaceChars, a5Pages, readMins };
+    }
+
+    function maskSecretKey(key) {
+      const k = String(key || '').trim();
+      if (!k) return '(ไม่มีคีย์)';
+      if (k.length <= 12) return k.slice(0, 4) + '...' + k.slice(-2);
+      return k.slice(0, 8) + '••••••' + k.slice(-5);
+    }
+
+    function downloadTextFile(content, filename, mimeType = 'text/plain;charset=utf-8') {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function parseGlossaryLines(rawGlossary) {
+      const entries = [];
+      const seen = new Set();
+      for (const rawLine of String(rawGlossary || '').replace(/\r\n/g, '\n').split('\n')) {
+        const line = rawLine.trim();
+        if (!line || line.startsWith('#') || line.startsWith('//')) continue;
+        const m = line.match(/^(.+?)\s*(?:=|->|→|:)\s*(.+)$/);
+        if (!m) continue;
+        const orig = m[1].trim();
+        const thai = m[2].trim();
+        if (!orig || !thai || seen.has(orig)) continue;
+        seen.add(orig);
+        entries.push({ orig, thai });
+      }
+      return entries;
+    }
+
+    function cleanAiFormattingText(raw) {
+      return String(raw || '')
+        .replace(/\r\n/g, '\n')
+        .replace(/\*\*(.*?)\*\*/g, '$1')
+        .replace(/__(.*?)__/g, '$1')
+        .replace(/^[ \t]*#{1,6}[ \t]+/gm, '')
+        .replace(/\[(?:\d+(?:\s*[-–,]\s*\d+)*)\]/g, '')
+        .replace(/【\d+】/g, '')
+        .replace(/[ \t]+$/gm, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    }
+
+    // =====================================================================
+    // THEME & SUITE DROPDOWN
+    // =====================================================================
+    function applyTheme(themeName) {
+      const isDark = themeName !== 'light';
+      document.documentElement.classList.toggle('dark', isDark);
+      const btn = $('btnToggleTheme');
+      if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+      safeLocalSet(HUB_THEME_KEY, isDark ? 'dark' : 'light');
+    }
+
+    function closeAllDropdowns() {
+      $('peachzSuiteDropdown')?.classList.add('hidden');
+      $('btnPeachzSuiteMenu')?.setAttribute('aria-expanded', 'false');
+      $('userDropdown')?.classList.add('hidden');
+    }
+
+    function switchTab(tabName) {
+      hubState.activeTab = tabName;
+      const map = {
+        overview: 'panelOverview',
+        api: 'panelApiQuota',
+        bible: 'panelBible',
+        tools: 'panelTools'
+      };
+      Object.entries(map).forEach(([k, panelId]) => {
+        $(panelId)?.classList.toggle('hidden', k !== tabName);
+      });
+      document.querySelectorAll('.hub-tab-btn').forEach((btn) => {
+        const isActive = btn.getAttribute('data-tab') === tabName;
+        btn.className = isActive
+          ? 'hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-gradient-to-r from-rose-500 to-orange-500 text-white shadow-sm'
+          : 'hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition hub-subtle border hover:opacity-90';
+      });
+    }
+
+    // =====================================================================
+    // DATA AGGREGATION ACROSS ALL 4 APPS (READ-ONLY)
+    // =====================================================================
+    async function loadAllSuiteData() {
+      if (!hubState.user || hubState.loading) return;
+      hubState.loading = true;
+      const icon = $('refreshIcon');
+      if (icon) icon.classList.add('animate-spin', 'inline-block');
+      $('syncStatusSub').textContent = 'กำลังดึงข้อมูลจาก 4 แอปบน Cloud...';
+
+      const uid = hubState.user.uid;
+      try {
+        const [hausRes, pomeRes, ntRes, shelfNovelsRes, shelfMetaRes] = await Promise.allSettled([
+          getDoc(doc(db, 'users', uid, 'sync', 'studioState')),
+          getDoc(doc(db, 'users', uid, 'sync', 'pomeTranslatorState')),
+          getDoc(doc(db, 'users', uid, 'sync', 'novelTranslatorState')),
+          getDocs(query(collection(db, 'users', uid, 'readerNovels'), orderBy('updatedAt', 'desc'))),
+          getDoc(doc(db, 'users', uid, 'readerMeta', 'translator'))
+        ]);
+
+        parsePeachzHaus(hausRes);
+        parsePomeTranslator(pomeRes);
+        parseNovelTransStudio(ntRes);
+        parsePeachzShelf(shelfNovelsRes, shelfMetaRes);
+
+        buildUnifiedKeyVault();
+        buildUnifiedBible();
+
+        hubState.lastSyncAt = new Date();
+        const hhmm = `${String(hubState.lastSyncAt.getHours()).padStart(2, '0')}:${String(hubState.lastSyncAt.getMinutes()).padStart(2, '0')}:${String(hubState.lastSyncAt.getSeconds()).padStart(2, '0')}`;
+        $('syncStatusSub').textContent = `ซิงค์ล่าสุด ${hhmm} • ข้อมูลอ่านอย่างเดียว (ไม่แก้ไขแอปอื่น)`;
+
+        renderAllPanels();
+      } catch (err) {
+        console.error('loadAllSuiteData error:', err);
+        $('syncStatusSub').textContent = 'โหลดข้อมูลบางส่วนไม่สำเร็จ: ' + (err?.message || 'error');
+        showToast('โหลดข้อมูลไม่สำเร็จบางส่วน');
+      } finally {
+        hubState.loading = false;
+        if (icon) icon.classList.remove('animate-spin');
+      }
+    }
+
+    function parsePeachzHaus(res) {
+      let parsed = null;
+      let source = 'ว่าง';
+      if (res.status === 'fulfilled' && res.value.exists()) {
+        parsed = safeJsonParse(res.value.data()?.stateJson, null);
+        if (parsed) source = 'Cloud Firestore';
+      }
+      if (!parsed) {
+        const localRaw = safeLocalGet('peachz_haus_studio_v8_state', '');
+        parsed = safeJsonParse(localRaw, null);
+        if (parsed) source = 'Local Browser';
+      }
+
+      const novels = Array.isArray(parsed?.novels) ? parsed.novels : [];
+      let chapters = 0;
+      let words = 0;
+      let rawWords = 0;
+      novels.forEach((n) => {
+        const chs = Array.isArray(n?.chapters) ? n.chapters : [];
+        chapters += chs.length;
+        chs.forEach((ch) => {
+          const st = countThaiStats(ch?.content || '');
+          words += st.words;
+          rawWords += st.rawWords;
+        });
+      });
+
+      const keys = [];
+      const cloudKeys = Array.isArray(parsed?.__cloudExtras?.savedApiKeys) ? parsed.__cloudExtras.savedApiKeys : [];
+      cloudKeys.forEach((k) => {
+        if (k?.key) keys.push({ key: k.key, label: k.label || k.name || 'Peachz Haus', provider: 'gemini', app: 'Peachz Haus', model: parsed?.aiModel || 'gemini' });
+      });
+      const localKeys = safeJsonParse(safeLocalGet('aksorn_gemini_keys_v2', ''), []);
+      if (Array.isArray(localKeys)) {
+        localKeys.forEach((k) => {
+          if (k?.key) keys.push({ key: k.key, label: k.label || k.name || 'Peachz Haus (Local)', provider: 'gemini', app: 'Peachz Haus', model: parsed?.aiModel || 'gemini' });
+        });
+      }
+
+      hubState.haus = {
+        novels,
+        chapters,
+        words,
+        rawWords,
+        model: parsed?.aiModel || '-',
+        thinking: parsed?.aiThinkingLevel || 'auto',
+        keys,
+        source
+      };
+    }
+
+    function parsePomeTranslator(res) {
+      let parsed = null;
+      let source = 'ว่าง';
+      if (res.status === 'fulfilled' && res.value.exists()) {
+        parsed = safeJsonParse(res.value.data()?.stateJson, null);
+        if (parsed) source = 'Cloud Firestore';
+      }
+      if (!parsed) {
+        parsed = safeJsonParse(safeLocalGet('novel_translator_3ai_v1', ''), null);
+        if (parsed) source = 'Local Browser';
+      }
+
+      const rawGlossary = Array.isArray(parsed?.glossary) ? parsed.glossary : [];
+      const glossary = rawGlossary
+        .filter((g) => g && g.find && g.replace)
+        .map((g) => ({
+          app: 'pomehelpmami',
+          appLabel: '🐶 น้องหมา',
+          type: 'glossary',
+          novelTitle: 'Pome Glossary (กลาง)',
+          orig: String(g.find).trim(),
+          thai: String(g.replace).trim(),
+          note: ''
+        }));
+
+      const advModel = parsed?.advisor?.model || '-';
+      const advProvider = parsed?.advisor?.provider || 'gemini';
+      const keys = [];
+      if (Array.isArray(parsed?.savedKeys)) {
+        parsed.savedKeys.forEach((k) => {
+          if (k?.key) keys.push({ key: k.key, label: k.name || k.label || 'น้องหมา', provider: k.provider || advProvider, app: 'น้องหมาช่วยแปล', model: advModel });
+        });
+      }
+      if (parsed?.advisor?.apiKey) {
+        keys.push({ key: parsed.advisor.apiKey, label: 'Advisor Active', provider: advProvider, app: 'น้องหมาช่วยแปล', model: advModel });
+      }
+
+      const paragraphs = Array.isArray(parsed?.paragraphs) ? parsed.paragraphs.length : 0;
+      hubState.pome = {
+        glossaryCount: glossary.length,
+        glossary,
+        keys,
+        model: advModel,
+        paragraphs,
+        source
+      };
+    }
+
+    function parseNovelTransStudio(res) {
+      let kv = null;
+      let source = 'ว่าง';
+      if (res.status === 'fulfilled' && res.value.exists()) {
+        const wrapper = safeJsonParse(res.value.data()?.stateJson, null);
+        if (wrapper && wrapper.keys && typeof wrapper.keys === 'object') {
+          kv = wrapper.keys;
+          source = 'Cloud Firestore';
+        }
+      }
+      if (!kv) {
+        const localNovels = safeLocalGet('nt_novels', '');
+        const localKeys = safeLocalGet('nt_savedKeys', '');
+        if (localNovels || localKeys || safeLocalGet('nt_apiKey', '')) {
+          kv = {
+            nt_novels: localNovels,
+            nt_savedKeys: localKeys,
+            nt_apiKey: safeLocalGet('nt_apiKey', ''),
+            nt_model: safeLocalGet('nt_model', ''),
+            nt_provider: safeLocalGet('nt_provider', 'gemini')
+          };
+          source = 'Local Browser';
+        }
+      }
+
+      const novels = safeJsonParse(kv?.nt_novels, []) || [];
+      const activeModel = kv?.nt_model || '-';
+      const activeProvider = kv?.nt_provider || 'gemini';
+      const chars = [];
+      const terms = [];
+      let summariesCount = 0;
+
+      if (Array.isArray(novels)) {
+        novels.forEach((n) => {
+          const nTitle = n?.title || 'ไม่ระบุชื่อเรื่อง';
+          if (Array.isArray(n?.summaries)) summariesCount += n.summaries.length;
+          if (Array.isArray(n?.characters)) {
+            n.characters.forEach((c) => {
+              if (!c?.orig) return;
+              chars.push({
+                app: 'noveltransstudio',
+                appLabel: '📖 NovelTrans',
+                type: 'character',
+                novelTitle: nTitle,
+                orig: String(c.orig).trim(),
+                thai: String(c.thai || '').trim(),
+                note: [c.gender, c.style, c.note].filter(Boolean).join(' · ')
+              });
+            });
+          }
+          if (Array.isArray(n?.glossary)) {
+            n.glossary.forEach((g) => {
+              if (!g?.orig) return;
+              terms.push({
+                app: 'noveltransstudio',
+                appLabel: '📖 NovelTrans',
+                type: 'glossary',
+                novelTitle: nTitle,
+                orig: String(g.orig).trim(),
+                thai: String(g.thai || '').trim(),
+                note: String(g.note || '').trim()
+              });
+            });
+          }
+        });
+      }
+
+      const keys = [];
+      const parsedKeys = safeJsonParse(kv?.nt_savedKeys, []);
+      if (Array.isArray(parsedKeys)) {
+        parsedKeys.forEach((k) => {
+          if (k?.key) keys.push({ key: k.key, label: k.name || k.label || 'NovelTrans', provider: k.provider || activeProvider, app: 'NovelTrans Studio', model: activeModel });
+        });
+      }
+      if (kv?.nt_apiKey) {
+        keys.push({ key: kv.nt_apiKey, label: 'NovelTrans Active', provider: activeProvider, app: 'NovelTrans Studio', model: activeModel });
+      }
+
+      hubState.novelTrans = {
+        novels: Array.isArray(novels) ? novels : [],
+        bibleItems: [...chars, ...terms],
+        charsCount: chars.length,
+        termsCount: terms.length,
+        summariesCount,
+        keys,
+        model: activeModel,
+        source
+      };
+    }
+
+    function parsePeachzShelf(novelsRes, metaRes) {
+      let novels = [];
+      let source = 'ว่าง';
+      if (novelsRes.status === 'fulfilled') {
+        novels = novelsRes.value.docs.map((d) => ({ id: d.id, ...d.data() }));
+        source = 'Cloud Firestore';
+      }
+
+      let totalChapters = 0;
+      const glossary = [];
+      novels.forEach((n) => {
+        totalChapters += Number(n.chapterCount || 0);
+        const nTitle = n.translatedTitle || n.title || 'ไม่มีชื่อเรื่อง';
+        const entries = parseGlossaryLines(n.glossary || '');
+        entries.forEach((e) => {
+          glossary.push({
+            app: 'peachz-shelf',
+            appLabel: '📚 Shelf',
+            type: 'glossary',
+            novelTitle: nTitle,
+            orig: e.orig,
+            thai: e.thai,
+            note: ''
+          });
+        });
+      });
+
+      let meta = null;
+      if (metaRes.status === 'fulfilled' && metaRes.value.exists()) {
+        meta = metaRes.value.data();
+      } else {
+        meta = safeJsonParse(safeLocalGet('peachz_translator_cfg_v1', ''), null);
+      }
+
+      const keys = [];
+      const activeModel = meta?.geminiModel || '-';
+      if (meta) {
+        const list = Array.isArray(meta.savedKeys)
+          ? meta.savedKeys
+          : (safeJsonParse(meta.savedKeysJson, []) || []);
+        if (Array.isArray(list)) {
+          list.forEach((k) => {
+            if (k?.key) keys.push({ key: k.key, label: k.name || k.label || 'Peachz Shelf', provider: 'gemini', app: 'Peachz Shelf', model: activeModel });
+          });
+        }
+        if (meta.geminiApiKey) {
+          keys.push({ key: meta.geminiApiKey, label: meta.activeKeyName || 'Shelf Active', provider: 'gemini', app: 'Peachz Shelf', model: activeModel });
+        }
+      }
+
+      hubState.shelf = {
+        novels,
+        totalChapters,
+        glossaryCount: glossary.length,
+        glossary,
+        keys,
+        model: activeModel,
+        transEngine: meta?.transEngine || 'free',
+        source
+      };
+    }
+
+    function buildUnifiedKeyVault() {
+      const map = new Map();
+      const all = [
+        ...hubState.haus.keys,
+        ...hubState.pome.keys,
+        ...hubState.novelTrans.keys,
+        ...hubState.shelf.keys
+      ];
+      all.forEach((entry) => {
+        const rawKey = String(entry.key || '').trim();
+        if (!rawKey) return;
+        if (!map.has(rawKey)) {
+          map.set(rawKey, {
+            id: 'vk_' + map.size,
+            key: rawKey,
+            provider: entry.provider || (rawKey.startsWith('AIza') ? 'gemini' : 'openai'),
+            labels: new Set(),
+            apps: new Set(),
+            models: new Set()
+          });
+        }
+        const item = map.get(rawKey);
+        if (entry.label) item.labels.add(entry.label);
+        if (entry.app) item.apps.add(entry.app);
+        if (entry.model && entry.model !== '-') item.models.add(entry.model);
+        if (rawKey.startsWith('AIza')) item.provider = 'gemini';
+      });
+      hubState.unifiedKeys = Array.from(map.values()).map((x) => ({
+        ...x,
+        labels: Array.from(x.labels),
+        apps: Array.from(x.apps),
+        models: Array.from(x.models)
+      }));
+    }
+
+    function buildUnifiedBible() {
+      const all = [
+        ...(hubState.novelTrans.bibleItems || []),
+        ...(hubState.pome.glossary || []),
+        ...(hubState.shelf.glossary || [])
+      ];
+
+      // Group by normalized source term to flag conflicting Thai translations
+      const origToThaiSet = new Map();
+      all.forEach((item) => {
+        const normOrig = item.orig.toLowerCase();
+        const normThai = item.thai.trim().toLowerCase();
+        if (!normOrig || !normThai) return;
+        if (!origToThaiSet.has(normOrig)) origToThaiSet.set(normOrig, new Set());
+        origToThaiSet.get(normOrig).add(normThai);
+      });
+
+      const conflictSet = new Set();
+      origToThaiSet.forEach((thSet, normOrig) => {
+        if (thSet.size > 1) conflictSet.add(normOrig);
+      });
+
+      hubState.conflictSourceKeys = conflictSet;
+      hubState.unifiedBible = all.map((item) => {
+        const normOrig = item.orig.toLowerCase();
+        const thVariants = origToThaiSet.get(normOrig)?.size || 1;
+        return {
+          ...item,
+          isConflict: conflictSet.has(normOrig),
+          variantCount: thVariants
+        };
+      });
+    }
+
+    // =====================================================================
+    // RENDER PANELS
+    // =====================================================================
+    function renderAllPanels() {
+      renderOverviewKpis();
+      renderHandoffQueueCard();
+      renderLauncherCards();
+      renderGoalSection();
+      renderApiVault();
+      renderQuotaSection();
+      renderBibleExplorer();
+    }
+
+    function renderOverviewKpis() {
+      $('kpiShelfNovels').textContent = `${hubState.shelf.novels.length.toLocaleString('th-TH')} เรื่อง`;
+      $('kpiShelfSub').textContent = `รวม ${hubState.shelf.totalChapters.toLocaleString('th-TH')} ตอน (${hubState.shelf.source})`;
+
+      $('kpiHausWords').textContent = `${hubState.haus.words.toLocaleString('th-TH')} คำ`;
+      $('kpiHausSub').textContent = `${hubState.haus.novels.length} เรื่อง • ${hubState.haus.chapters} ตอน (~RAW ${hubState.haus.rawWords.toLocaleString('th-TH')})`;
+
+      $('kpiTotalTerms').textContent = `${hubState.unifiedBible.length.toLocaleString('th-TH')} รายการ`;
+      const conflicts = hubState.conflictSourceKeys.size;
+      $('kpiTermsSub').textContent = conflicts > 0
+        ? `⚠️ พบ ${conflicts} คำที่แปลต่างกันข้ามแอป/เรื่อง`
+        : 'คำศัพท์ & ตัวละครสม่ำเสมอดี ✓';
+
+      $('kpiTotalKeys').textContent = `${hubState.unifiedKeys.length} คีย์`;
+      const okCount = Object.values(hubState.keyTestResults).filter((r) => r.status === 'ok').length;
+      $('kpiKeysSub').textContent = okCount > 0
+        ? `ทดสอบผ่านแล้ว ${okCount}/${hubState.unifiedKeys.length} คีย์`
+        : 'กดแท็บคีย์ API เพื่อยิงทดสอบจริง';
+    }
+
+    function renderHandoffQueueCard() {
+      const statusEl = $('hubHandoffStatusText');
+      const actionsEl = $('hubHandoffActions');
+      const raw = safeLocalGet(SUITE_HANDOFF_KEY, '');
+      const payload = safeJsonParse(raw, null);
+
+      if (!payload || !payload.content) {
+        statusEl.textContent = 'ยังไม่มีบทความค้างอยู่ในคิวส่งข้ามแอป (เมื่อกด "ส่งไปจัดหน้า" หรือ "ส่งเข้าชั้นอ่าน" จะมาโผล่ตรงนี้)';
+        actionsEl.innerHTML = '';
+        return;
+      }
+
+      const targetUrl = payload.target === 'peachz-shelf'
+        ? 'https://dblack-dev.github.io/peachz-shelf/'
+        : 'https://dblack-dev.github.io/peachz-pwa/?handoff=1';
+      const targetName = payload.target === 'peachz-shelf' ? '📚 Peachz Shelf' : '🍑 Peachz Haus Studio';
+      const charCount = String(payload.content).length.toLocaleString('th-TH');
+      statusEl.innerHTML = `<span class="font-semibold text-orange-500">รอรับเข้า ${escapeHtml(targetName)}</span> • จาก ${escapeHtml(payload.sourceApp || '-')} • "${escapeHtml(payload.title || 'ไม่มีชื่อตอน')}" (${charCount} ตัวอักษร)`;
+
+      actionsEl.innerHTML = `
+        <a href="${targetUrl}" target="_blank" rel="noopener"
+          class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 text-white text-xs font-semibold shadow-sm hover:opacity-95 transition">
+          ↗ เปิด ${escapeHtml(targetName)}
+        </a>
+        <button id="btnHubClearHandoff" type="button"
+          class="px-3 py-2 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-80 transition">
+          ล้างคิว
+        </button>
+      `;
+      $('btnHubClearHandoff')?.addEventListener('click', () => {
+        try { localStorage.removeItem(SUITE_HANDOFF_KEY); } catch (e) {}
+        renderHandoffQueueCard();
+        showToast('ล้างคิวส่งงานเรียบร้อยแล้ว');
+      });
+    }
+
+    function renderLauncherCards() {
+      const cards = [
+        {
+          icon: '🍑',
+          name: 'Peachz Haus Studio',
+          desc: 'จัดหน้านิยาย ตรวจคำซ้ำ & ส่งออก .doc / .epub / PDF',
+          url: 'https://dblack-dev.github.io/peachz-pwa/',
+          badge: hubState.haus.source,
+          stats: `${hubState.haus.novels.length} เรื่อง • ${hubState.haus.chapters} ตอน • ${hubState.haus.words.toLocaleString('th-TH')} คำ`,
+          sub: `🤖 ${hubState.haus.model} (${hubState.haus.thinking})`
+        },
+        {
+          icon: '🐶',
+          name: 'น้องหมาช่วยแปล (3 AI)',
+          desc: 'เทียบคำแปล 3 โมเดล + สรุปฉบับสมบูรณ์จากพี่ตูบ',
+          url: 'https://dblack-dev.github.io/pomehelpmami/',
+          badge: hubState.pome.source,
+          stats: `${hubState.pome.paragraphs} ย่อหน้าล่าสุด • ${hubState.pome.glossaryCount} ศัพท์`,
+          sub: `🤖 ${hubState.pome.model}`
+        },
+        {
+          icon: '📖',
+          name: 'NovelTrans Studio',
+          desc: 'แปลนิยายระดับโปร + Character Bible & คำอธิบายสำนวน',
+          url: 'https://dblack-dev.github.io/noveltransstudio/',
+          badge: hubState.novelTrans.source,
+          stats: `${hubState.novelTrans.novels.length} เรื่อง • 👤 ${hubState.novelTrans.charsCount} • 📝 ${hubState.novelTrans.termsCount}`,
+          sub: `🤖 ${hubState.novelTrans.model} • ${hubState.novelTrans.summariesCount} บทสรุป`
+        },
+        {
+          icon: '📚',
+          name: 'Peachz Shelf',
+          desc: 'ชั้นอ่านนิยายส่วนตัว + อ่านออกเสียง TTS & แปลด่วนรายบท',
+          url: 'https://dblack-dev.github.io/peachz-shelf/',
+          badge: hubState.shelf.source,
+          stats: `${hubState.shelf.novels.length} เรื่อง • ${hubState.shelf.totalChapters.toLocaleString('th-TH')} ตอน • 📝 ${hubState.shelf.glossaryCount} ศัพท์`,
+          sub: `🤖 ${hubState.shelf.model}`
+        }
+      ];
+
+      $('suiteCardsGrid').innerHTML = cards.map((c) => `
+        <a href="${c.url}" target="_blank" rel="noopener"
+          class="group rounded-3xl hub-surface border p-4 flex flex-col justify-between gap-3 shadow-sm hover:border-orange-400 dark:hover:border-orange-500/70 transition">
+          <div class="space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <div class="w-10 h-10 rounded-2xl hub-subtle border flex items-center justify-center text-xl shrink-0">${c.icon}</div>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold hub-subtle border hub-text-sub">${escapeHtml(c.badge)}</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm group-hover:text-orange-500 transition flex items-center justify-between">
+                <span>${escapeHtml(c.name)}</span>
+                <span class="text-xs opacity-60 group-hover:translate-x-0.5 transition">↗</span>
+              </h3>
+              <p class="text-[11px] hub-text-sub leading-relaxed mt-0.5">${escapeHtml(c.desc)}</p>
+            </div>
+          </div>
+          <div class="pt-2.5 border-t border-slate-200 dark:border-slate-800 space-y-0.5 text-[11px]">
+            <div class="font-semibold text-orange-500 truncate">${escapeHtml(c.stats)}</div>
+            <div class="hub-text-sub truncate">${escapeHtml(c.sub)}</div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    // =====================================================================
+    // GOALS & POMODORO SPRINT
+    // =====================================================================
+    function loadGoalsState() {
+      const today = getLocalDateKey();
+      const saved = safeJsonParse(safeLocalGet(HUB_GOALS_KEY, ''), null);
+      if (saved && saved.date === today) return saved;
+      const fresh = {
+        date: today,
+        baselineWords: hubState.haus.words || 0,
+        targetWords: saved?.targetWords || 3000,
+        chaptersDone: 0,
+        targetChapters: saved?.targetChapters || 3,
+        sprintsDone: 0
+      };
+      safeLocalSet(HUB_GOALS_KEY, JSON.stringify(fresh));
+      return fresh;
+    }
+
+    function saveGoalsState(g) {
+      safeLocalSet(HUB_GOALS_KEY, JSON.stringify(g));
+    }
+
+    function renderGoalSection() {
+      const g = loadGoalsState();
+      $('inputWordGoal').value = g.targetWords;
+      $('inputChapterGoal').value = g.targetChapters;
+      $('goalDateLabel').textContent = `วันที่ ${g.date} (ฐานเริ่มต้น ${Number(g.baselineWords || 0).toLocaleString('th-TH')} คำ)`;
+
+      const deltaWords = Math.max(0, (hubState.haus.words || 0) - Number(g.baselineWords || 0));
+      const wordPct = Math.min(100, Math.round((deltaWords / Math.max(1, g.targetWords)) * 100));
+      $('goalWordsProgressLabel').textContent = `${deltaWords.toLocaleString('th-TH')} / ${Number(g.targetWords).toLocaleString('th-TH')} คำ (${wordPct}%)`;
+      $('goalWordsBar').style.width = `${wordPct}%`;
+
+      const chPct = Math.min(100, Math.round((g.chaptersDone / Math.max(1, g.targetChapters)) * 100));
+      $('goalChaptersProgressLabel').textContent = `${g.chaptersDone} / ${g.targetChapters} ตอน (${chPct}%)`;
+      $('goalChaptersBar').style.width = `${chPct}%`;
+
+      hubState.sprint.completedToday = Number(g.sprintsDone || 0);
+      renderSprintDisplay();
+    }
+
+    function playChime() {
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        const ctx = new Ctx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.95);
+      } catch (e) {}
+    }
+
+    function renderSprintDisplay() {
+      const m = Math.floor(hubState.sprint.remainingSec / 60);
+      const s = hubState.sprint.remainingSec % 60;
+      $('sprintTimerDisplay').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      const stateWord = hubState.sprint.running ? 'กำลังโฟกัส...' : `พร้อมเริ่มรอบ ${hubState.sprint.minutes} นาที`;
+      $('sprintStatusLabel').textContent = `${stateWord} (ทำสำเร็จวันนี้: ${hubState.sprint.completedToday} รอบ)`;
+    }
+
+    function startSprint() {
+      if (hubState.sprint.running) return;
+      if (hubState.sprint.remainingSec <= 0) {
+        hubState.sprint.remainingSec = hubState.sprint.minutes * 60;
+      }
+      hubState.sprint.running = true;
+      renderSprintDisplay();
+      hubState.sprint.intervalId = setInterval(() => {
+        hubState.sprint.remainingSec = Math.max(0, hubState.sprint.remainingSec - 1);
+        if (hubState.sprint.remainingSec === 0) {
+          clearInterval(hubState.sprint.intervalId);
+          hubState.sprint.intervalId = null;
+          hubState.sprint.running = false;
+          const g = loadGoalsState();
+          g.sprintsDone = Number(g.sprintsDone || 0) + 1;
+          saveGoalsState(g);
+          hubState.sprint.completedToday = g.sprintsDone;
+          playChime();
+          showToast('🎉 ครบเวลา Focus Sprint แล้ว! พักสายตาสักนิดนะครับ');
+        }
+        renderSprintDisplay();
+      }, 1000);
+    }
+
+    function pauseSprint() {
+      if (hubState.sprint.intervalId) {
+        clearInterval(hubState.sprint.intervalId);
+        hubState.sprint.intervalId = null;
+      }
+      hubState.sprint.running = false;
+      renderSprintDisplay();
+    }
+
+    function resetSprint(mins = null) {
+      pauseSprint();
+      if (mins) hubState.sprint.minutes = mins;
+      hubState.sprint.remainingSec = hubState.sprint.minutes * 60;
+      document.querySelectorAll('.sprint-preset-btn').forEach((btn) => {
+        const active = Number(btn.getAttribute('data-sprint-mins')) === hubState.sprint.minutes;
+        btn.className = active
+          ? 'sprint-preset-btn px-2 py-1 rounded-lg bg-orange-500 text-white text-[11px] font-semibold'
+          : 'sprint-preset-btn px-2 py-1 rounded-lg hub-subtle border text-[11px] font-semibold';
+      });
+      renderSprintDisplay();
+    }
+
+    // =====================================================================
+    // API KEY VAULT & QUOTA TRACKER
+    // =====================================================================
+    function renderApiVault() {
+      const keys = hubState.unifiedKeys;
+      $('vaultKeyCountBadge').textContent = `${keys.length} คีย์ (ไม่ซ้ำ)`;
+      const listEl = $('apiKeysList');
+
+      if (!keys.length) {
+        listEl.innerHTML = `<div class="p-6 text-center text-xs hub-text-sub rounded-2xl hub-subtle border">ยังไม่พบ API Key ที่บันทึกไว้ในแอปใดๆ</div>`;
+        return;
+      }
+
+      listEl.innerHTML = keys.map((item, idx) => {
+        const res = hubState.keyTestResults[item.key];
+        let statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] hub-surface border hub-text-sub">ยังไม่ทดสอบ</span>';
+        let modelsHtml = '';
+        if (res) {
+          if (res.status === 'testing') {
+            statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] bg-blue-500/15 text-blue-500 font-semibold">⏳ กำลังยิงตรวจ...</span>';
+          } else if (res.status === 'ok') {
+            statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/15 text-emerald-500 font-semibold">✅ ใช้งานได้ (${res.ms}ms • ${res.models.length} โมเดล)</span>`;
+            const topModels = res.models.slice(0, 12).map((m) => `<span class="px-2 py-0.5 rounded-md hub-surface border text-[10px] font-mono">${escapeHtml(m)}</span>`).join('');
+            const more = res.models.length > 12 ? `<span class="text-[10px] hub-text-sub">+อีก ${res.models.length - 12} โมเดล</span>` : '';
+            modelsHtml = `<div class="mt-2.5 pt-2.5 border-t border-slate-200 dark:border-slate-700/70 flex flex-wrap gap-1.5 items-center">${topModels}${more}</div>`;
+          } else if (res.status === 'quota') {
+            statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] bg-amber-500/15 text-amber-500 font-semibold">⚠️ 429 เต็มโควตาชั่วคราว (${res.ms}ms)</span>`;
+          } else if (res.status === 'non-gemini') {
+            statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] bg-purple-500/15 text-purple-500 font-semibold">OpenAI / Custom Key</span>`;
+          } else {
+            statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] bg-rose-500/15 text-rose-500 font-semibold">❌ ${escapeHtml(res.message || 'Invalid')}</span>`;
+          }
+        }
+
+        const appTags = item.apps.map((a) => `<span class="px-2 py-0.5 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-300 text-[10px] font-semibold">${escapeHtml(a)}</span>`).join('');
+        const modelTags = item.models.map((m) => `<span class="px-2 py-0.5 rounded-lg hub-surface border text-[10px] font-mono hub-text-sub">${escapeHtml(m)}</span>`).join('');
+
+        return `
+          <div class="rounded-2xl hub-subtle border p-3.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div class="min-w-0 space-y-1">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-bold text-xs sm:text-sm">${escapeHtml(item.labels.join(' / ') || 'API Key')}</span>
+                  ${statusBadge}
+                </div>
+                <div class="flex items-center gap-2 text-xs font-mono hub-text-sub">
+                  <span id="keyText_${idx}">${escapeHtml(maskSecretKey(item.key))}</span>
+                  <button type="button" data-toggle-key="${idx}" class="text-[11px] underline hover:text-orange-500">ดูคีย์</button>
+                  <button type="button" data-copy-key="${idx}" class="text-[11px] underline hover:text-orange-500">คัดลอก</button>
+                </div>
+                <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+                  ${appTags}
+                  ${modelTags}
+                </div>
+              </div>
+              <button type="button" data-test-key="${idx}"
+                class="px-3.5 py-2 rounded-xl hub-surface border hover:border-orange-500 text-xs font-semibold shrink-0 transition">
+                🔍 ทดสอบคีย์
+              </button>
+            </div>
+            ${modelsHtml}
+          </div>
+        `;
+      }).join('');
+
+      listEl.querySelectorAll('[data-toggle-key]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-toggle-key'));
+          const item = hubState.unifiedKeys[idx];
+          const span = $(`keyText_${idx}`);
+          if (!item || !span) return;
+          const isMasked = btn.textContent === 'ดูคีย์';
+          span.textContent = isMasked ? item.key : maskSecretKey(item.key);
+          btn.textContent = isMasked ? 'ซ่อน' : 'ดูคีย์';
+        });
+      });
+
+      listEl.querySelectorAll('[data-copy-key]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-copy-key'));
+          const item = hubState.unifiedKeys[idx];
+          if (!item) return;
+          navigator.clipboard?.writeText(item.key);
+          showToast('คัดลอก API Key แล้ว');
+        });
+      });
+
+      listEl.querySelectorAll('[data-test-key]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-test-key'));
+          const item = hubState.unifiedKeys[idx];
+          if (item) testSingleApiKey(item);
+        });
+      });
+    }
+
+    async function testSingleApiKey(item) {
+      if (!item || !item.key) return;
+      if (item.provider !== 'gemini' && !item.key.startsWith('AIza')) {
+        hubState.keyTestResults[item.key] = { status: 'non-gemini', ms: 0, models: [] };
+        renderApiVault();
+        return;
+      }
+
+      hubState.keyTestResults[item.key] = { status: 'testing', ms: 0, models: [] };
+      renderApiVault();
+
+      const t0 = performance.now();
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(item.key)}`);
+        const ms = Math.round(performance.now() - t0);
+        if (res.status === 429) {
+          hubState.keyTestResults[item.key] = { status: 'quota', ms, models: [] };
+        } else if (!res.ok) {
+          const errBody = await res.json().catch(() => null);
+          const msg = errBody?.error?.message || `HTTP ${res.status}`;
+          hubState.keyTestResults[item.key] = { status: 'error', ms, models: [], message: msg };
+        } else {
+          const data = await res.json();
+          const models = (Array.isArray(data?.models) ? data.models : [])
+            .filter((m) => Array.isArray(m.supportedGenerationMethods) && m.supportedGenerationMethods.includes('generateContent'))
+            .map((m) => String(m.name || '').replace(/^models\//, ''))
+            .filter((name) => name.includes('gemini'))
+            .sort((a, b) => b.localeCompare(a));
+          hubState.keyTestResults[item.key] = { status: 'ok', ms, models };
+        }
+      } catch (err) {
+        hubState.keyTestResults[item.key] = {
+          status: 'error',
+          ms: Math.round(performance.now() - t0),
+          models: [],
+          message: err?.message || 'Network error'
+        };
+      }
+      renderApiVault();
+      renderOverviewKpis();
+    }
+
+    function loadQuotaState() {
+      const today = getLocalDateKey();
+      const month = getLocalMonthKey();
+      const saved = safeJsonParse(safeLocalGet(HUB_QUOTA_KEY, ''), null) || {};
+      const state = {
+        date: today,
+        month,
+        geminiCount: saved.date === today ? Number(saved.geminiCount || 0) : 0,
+        geminiLimit: Number(saved.geminiLimit || 250),
+        translateChars: saved.month === month ? Number(saved.translateChars || 0) : 0
+      };
+      safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(state));
+      return state;
+    }
+
+    function renderQuotaSection() {
+      const q = loadQuotaState();
+      $('inputGeminiLimit').value = q.geminiLimit;
+      const gPct = Math.min(100, Math.round((q.geminiCount / Math.max(1, q.geminiLimit)) * 100));
+      $('quotaGeminiLabel').textContent = `${q.geminiCount.toLocaleString('th-TH')} / ${q.geminiLimit.toLocaleString('th-TH')} req (${gPct}%)`;
+      $('quotaGeminiBar').style.width = `${gPct}%`;
+
+      const tPct = Math.min(100, Math.round((q.translateChars / 500000) * 100));
+      $('quotaTranslateLabel').textContent = `${q.translateChars.toLocaleString('th-TH')} / 500,000 ตัวอักษร (${tPct}%)`;
+      $('quotaTranslateBar').style.width = `${tPct}%`;
+      updateCostCalculator();
+    }
+
+    function updateCostCalculator() {
+      const [inRate, outRate] = String($('calcModelRate').value || '0.30|2.50').split('|').map(Number);
+      const usdToThb = Number($('calcUsdToThb').value || 34.5);
+      const inTok = Number($('calcInputTokens').value || 0);
+      const outTok = Number($('calcOutputTokens').value || 0);
+      const usd = (inTok / 1_000_000) * inRate + (outTok / 1_000_000) * outRate;
+      const thb = usd * usdToThb;
+      $('calcResultThb').textContent = `฿${thb.toFixed(2)}`;
+      $('calcResultUsd').textContent = `$${usd.toFixed(4)} USD`;
+    }
+
+    // =====================================================================
+    // UNIFIED BIBLE & CONFLICT DETECTOR
+    // =====================================================================
+    function getFilteredBible() {
+      const q = String($('bibleSearch')?.value || '').trim().toLowerCase();
+      const appF = $('bibleAppFilter')?.value || 'all';
+      const typeF = $('bibleTypeFilter')?.value || 'all';
+
+      return hubState.unifiedBible.filter((item) => {
+        if (appF !== 'all' && item.app !== appF) return false;
+        if (typeF === 'conflict' && !item.isConflict) return false;
+        if ((typeF === 'character' || typeF === 'glossary') && item.type !== typeF) return false;
+        if (q) {
+          const hay = `${item.orig} ${item.thai} ${item.novelTitle} ${item.note}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderBibleExplorer() {
+      const banner = $('bibleConflictBanner');
+      const conflicts = hubState.conflictSourceKeys.size;
+      if (conflicts > 0) {
+        banner.classList.remove('hidden');
+        $('bibleConflictText').textContent = `⚠️ ตรวจพบคำศัพท์/ชื่อตัวละคร ${conflicts} คำ ที่มีคำแปลภาษาไทยมากกว่า 1 แบบข้ามแอปหรือข้ามเรื่อง`;
+      } else {
+        banner.classList.add('hidden');
+      }
+
+      const filtered = getFilteredBible();
+      $('bibleCountLabel').textContent = `แสดง ${filtered.length.toLocaleString('th-TH')} จากทั้งหมด ${hubState.unifiedBible.length.toLocaleString('th-TH')} รายการ`;
+
+      const limit = hubState.bibleShowAll ? filtered.length : 150;
+      const slice = filtered.slice(0, limit);
+      const tbody = $('bibleTableBody');
+
+      if (!slice.length) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-8 text-center text-xs hub-text-sub">ไม่พบคำศัพท์หรือตัวละครที่ตรงกับเงื่อนไข</td></tr>`;
+      } else {
+        tbody.innerHTML = slice.map((item, i) => `
+          <tr class="hover:bg-orange-500/5 transition">
+            <td class="px-4 py-2.5 font-medium align-top">
+              <div>${escapeHtml(item.orig)}</div>
+              ${item.note ? `<div class="text-[11px] hub-text-sub mt-0.5">${escapeHtml(item.note)}</div>` : ''}
+            </td>
+            <td class="px-4 py-2.5 font-semibold text-orange-600 dark:text-orange-300 align-top">${escapeHtml(item.thai || '-')}</td>
+            <td class="px-4 py-2.5 align-top">
+              <div class="text-xs font-medium">${escapeHtml(item.appLabel)}</div>
+              <div class="text-[11px] hub-text-sub truncate max-w-[200px]">${escapeHtml(item.novelTitle)}</div>
+            </td>
+            <td class="px-4 py-2.5 align-top whitespace-nowrap">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold hub-subtle border">
+                ${item.type === 'character' ? '👤 ตัวละคร' : '📝 ศัพท์'}
+              </span>
+              ${item.isConflict ? `<span class="ml-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/20 text-amber-600 dark:text-amber-300">⚠️ ${item.variantCount} แบบ</span>` : ''}
+            </td>
+            <td class="px-4 py-2.5 text-right align-top">
+              <button type="button" data-copy-term="${i}" class="px-2.5 py-1 rounded-lg hub-subtle border text-[11px] font-semibold hover:opacity-80">
+                คัดลอก
+              </button>
+            </td>
+          </tr>
+        `).join('');
+
+        tbody.querySelectorAll('[data-copy-term]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.getAttribute('data-copy-term'));
+            const item = slice[idx];
+            if (!item) return;
+            navigator.clipboard?.writeText(`${item.orig} = ${item.thai}`);
+            showToast(`คัดลอก "${item.orig} = ${item.thai}" แล้ว`);
+          });
+        });
+      }
+
+      const moreWrap = $('bibleMoreWrap');
+      if (filtered.length > limit) {
+        moreWrap.classList.remove('hidden');
+        $('btnBibleShowAll').textContent = `แสดงทั้งหมด (${filtered.length.toLocaleString('th-TH')} รายการ)`;
+      } else {
+        moreWrap.classList.add('hidden');
+      }
+    }
+
+    // =====================================================================
+    // QUICK TOOLS & PROMPT VAULT
+    // =====================================================================
+    function updateQuickTextStats() {
+      const st = countThaiStats($('quickTextInput').value);
+      $('quickStatWords').textContent = st.words.toLocaleString('th-TH');
+      $('quickStatRaw').textContent = st.rawWords.toLocaleString('th-TH');
+      $('quickStatChars').textContent = st.chars.toLocaleString('th-TH');
+      $('quickStatA5').textContent = `${st.a5Pages} หน้า (~${st.readMins} นาที)`;
+    }
+
+    function loadPrompts() {
+      const saved = safeJsonParse(safeLocalGet(HUB_PROMPTS_KEY, ''), null);
+      if (Array.isArray(saved) && saved.length) return saved;
+      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(DEFAULT_PROMPTS));
+      return [...DEFAULT_PROMPTS];
+    }
+
+    function renderPromptVault() {
+      const prompts = loadPrompts();
+      const listEl = $('promptVaultList');
+      if (!prompts.length) {
+        listEl.innerHTML = `<div class="p-5 text-center text-xs hub-text-sub rounded-2xl hub-subtle border">ยังไม่มี Prompt (กดคืนค่าเริ่มต้น หรือเพิ่มใหม่ด้านบน)</div>`;
+        return;
+      }
+
+      listEl.innerHTML = prompts.map((p) => `
+        <div class="rounded-2xl hub-subtle border p-3.5 space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="font-bold text-xs sm:text-sm truncate">${escapeHtml(p.title)}</span>
+              ${p.tag ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-orange-500/15 text-orange-500 font-semibold shrink-0">${escapeHtml(p.tag)}</span>` : ''}
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button type="button" data-copy-prompt="${escapeHtml(p.id)}"
+                class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-rose-500 to-orange-500 text-white text-[11px] font-semibold">
+                คัดลอก
+              </button>
+              <button type="button" data-del-prompt="${escapeHtml(p.id)}"
+                class="px-2 py-1 rounded-lg text-rose-500 hover:bg-rose-500/15 text-[11px] font-semibold">
+                ลบ
+              </button>
+            </div>
+          </div>
+          <p class="text-[11px] sm:text-xs hub-text-sub leading-relaxed whitespace-pre-wrap">${escapeHtml(p.body)}</p>
+        </div>
+      `).join('');
+
+      listEl.querySelectorAll('[data-copy-prompt]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-copy-prompt');
+          const p = loadPrompts().find((x) => x.id === id);
+          if (!p) return;
+          navigator.clipboard?.writeText(p.body);
+          showToast(`คัดลอก Prompt "${p.title}" แล้ว`);
+        });
+      });
+
+      listEl.querySelectorAll('[data-del-prompt]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-del-prompt');
+          const next = loadPrompts().filter((x) => x.id !== id);
+          safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(next));
+          renderPromptVault();
+          showToast('ลบ Prompt เรียบร้อย');
+        });
+      });
+    }
+
+    // =====================================================================
+    // AUTH & EVENT WIRING
+    // =====================================================================
+    applyTheme(safeLocalGet(HUB_THEME_KEY, 'dark'));
+    renderPromptVault();
+    updateQuickTextStats();
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        hubState.user = null;
+        $('appShell').classList.add('hidden');
+        $('loginGate').classList.remove('hidden');
+        return;
+      }
+      const emailLower = String(user.email || '').trim().toLowerCase();
+      if (user.uid !== ALLOWED_OWNER_UID && emailLower !== ALLOWED_OWNER_EMAIL) {
+        const warn = $('gateWarning');
+        warn.textContent = `บัญชี ${user.email || user.uid} ไม่ได้รับอนุญาตให้เข้าคลังนี้ ระบบได้ออกจากระบบให้อัตโนมัติ`;
+        warn.classList.remove('hidden');
+        await signOut(auth);
+        return;
+      }
+
+      hubState.user = user;
+      $('gateWarning').classList.add('hidden');
+      $('loginGate').classList.add('hidden');
+      $('appShell').classList.remove('hidden');
+
+      const name = user.displayName || 'DBlack';
+      $('userDisplayName').textContent = name;
+      $('userDropdownName').textContent = name;
+      $('userDropdownEmail').textContent = user.email || '';
+      if (user.photoURL) {
+        $('userAvatarImg').src = user.photoURL;
+        $('userAvatarImg').classList.remove('hidden');
+        $('userAvatarFallback').classList.add('hidden');
+      } else {
+        $('userAvatarFallback').textContent = name.charAt(0).toUpperCase();
+      }
+
+      await loadAllSuiteData();
+    });
+
+    getRedirectResult(auth).catch((err) => {
+      if (err?.code) showToast('เข้าสู่ระบบไม่สำเร็จ: ' + err.code);
+    });
+
+    $('btnGateLogin').addEventListener('click', async () => {
+      const warn = $('gateWarning');
+      warn.classList.add('hidden');
+      $('btnGateLogin').disabled = true;
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (err) {
+        if (err?.code === 'auth/popup-blocked') {
+          await signInWithRedirect(auth, provider);
+          return;
+        }
+        warn.textContent = 'เข้าสู่ระบบไม่สำเร็จ: ' + (err?.code || err?.message);
+        warn.classList.remove('hidden');
+      } finally {
+        $('btnGateLogin').disabled = false;
+      }
+    });
+
+    $('btnRefreshAll').addEventListener('click', loadAllSuiteData);
+    $('btnToggleTheme').addEventListener('click', () => {
+      const currentlyDark = document.documentElement.classList.contains('dark');
+      applyTheme(currentlyDark ? 'light' : 'dark');
+    });
+
+    $('btnPeachzSuiteMenu').addEventListener('click', (e) => {
+      e.stopPropagation();
+      $('userDropdown')?.classList.add('hidden');
+      const dd = $('peachzSuiteDropdown');
+      const btn = $('btnPeachzSuiteMenu');
+      const willOpen = dd.classList.contains('hidden');
+      if (willOpen) {
+        const rect = btn.getBoundingClientRect();
+        const alignLeft = rect.right < 260;
+        dd.classList.toggle('left-0', alignLeft);
+        dd.classList.toggle('right-0', !alignLeft);
+      }
+      dd.classList.toggle('hidden', !willOpen);
+      btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    });
+
+    $('btnUserMenu').addEventListener('click', (e) => {
+      e.stopPropagation();
+      $('peachzSuiteDropdown')?.classList.add('hidden');
+      $('btnPeachzSuiteMenu')?.setAttribute('aria-expanded', 'false');
+      $('userDropdown').classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!$('peachzSuiteMenuWrap').contains(e.target) && !$('userMenuWrap').contains(e.target)) {
+        closeAllDropdowns();
+      }
+    });
+
+    $('btnLogout').addEventListener('click', async () => {
+      closeAllDropdowns();
+      await signOut(auth);
+    });
+
+    document.querySelectorAll('.hub-tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => switchTab(btn.getAttribute('data-tab')));
+    });
+
+    // Goals & Sprint Events
+    $('btnResetWordBaseline').addEventListener('click', () => {
+      const g = loadGoalsState();
+      g.baselineWords = hubState.haus.words || 0;
+      saveGoalsState(g);
+      renderGoalSection();
+      showToast('ตั้งฐานคำเริ่มต้นวันนี้เป็น 0 แล้ว');
+    });
+    $('inputWordGoal').addEventListener('change', (e) => {
+      const g = loadGoalsState();
+      g.targetWords = Math.max(100, Number(e.target.value || 3000));
+      saveGoalsState(g);
+      renderGoalSection();
+    });
+    $('inputChapterGoal').addEventListener('change', (e) => {
+      const g = loadGoalsState();
+      g.targetChapters = Math.max(1, Number(e.target.value || 3));
+      saveGoalsState(g);
+      renderGoalSection();
+    });
+    $('btnAddChapterDone').addEventListener('click', () => {
+      const g = loadGoalsState();
+      g.chaptersDone = Number(g.chaptersDone || 0) + 1;
+      saveGoalsState(g);
+      renderGoalSection();
+    });
+    $('btnSubChapterDone').addEventListener('click', () => {
+      const g = loadGoalsState();
+      g.chaptersDone = Math.max(0, Number(g.chaptersDone || 0) - 1);
+      saveGoalsState(g);
+      renderGoalSection();
+    });
+    document.querySelectorAll('.sprint-preset-btn').forEach((btn) => {
+      btn.addEventListener('click', () => resetSprint(Number(btn.getAttribute('data-sprint-mins'))));
+    });
+    $('btnSprintStart').addEventListener('click', startSprint);
+    $('btnSprintPause').addEventListener('click', pauseSprint);
+    $('btnSprintReset').addEventListener('click', () => resetSprint());
+
+    // API Vault & Quota Events
+    $('btnTestAllKeys').addEventListener('click', async () => {
+      if (!hubState.unifiedKeys.length) {
+        showToast('ไม่มีคีย์ให้ทดสอบ');
+        return;
+      }
+      for (const item of hubState.unifiedKeys) {
+        await testSingleApiKey(item);
+      }
+      showToast('ทดสอบ API Keys ทั้งหมดเรียบร้อย');
+    });
+
+    document.querySelectorAll('[data-add-gemini]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const q = loadQuotaState();
+        q.geminiCount += Number(btn.getAttribute('data-add-gemini'));
+        safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+        renderQuotaSection();
+      });
+    });
+    document.querySelectorAll('[data-add-trans]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const q = loadQuotaState();
+        q.translateChars += Number(btn.getAttribute('data-add-trans'));
+        safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+        renderQuotaSection();
+      });
+    });
+    $('inputGeminiLimit').addEventListener('change', (e) => {
+      const q = loadQuotaState();
+      q.geminiLimit = Math.max(10, Number(e.target.value || 250));
+      safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+      renderQuotaSection();
+    });
+    $('btnResetQuotaToday').addEventListener('click', () => {
+      const q = loadQuotaState();
+      q.geminiCount = 0;
+      q.translateChars = 0;
+      safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+      renderQuotaSection();
+      showToast('รีเซ็ตตัวนับโควตาแล้ว');
+    });
+    ['calcModelRate', 'calcUsdToThb', 'calcInputTokens', 'calcOutputTokens'].forEach((id) => {
+      $(id).addEventListener('input', updateCostCalculator);
+      $(id).addEventListener('change', updateCostCalculator);
+    });
+
+    // Bible Explorer Events
+    $('bibleSearch').addEventListener('input', () => { hubState.bibleShowAll = false; renderBibleExplorer(); });
+    $('bibleAppFilter').addEventListener('change', () => { hubState.bibleShowAll = false; renderBibleExplorer(); });
+    $('bibleTypeFilter').addEventListener('change', () => { hubState.bibleShowAll = false; renderBibleExplorer(); });
+    $('btnShowConflictsOnly').addEventListener('click', () => {
+      $('bibleTypeFilter').value = 'conflict';
+      hubState.bibleShowAll = false;
+      renderBibleExplorer();
+    });
+    $('btnBibleShowAll').addEventListener('click', () => {
+      hubState.bibleShowAll = true;
+      renderBibleExplorer();
+    });
+
+    $('btnExportBibleTxt').addEventListener('click', () => {
+      const rows = getFilteredBible().map((x) => `${x.orig} = ${x.thai}`);
+      if (!rows.length) { showToast('ไม่มีรายการให้ส่งออก'); return; }
+      downloadTextFile(rows.join('\n'), `peachz_bible_${getLocalDateKey()}.txt`);
+    });
+    $('btnExportBibleJson').addEventListener('click', () => {
+      const list = getFilteredBible();
+      if (!list.length) { showToast('ไม่มีรายการให้ส่งออก'); return; }
+      downloadTextFile(JSON.stringify(list, null, 2), `peachz_bible_${getLocalDateKey()}.json`, 'application/json;charset=utf-8');
+    });
+    $('btnExportBibleCsv').addEventListener('click', () => {
+      const list = getFilteredBible();
+      if (!list.length) { showToast('ไม่มีรายการให้ส่งออก'); return; }
+      const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const lines = [
+        'orig,thai,type,app,novelTitle,note,isConflict',
+        ...list.map((x) => [x.orig, x.thai, x.type, x.appLabel, x.novelTitle, x.note, x.isConflict].map(esc).join(','))
+      ];
+      downloadTextFile('\uFEFF' + lines.join('\r\n'), `peachz_bible_${getLocalDateKey()}.csv`, 'text/csv;charset=utf-8');
+    });
+
+    // Quick Tools & Prompt Vault Events
+    $('quickTextInput').addEventListener('input', updateQuickTextStats);
+    $('btnQuickCleanAi').addEventListener('click', () => {
+      const cleaned = cleanAiFormattingText($('quickTextInput').value);
+      $('quickTextInput').value = cleaned;
+      updateQuickTextStats();
+      showToast('ล้างขยะ AI เรียบร้อย ✨');
+    });
+    $('btnQuickCopyText').addEventListener('click', () => {
+      const txt = $('quickTextInput').value;
+      if (!txt) { showToast('ไม่มีข้อความให้คัดลอก'); return; }
+      navigator.clipboard?.writeText(txt);
+      showToast('คัดลอกข้อความแล้ว');
+    });
+    $('btnQuickClearText').addEventListener('click', () => {
+      $('quickTextInput').value = '';
+      updateQuickTextStats();
+    });
+    $('btnQuickSendHaus').addEventListener('click', () => {
+      const txt = $('quickTextInput').value;
+      if (!txt.trim()) { showToast('กรุณาวางข้อความก่อนส่ง'); return; }
+      safeLocalSet(SUITE_HANDOFF_KEY, JSON.stringify({
+        target: 'peachz-pwa',
+        sourceApp: 'Peachz Hub',
+        title: 'ข้อความจาก Peachz Hub',
+        content: txt,
+        createdAt: Date.now()
+      }));
+      window.open('https://dblack-dev.github.io/peachz-pwa/?handoff=1', '_blank', 'noopener');
+      showToast('ส่งเข้า Peachz Haus Studio แล้ว 🍑');
+    });
+
+    $('btnAddPrompt').addEventListener('click', () => {
+      const title = $('newPromptTitle').value.trim();
+      const tag = $('newPromptTag').value.trim() || 'ทั่วไป';
+      const body = $('newPromptBody').value.trim();
+      if (!title || !body) { showToast('กรุณากรอกชื่อและเนื้อหา Prompt'); return; }
+      const list = loadPrompts();
+      list.unshift({ id: 'p_' + Date.now(), title, tag, body });
+      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(list));
+      $('newPromptTitle').value = '';
+      $('newPromptTag').value = '';
+      $('newPromptBody').value = '';
+      renderPromptVault();
+      showToast('เพิ่ม Prompt ใหม่แล้ว');
+    });
+
+    $('btnResetDefaultPrompts').addEventListener('click', () => {
+      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(DEFAULT_PROMPTS));
+      renderPromptVault();
+      showToast('คืนค่า Prompt เริ่มต้นแล้ว');
+    });
+
+    window.addEventListener('focus', () => {
+      if (hubState.user) renderHandoffQueueCard();
+    });
+  </script>
+</body>
+</html>
