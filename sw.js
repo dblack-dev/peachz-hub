@@ -3,7 +3,7 @@
  * - Network-first for page navigation & HTML
  * - Bypass Firestore / Firebase Auth / Gemini API / Google APIs
  */
-const VERSION = 'v1.0.0';
+const VERSION = 'v1.1.0';
 const CACHE_NAME = 'peachz-hub-' + VERSION;
 const SHELL_ASSETS = [
   './',
@@ -16,6 +16,7 @@ const BYPASS_HOSTS = new Set([
   'identitytoolkit.googleapis.com',
   'securetoken.googleapis.com',
   'generativelanguage.googleapis.com',
+  'translation.googleapis.com',
   'apis.google.com',
   'accounts.google.com'
 ]);

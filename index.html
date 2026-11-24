@@ -408,6 +408,62 @@
           <div id="apiKeysList" class="space-y-3"></div>
         </div>
 
+        <!-- Google Cloud Translation API Key Card (Synced across Suite) -->
+        <div id="cloudTransCard" class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-3.5 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h2 class="text-sm sm:text-base font-bold flex items-center gap-2">
+                <span>🌐 Google Cloud Translation API Key</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/15 text-emerald-500 font-semibold">ซิงค์ทุกแอปอัตโนมัติ</span>
+              </h2>
+              <p class="text-[11px] hub-text-sub">ใส่คีย์ครั้งเดียว เก็บใน Firestore ส่วนตัวแล้วเชื่อมไปใช้ทั้ง Peachz Shelf (แปลด่วน/Batch) และ NovelTrans Studio</p>
+            </div>
+            <div id="cloudTransKeyStatus" class="text-[11px] font-semibold hub-text-sub">ยังไม่ได้ตั้งค่าคีย์ Cloud Translate</div>
+          </div>
+
+          <div class="flex flex-col md:flex-row gap-2">
+            <div class="relative flex-1 flex items-center gap-1.5">
+              <input id="inputCloudTranslateKey" type="password" autocomplete="off" placeholder="วางคีย์ Google Cloud Translation API (AIza...) แล้วกดบันทึก"
+                class="flex-1 px-3.5 py-2 rounded-xl hub-subtle border text-xs sm:text-sm font-mono focus:outline-none focus:ring-2 focus:ring-orange-500/40" />
+              <button id="btnToggleCloudTransKey" type="button" title="แสดง/ซ่อนคีย์"
+                class="px-3 py-2 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-85 shrink-0">
+                👁️
+              </button>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5 shrink-0">
+              <button id="btnSaveCloudTransKey" type="button"
+                class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-95 text-white text-xs font-semibold shadow-sm transition">
+                💾 บันทึก &amp; ซิงค์
+              </button>
+              <button id="btnTestCloudTransKey" type="button"
+                class="px-3.5 py-2 rounded-xl hub-subtle border text-xs font-semibold hover:border-orange-500 transition">
+                🔍 ทดสอบคีย์
+              </button>
+              <button id="btnClearCloudTransKey" type="button"
+                class="px-3 py-2 rounded-xl text-rose-500 hover:bg-rose-500/10 text-xs font-semibold transition">
+                ล้างคีย์
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs pt-0.5">
+            <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+              <input id="chkPreferCloudInShelf" type="checkbox" checked class="rounded text-orange-500 focus:ring-orange-500" />
+              <span>ใช้ Cloud Translate แทนช่องทางฟรีอัตโนมัติใน <b>Peachz Shelf</b> (ปุ่มแปลด่วน &amp; Batch)</span>
+            </label>
+          </div>
+
+          <details class="rounded-2xl hub-subtle border p-3 text-[11px] hub-text-sub space-y-2">
+            <summary class="font-semibold cursor-pointer text-orange-500 select-none">📖 วิธีสร้างคีย์ Google Cloud Translation API + ล็อกสิทธิ์ให้ปลอดภัย (ทำครั้งเดียว)</summary>
+            <ol class="list-decimal pl-4 space-y-1 leading-relaxed pt-1">
+              <li>เปิดใช้บริการ API ที่ <a href="https://console.cloud.google.com/apis/library/translate.googleapis.com" target="_blank" rel="noopener" class="text-orange-500 underline font-semibold">Cloud Translation API Library ↗</a> (เลือกโปรเจกต์ที่ผูก Billing แล้วกด Enable; ฟรี 500,000 ตัวอักษรแรก/เดือน)</li>
+              <li>ไปที่ <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener" class="text-orange-500 underline font-semibold">APIs &amp; Services → Credentials ↗</a> แล้วกด <b>+ Create Credentials → API key</b></li>
+              <li>กดแก้ไขคีย์ที่เพิ่งสร้าง → <b>Application restrictions</b> เลือก <b>Websites</b> เพิ่ม <code>https://dblack-dev.github.io/*</code> (ป้องกันคนอื่นแอบเอาคีย์ไปใช้)</li>
+              <li>ส่วน <b>API restrictions</b> เลือก <b>Restrict key</b> → ติ๊กเลือกเฉพาะ <b>Cloud Translation API</b> แล้วกด Save จากนั้นนำคีย์มาวางในช่องด้านบน</li>
+            </ol>
+          </details>
+        </div>
+
         <!-- Daily Quota & Translate Tracker + Reference -->
         <div id="quotaTrackerSection" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <!-- Left: Manual & Quick Counters -->
@@ -746,6 +802,7 @@
       getFirestore,
       doc,
       getDoc,
+      setDoc,
       collection,
       getDocs,
       query,
@@ -769,6 +826,7 @@
     const HUB_GOALS_KEY = 'peachz_hub_goals_v1';
     const HUB_QUOTA_KEY = 'peachz_hub_quota_v1';
     const HUB_PROMPTS_KEY = 'peachz_hub_prompts_v1';
+    const CLOUD_TRANS_LOCAL_KEY = 'peachz_cloud_translate_v1';
 
     const DEFAULT_PROMPTS = [
       {
@@ -817,6 +875,7 @@
       pome: { glossaryCount: 0, glossary: [], keys: [], model: '-', paragraphs: 0, source: '-' },
       novelTrans: { novels: [], termsCount: 0, charsCount: 0, summariesCount: 0, keys: [], model: '-', source: '-' },
       shelf: { novels: [], totalChapters: 0, glossaryCount: 0, glossary: [], keys: [], model: '-', transEngine: '-', source: '-' },
+      cloudTranslate: { apiKey: '', preferCloudInShelf: true, month: '', monthChars: 0, updatedAt: 0 },
       unifiedKeys: [],
       keyTestResults: {},
       unifiedBible: [],
@@ -1004,18 +1063,20 @@
 
       const uid = hubState.user.uid;
       try {
-        const [hausRes, pomeRes, ntRes, shelfNovelsRes, shelfMetaRes] = await Promise.allSettled([
+        const [hausRes, pomeRes, ntRes, shelfNovelsRes, shelfMetaRes, cloudTransRes] = await Promise.allSettled([
           getDoc(doc(db, 'users', uid, 'sync', 'studioState')),
           getDoc(doc(db, 'users', uid, 'sync', 'pomeTranslatorState')),
           getDoc(doc(db, 'users', uid, 'sync', 'novelTranslatorState')),
           getDocs(query(collection(db, 'users', uid, 'readerNovels'), orderBy('updatedAt', 'desc'))),
-          getDoc(doc(db, 'users', uid, 'readerMeta', 'translator'))
+          getDoc(doc(db, 'users', uid, 'readerMeta', 'translator')),
+          getDoc(doc(db, 'users', uid, 'sync', 'peachzCloudTranslate'))
         ]);
 
         parsePeachzHaus(hausRes);
         parsePomeTranslator(pomeRes);
         parseNovelTransStudio(ntRes);
         parsePeachzShelf(shelfNovelsRes, shelfMetaRes);
+        parseCloudTranslateConfig(cloudTransRes);
 
         buildUnifiedKeyVault();
         buildUnifiedBible();
@@ -1741,6 +1802,133 @@
       renderOverviewKpis();
     }
 
+    function parseCloudTranslateConfig(res) {
+      let parsed = null;
+      let updatedAt = 0;
+      if (res && res.status === 'fulfilled' && res.value.exists()) {
+        const data = res.value.data();
+        updatedAt = Number(data?.updatedAt || 0);
+        parsed = safeJsonParse(data?.stateJson, null);
+      }
+      if (!parsed) {
+        parsed = safeJsonParse(safeLocalGet(CLOUD_TRANS_LOCAL_KEY, ''), null);
+      }
+      const curMonth = getLocalMonthKey();
+      const normalized = {
+        apiKey: String(parsed?.apiKey || '').trim(),
+        preferCloudInShelf: parsed?.preferCloudInShelf !== false,
+        month: curMonth,
+        monthChars: parsed?.month === curMonth ? Number(parsed?.monthChars || 0) : 0,
+        updatedAt: updatedAt || Number(parsed?.updatedAt || 0)
+      };
+      hubState.cloudTranslate = normalized;
+      safeLocalSet(CLOUD_TRANS_LOCAL_KEY, JSON.stringify(normalized));
+
+      // Keep monthly Cloud Translate counter aligned with local quota tracker
+      const q = loadQuotaState();
+      const mergedChars = Math.max(q.translateChars || 0, normalized.monthChars || 0);
+      if (mergedChars !== q.translateChars) {
+        q.translateChars = mergedChars;
+        safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+      }
+      renderCloudTranslateCard();
+    }
+
+    function renderCloudTranslateCard() {
+      const cfg = hubState.cloudTranslate;
+      const inp = $('inputCloudTranslateKey');
+      const chk = $('chkPreferCloudInShelf');
+      const st = $('cloudTransKeyStatus');
+      if (inp) inp.value = cfg.apiKey || '';
+      if (chk) chk.checked = cfg.preferCloudInShelf !== false;
+      if (st) {
+        if (!cfg.apiKey) {
+          st.textContent = 'ยังไม่ได้ตั้งค่าคีย์ Cloud Translate';
+          st.className = 'text-[11px] font-semibold hub-text-sub';
+        } else if (!st.dataset.tested || st.dataset.tested !== cfg.apiKey) {
+          st.textContent = `🗝️ บันทึกคีย์แล้ว (${maskSecretKey(cfg.apiKey)}) • กดทดสอบคีย์เพื่อตรวจสิทธิ์`;
+          st.className = 'text-[11px] font-semibold text-orange-500';
+        }
+      }
+    }
+
+    async function saveCloudTranslateConfig(opts = {}) {
+      const rawKey = String($('inputCloudTranslateKey')?.value || '').trim();
+      const preferCloudInShelf = $('chkPreferCloudInShelf')?.checked !== false;
+      const curMonth = getLocalMonthKey();
+      const now = Date.now();
+      const payloadObj = {
+        apiKey: rawKey,
+        preferCloudInShelf,
+        month: curMonth,
+        monthChars: hubState.cloudTranslate.month === curMonth ? Number(hubState.cloudTranslate.monthChars || 0) : 0,
+        updatedAt: now
+      };
+      hubState.cloudTranslate = payloadObj;
+      safeLocalSet(CLOUD_TRANS_LOCAL_KEY, JSON.stringify(payloadObj));
+
+      if (hubState.user) {
+        try {
+          await setDoc(doc(db, 'users', hubState.user.uid, 'sync', 'peachzCloudTranslate'), {
+            stateJson: JSON.stringify(payloadObj),
+            updatedAt: now,
+            updatedBy: 'peachz-hub'
+          });
+          if (!opts.silent) {
+            showToast(rawKey ? 'บันทึกคีย์ Cloud Translate และซิงค์ทุกแอปแล้ว 🌐' : 'ล้างคีย์ Cloud Translate บน Cloud แล้ว');
+          }
+        } catch (err) {
+          console.error('saveCloudTranslateConfig failed:', err);
+          showToast('บันทึกลง Cloud ไม่สำเร็จ: ' + (err?.code || err?.message));
+        }
+      }
+      renderCloudTranslateCard();
+      renderQuotaSection();
+    }
+
+    async function testCloudTranslateKey() {
+      const key = String($('inputCloudTranslateKey')?.value || '').trim();
+      const st = $('cloudTransKeyStatus');
+      if (!key) {
+        showToast('กรุณาวางคีย์ Cloud Translation API ก่อนครับ');
+        return;
+      }
+      if (st) {
+        st.textContent = '⏳ กำลังทดสอบสิทธิ์กับ translation.googleapis.com...';
+        st.className = 'text-[11px] font-semibold text-blue-500';
+      }
+      const t0 = performance.now();
+      try {
+        const res = await fetch(`https://translation.googleapis.com/language/translate/v2/languages?key=${encodeURIComponent(key)}&target=th`);
+        const ms = Math.round(performance.now() - t0);
+        const body = await res.json().catch(() => null);
+        if (!res.ok) {
+          const msg = body?.error?.message || `HTTP ${res.status}`;
+          if (st) {
+            st.dataset.tested = '';
+            st.textContent = `❌ ไม่ผ่าน (${ms}ms): ${msg}`;
+            st.className = 'text-[11px] font-semibold text-rose-500';
+          }
+          showToast('คีย์ยังใช้งานไม่ได้: ' + msg);
+          return;
+        }
+        const langs = Array.isArray(body?.data?.languages) ? body.data.languages.length : 0;
+        if (st) {
+          st.dataset.tested = key;
+          st.textContent = `✅ ใช้งานได้จริง! (${ms}ms • รองรับ ${langs} ภาษา)`;
+          st.className = 'text-[11px] font-semibold text-emerald-500';
+        }
+        showToast('✅ คีย์ Google Cloud Translation API พร้อมใช้งานแล้ว');
+      } catch (err) {
+        const ms = Math.round(performance.now() - t0);
+        if (st) {
+          st.dataset.tested = '';
+          st.textContent = `❌ เชื่อมต่อไม่ได้ (${ms}ms): ${err?.message || 'Network error'}`;
+          st.className = 'text-[11px] font-semibold text-rose-500';
+        }
+      }
+    }
+
     function loadQuotaState() {
       const today = getLocalDateKey();
       const month = getLocalMonthKey();
@@ -2081,6 +2269,25 @@
     $('btnSprintStart').addEventListener('click', startSprint);
     $('btnSprintPause').addEventListener('click', pauseSprint);
     $('btnSprintReset').addEventListener('click', () => resetSprint());
+
+    // Cloud Translate Key Events
+    $('btnToggleCloudTransKey').addEventListener('click', () => {
+      const inp = $('inputCloudTranslateKey');
+      const btn = $('btnToggleCloudTransKey');
+      if (!inp || !btn) return;
+      const hidden = inp.type === 'password';
+      inp.type = hidden ? 'text' : 'password';
+      btn.textContent = hidden ? '🙈' : '👁️';
+    });
+    $('btnSaveCloudTransKey').addEventListener('click', () => saveCloudTranslateConfig());
+    $('chkPreferCloudInShelf').addEventListener('change', () => saveCloudTranslateConfig({ silent: true }));
+    $('btnTestCloudTransKey').addEventListener('click', testCloudTranslateKey);
+    $('btnClearCloudTransKey').addEventListener('click', () => {
+      $('inputCloudTranslateKey').value = '';
+      const st = $('cloudTransKeyStatus');
+      if (st) st.dataset.tested = '';
+      saveCloudTranslateConfig();
+    });
 
     // API Vault & Quota Events
     $('btnTestAllKeys').addEventListener('click', async () => {
