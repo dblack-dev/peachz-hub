@@ -500,19 +500,71 @@
               <button id="btnResetQuotaToday" type="button" class="px-2.5 py-1 rounded-xl hub-subtle border text-[11px] font-semibold">ล้างยอด</button>
             </div>
 
-            <!-- Gemini RPD Tracker -->
-            <div class="rounded-2xl hub-subtle border p-3.5 space-y-2.5">
-              <div class="flex items-center justify-between text-xs">
-                <span class="font-semibold">✨ Gemini API Requests วันนี้</span>
-                <span id="quotaGeminiLabel" class="font-bold text-orange-500">0 / 250 req</span>
+            <!-- Gemini Realtime Usage & RPD Tracker -->
+            <div class="rounded-2xl hub-subtle border p-3.5 space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="font-semibold text-xs">✨ Gemini API Requests &amp; Tokens</span>
+                  <span id="geminiLiveBadge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-500 text-[10px] font-bold">● Live</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <select id="selectGeminiTimeRange" class="px-2 py-1 rounded-lg hub-surface border text-[11px] font-semibold focus:outline-none">
+                    <option value="today">วันนี้</option>
+                    <option value="24h">24 ชม. ล่าสุด</option>
+                    <option value="7d">7 วันล่าสุด</option>
+                    <option value="30d">30 วันล่าสุด</option>
+                    <option value="month">เดือนนี้</option>
+                    <option value="all">ทั้งหมด</option>
+                    <option value="custom">กำหนดช่วงวันเอง...</option>
+                  </select>
+                  <button id="btnClearGeminiUsage" type="button" title="ล้างประวัติการเรียก Gemini API ทั้งบนเครื่องและ Cloud"
+                    class="px-2 py-1 rounded-lg hub-surface border text-[11px] text-rose-500 hover:opacity-85 font-semibold">ล้างสถิติ</button>
+                </div>
               </div>
-              <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                <div id="quotaGeminiBar" class="h-full bg-orange-500 transition-all" style="width: 0%"></div>
+
+              <div id="geminiCustomDateRow" class="hidden grid grid-cols-2 gap-2 text-[11px]">
+                <label class="space-y-0.5">
+                  <span class="hub-text-sub block">ตั้งแต่</span>
+                  <input id="inputGeminiDateFrom" type="date" class="w-full px-2 py-1 rounded-lg hub-surface border text-[11px]" />
+                </label>
+                <label class="space-y-0.5">
+                  <span class="hub-text-sub block">ถึง</span>
+                  <input id="inputGeminiDateTo" type="date" class="w-full px-2 py-1 rounded-lg hub-surface border text-[11px]" />
+                </label>
               </div>
-              <div class="flex flex-wrap items-center gap-1.5 pt-1">
-                <button type="button" data-add-gemini="1" class="px-2.5 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+1 req</button>
-                <button type="button" data-add-gemini="10" class="px-2.5 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+10 req</button>
-                <button type="button" data-add-gemini="50" class="px-2.5 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+50 req</button>
+
+              <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="rounded-xl hub-surface border p-2">
+                  <div class="text-[10px] hub-text-sub">Total Requests</div>
+                  <div id="geminiTotalReqs" class="text-sm font-extrabold text-orange-500">0</div>
+                </div>
+                <div class="rounded-xl hub-surface border p-2">
+                  <div class="text-[10px] hub-text-sub">Total Input Tokens</div>
+                  <div id="geminiTotalInTok" class="text-sm font-extrabold text-sky-500">0</div>
+                </div>
+                <div class="rounded-xl hub-surface border p-2">
+                  <div class="text-[10px] hub-text-sub">Total Output Tokens</div>
+                  <div id="geminiTotalOutTok" class="text-sm font-extrabold text-violet-500">0</div>
+                  <div id="geminiTotalThinkSub" class="hidden text-[9px] hub-text-sub"></div>
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between text-[11px]">
+                  <span class="hub-text-sub">เป้า RPD วันนี้</span>
+                  <span id="quotaGeminiLabel" class="font-bold text-orange-500">0 / 250 req</span>
+                </div>
+                <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                  <div id="quotaGeminiBar" class="h-full bg-orange-500 transition-all" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div id="geminiKeyBreakdownList" class="space-y-2 max-h-80 overflow-y-auto pr-0.5"></div>
+
+              <div class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-slate-200/70 dark:border-slate-800">
+                <button type="button" data-add-gemini="1" class="px-2 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+1 req</button>
+                <button type="button" data-add-gemini="10" class="px-2 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+10 req</button>
+                <button type="button" data-add-gemini="50" class="px-2 py-1 rounded-lg hub-surface border text-[11px] font-semibold">+50 req</button>
                 <input id="inputGeminiLimit" type="number" min="10" step="10" value="250" title="ตั้งเป้ารอบ RPD เพื่อเตือนสายตา"
                   class="ml-auto w-24 px-2 py-1 rounded-lg hub-surface border text-[11px] text-right" />
               </div>
@@ -827,6 +879,7 @@
       doc,
       getDoc,
       setDoc,
+      onSnapshot,
       collection,
       getDocs,
       query,
@@ -902,6 +955,8 @@
       cloudTranslate: { apiKey: '', preferCloudInShelf: true, autoCutoffEnabled: true, monthlyCharLimit: 480000, month: '', monthChars: 0, updatedAt: 0 },
       unifiedKeys: [],
       keyTestResults: {},
+      geminiUsageEvents: [],
+      geminiUnsubscribe: null,
       unifiedBible: [],
       conflictSourceKeys: new Set(),
       bibleShowAll: false,
@@ -1965,6 +2020,212 @@
       }
     }
 
+    const GEMINI_USAGE_LOCAL_KEY = 'peachz_gemini_usage_v1';
+    const GEMINI_APP_BADGES = {
+      'peachz-shelf': '📚 Shelf',
+      'noveltransstudio': '📖 NT',
+      'pomehelpmami': '🐶 Pome',
+      'peachz-pwa': '🍑 Haus'
+    };
+
+    function hashGeminiKeyId(raw) {
+      const s = String(raw || '');
+      if (!s) return 'unknown';
+      let h = 2166136261;
+      for (let i = 0; i < s.length; i++) {
+        h ^= s.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return 'k_' + (h >>> 0).toString(36);
+    }
+
+    function mergeGeminiUsageEvents(a, b) {
+      const map = new Map();
+      [...(Array.isArray(a) ? a : []), ...(Array.isArray(b) ? b : [])].forEach((ev) => {
+        if (ev && ev.id) map.set(ev.id, ev);
+      });
+      return Array.from(map.values())
+        .sort((x, y) => Number(y.ts || 0) - Number(x.ts || 0))
+        .slice(0, 2000);
+    }
+
+    function loadLocalGeminiUsage() {
+      const parsed = safeJsonParse(safeLocalGet(GEMINI_USAGE_LOCAL_KEY, ''), null);
+      const localEvs = Array.isArray(parsed?.events) ? parsed.events : [];
+      hubState.geminiUsageEvents = mergeGeminiUsageEvents(hubState.geminiUsageEvents, localEvs);
+      return hubState.geminiUsageEvents;
+    }
+
+    function getGeminiRangeBounds() {
+      const mode = $('selectGeminiTimeRange')?.value || 'today';
+      const now = new Date();
+      const nowMs = now.getTime();
+      const customRow = $('geminiCustomDateRow');
+      if (customRow) customRow.classList.toggle('hidden', mode !== 'custom');
+
+      if (mode === '24h') return { fromTs: nowMs - 24 * 60 * 60 * 1000, toTs: nowMs, mode };
+      if (mode === '7d') return { fromTs: nowMs - 7 * 24 * 60 * 60 * 1000, toTs: nowMs, mode };
+      if (mode === '30d') return { fromTs: nowMs - 30 * 24 * 60 * 60 * 1000, toTs: nowMs, mode };
+      if (mode === 'month') return { fromTs: new Date(now.getFullYear(), now.getMonth(), 1).getTime(), toTs: nowMs, mode };
+      if (mode === 'all') return { fromTs: 0, toTs: Infinity, mode };
+      if (mode === 'custom') {
+        const fromEl = $('inputGeminiDateFrom');
+        const toEl = $('inputGeminiDateTo');
+        const todayStr = getLocalDateKey();
+        if (fromEl && !fromEl.value) fromEl.value = todayStr;
+        if (toEl && !toEl.value) toEl.value = todayStr;
+        const parseDateLocal = (str, endOfDay) => {
+          const [y, m, d] = String(str || todayStr).split('-').map(Number);
+          if (!y || !m || !d) return endOfDay ? nowMs : 0;
+          return endOfDay
+            ? new Date(y, m - 1, d, 23, 59, 59, 999).getTime()
+            : new Date(y, m - 1, d, 0, 0, 0, 0).getTime();
+        };
+        const f = parseDateLocal(fromEl?.value, false);
+        const t = parseDateLocal(toEl?.value, true);
+        return { fromTs: Math.min(f, t), toTs: Math.max(f, t), mode };
+      }
+      // default: today
+      return { fromTs: new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime(), toTs: nowMs, mode: 'today' };
+    }
+
+    function getTodayGeminiEventCount() {
+      const now = new Date();
+      const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      return (hubState.geminiUsageEvents || []).filter((e) => Number(e?.ts || 0) >= startToday).length;
+    }
+
+    function renderGeminiUsagePanel() {
+      loadLocalGeminiUsage();
+      const { fromTs, toTs } = getGeminiRangeBounds();
+      const filtered = (hubState.geminiUsageEvents || []).filter((e) => {
+        const ts = Number(e?.ts || 0);
+        return ts >= fromTs && ts <= toTs;
+      });
+
+      const vaultByHash = new Map();
+      (hubState.unifiedKeys || []).forEach((item) => {
+        if (!item?.key) return;
+        const hId = hashGeminiKeyId(item.key);
+        const bestLabel = (item.labels || []).find(Boolean) || '';
+        vaultByHash.set(hId, { label: bestLabel, tail: String(item.key).slice(-4) });
+      });
+
+      let totalReqs = 0;
+      let totalIn = 0;
+      let totalOut = 0;
+      let totalThink = 0;
+      const byKey = new Map();
+
+      filtered.forEach((ev) => {
+        const kId = ev.keyId || 'unknown';
+        const tail = ev.keyTail || vaultByHash.get(kId)?.tail || '----';
+        const inTok = Math.max(0, Number(ev.inTok || 0));
+        const outTok = Math.max(0, Number(ev.outTok || 0));
+        const thinkTok = Math.max(0, Number(ev.thinkTok || 0));
+
+        totalReqs++;
+        totalIn += inTok;
+        totalOut += outTok;
+        totalThink += thinkTok;
+
+        let kEntry = byKey.get(kId);
+        if (!kEntry) {
+          const vInfo = vaultByHash.get(kId);
+          kEntry = {
+            keyId: kId,
+            tail,
+            label: vInfo?.label || ev.keyLabel || `คีย์ ...${tail}`,
+            reqs: 0,
+            inTok: 0,
+            outTok: 0,
+            thinkTok: 0,
+            lastTs: 0,
+            models: new Map()
+          };
+          byKey.set(kId, kEntry);
+        } else if (ev.keyLabel && kEntry.label.startsWith('คีย์ ...')) {
+          kEntry.label = ev.keyLabel;
+        }
+        kEntry.reqs++;
+        kEntry.inTok += inTok;
+        kEntry.outTok += outTok;
+        kEntry.thinkTok += thinkTok;
+        if (Number(ev.ts || 0) > kEntry.lastTs) kEntry.lastTs = Number(ev.ts || 0);
+
+        const mName = String(ev.model || 'unknown');
+        let mEntry = kEntry.models.get(mName);
+        if (!mEntry) {
+          mEntry = { model: mName, reqs: 0, inTok: 0, outTok: 0, thinkTok: 0, apps: new Set() };
+          kEntry.models.set(mName, mEntry);
+        }
+        mEntry.reqs++;
+        mEntry.inTok += inTok;
+        mEntry.outTok += outTok;
+        mEntry.thinkTok += thinkTok;
+        if (ev.app) mEntry.apps.add(ev.app);
+      });
+
+      if ($('geminiTotalReqs')) $('geminiTotalReqs').textContent = totalReqs.toLocaleString('th-TH');
+      if ($('geminiTotalInTok')) $('geminiTotalInTok').textContent = totalIn.toLocaleString('th-TH');
+      if ($('geminiTotalOutTok')) $('geminiTotalOutTok').textContent = totalOut.toLocaleString('th-TH');
+      const thinkSub = $('geminiTotalThinkSub');
+      if (thinkSub) {
+        thinkSub.classList.toggle('hidden', totalThink <= 0);
+        if (totalThink > 0) thinkSub.textContent = `(Think ${totalThink.toLocaleString('th-TH')})`;
+      }
+
+      const listEl = $('geminiKeyBreakdownList');
+      if (!listEl) return;
+      const keyRows = Array.from(byKey.values()).sort((a, b) => (b.reqs - a.reqs) || (b.lastTs - a.lastTs));
+
+      if (!keyRows.length) {
+        listEl.innerHTML = `<div class="p-3 rounded-xl hub-surface border text-[11px] hub-text-sub text-center">ยังไม่มีประวัติการเรียก Gemini API ในช่วงเวลานี้ — เมื่อกดแปลหรือสรุปจากแอปใดในเครือ ระบบจะอัปเดตยอดเข้าที่นี่แบบเรียลไทม์อัตโนมัติ</div>`;
+        return;
+      }
+
+      listEl.innerHTML = keyRows.map((k) => {
+        const modelsHtml = Array.from(k.models.values())
+          .sort((a, b) => (b.reqs - a.reqs) || ((b.inTok + b.outTok) - (a.inTok + a.outTok)))
+          .map((m) => {
+            const appsHtml = Array.from(m.apps)
+              .map((a) => `<span class="px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-[9px] font-semibold">${escapeHtml(GEMINI_APP_BADGES[a] || a)}</span>`)
+              .join('');
+            return `
+              <div class="flex flex-wrap items-center justify-between gap-1.5 text-[11px] py-1 border-t border-slate-200/60 dark:border-slate-800/80">
+                <div class="flex flex-wrap items-center gap-1 min-w-0">
+                  <span class="font-mono font-semibold text-amber-600 dark:text-amber-400 truncate">${escapeHtml(m.model)}</span>
+                  ${appsHtml}
+                </div>
+                <div class="flex flex-wrap items-center gap-2 shrink-0 text-[10px] hub-text-sub font-medium">
+                  <span class="font-bold text-orange-500">${m.reqs.toLocaleString('th-TH')} req</span>
+                  <span>In: ${m.inTok.toLocaleString('th-TH')}</span>
+                  <span>Out: ${m.outTok.toLocaleString('th-TH')}${m.thinkTok > 0 ? ` (T:${m.thinkTok.toLocaleString('th-TH')})` : ''}</span>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+        return `
+          <div class="rounded-xl hub-surface border p-2.5 space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="text-xs font-bold truncate">🔑 ${escapeHtml(k.label)}</span>
+                <span class="px-1.5 py-0.5 rounded bg-slate-200/80 dark:bg-slate-800 font-mono text-[10px] hub-text-sub shrink-0">...${escapeHtml(k.tail)}</span>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-500 text-[11px] font-bold shrink-0">${k.reqs.toLocaleString('th-TH')} req</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[11px] font-semibold">
+              <span class="text-sky-500">In: ${k.inTok.toLocaleString('th-TH')} tok</span>
+              <span class="text-violet-500">Out: ${k.outTok.toLocaleString('th-TH')} tok</span>
+              ${k.thinkTok > 0 ? `<span class="text-[10px] hub-text-sub">(Think: ${k.thinkTok.toLocaleString('th-TH')})</span>` : ''}
+            </div>
+            <div class="pt-0.5">${modelsHtml}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
     function loadQuotaState() {
       const today = getLocalDateKey();
       const month = getLocalMonthKey();
@@ -1983,9 +2244,12 @@
     function renderQuotaSection() {
       const q = loadQuotaState();
       $('inputGeminiLimit').value = q.geminiLimit;
-      const gPct = Math.min(100, Math.round((q.geminiCount / Math.max(1, q.geminiLimit)) * 100));
-      $('quotaGeminiLabel').textContent = `${q.geminiCount.toLocaleString('th-TH')} / ${q.geminiLimit.toLocaleString('th-TH')} req (${gPct}%)`;
+      const liveToday = getTodayGeminiEventCount();
+      const totalTodayReqs = liveToday + q.geminiCount;
+      const gPct = Math.min(100, Math.round((totalTodayReqs / Math.max(1, q.geminiLimit)) * 100));
+      $('quotaGeminiLabel').textContent = `${totalTodayReqs.toLocaleString('th-TH')} / ${q.geminiLimit.toLocaleString('th-TH')} req (${gPct}%)`;
       $('quotaGeminiBar').style.width = `${gPct}%`;
+      renderGeminiUsagePanel();
 
       const limitChars = Math.max(10000, Number(hubState.cloudTranslate?.monthlyCharLimit || 480000));
       const cutEnabled = hubState.cloudTranslate?.autoCutoffEnabled !== false;
@@ -2184,6 +2448,10 @@
     updateQuickTextStats();
 
     onAuthStateChanged(auth, async (user) => {
+      if (typeof hubState.geminiUnsubscribe === 'function') {
+        hubState.geminiUnsubscribe();
+        hubState.geminiUnsubscribe = null;
+      }
       if (!user) {
         hubState.user = null;
         $('appShell').classList.add('hidden');
@@ -2215,6 +2483,26 @@
       } else {
         $('userAvatarFallback').textContent = name.charAt(0).toUpperCase();
       }
+
+      loadLocalGeminiUsage();
+      const geminiUsageRef = doc(db, 'users', user.uid, 'sync', 'peachzGeminiUsage');
+      hubState.geminiUnsubscribe = onSnapshot(geminiUsageRef, (snap) => {
+        if (!snap.exists()) return;
+        const parsed = safeJsonParse(snap.data()?.stateJson, null);
+        if (!parsed) return;
+        const remoteEvs = Array.isArray(parsed.events) ? parsed.events : [];
+        const clearedAt = Number(parsed.clearedAt || 0);
+        if (remoteEvs.length === 0 && clearedAt) {
+          hubState.geminiUsageEvents = (hubState.geminiUsageEvents || []).filter((e) => Number(e?.ts || 0) > clearedAt);
+          safeLocalSet(GEMINI_USAGE_LOCAL_KEY, JSON.stringify({ version: 1, events: hubState.geminiUsageEvents }));
+        } else {
+          hubState.geminiUsageEvents = mergeGeminiUsageEvents(hubState.geminiUsageEvents, remoteEvs);
+          safeLocalSet(GEMINI_USAGE_LOCAL_KEY, JSON.stringify({ version: 1, events: hubState.geminiUsageEvents }));
+        }
+        renderQuotaSection();
+      }, (err) => {
+        console.warn('Gemini usage snapshot skipped:', err?.message || err);
+      });
 
       await loadAllSuiteData();
     });
@@ -2386,6 +2674,45 @@
       safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
       renderQuotaSection();
       showToast('รีเซ็ตตัวนับโควตาแล้ว');
+    });
+    ['selectGeminiTimeRange', 'inputGeminiDateFrom', 'inputGeminiDateTo'].forEach((id) => {
+      $(id)?.addEventListener('change', renderGeminiUsagePanel);
+    });
+    $('btnClearGeminiUsage')?.addEventListener('click', async () => {
+      if (!confirm('ต้องการล้างสถิติ Gemini API (Requests & Tokens) ทั้งบนเครื่องและ Cloud ใช่หรือไม่? (API Key ทั้งหมดจะยังอยู่ครบ)')) return;
+      const clearedAt = Date.now();
+      hubState.geminiUsageEvents = [];
+      safeLocalSet(GEMINI_USAGE_LOCAL_KEY, JSON.stringify({ version: 1, events: [], clearedAt }));
+      renderQuotaSection();
+      if (hubState.user) {
+        try {
+          await setDoc(doc(db, 'users', hubState.user.uid, 'sync', 'peachzGeminiUsage'), {
+            stateJson: JSON.stringify({ version: 1, events: [], clearedAt }),
+            updatedAt: clearedAt,
+            updatedBy: 'peachz-hub-clear'
+          });
+        } catch (err) {
+          console.warn('Clear Gemini usage Cloud failed:', err);
+        }
+      }
+      showToast('ล้างสถิติการใช้งาน Gemini API เรียบร้อยแล้ว');
+    });
+    if (typeof BroadcastChannel === 'function') {
+      try {
+        const hubUsageBus = new BroadcastChannel('peachz_suite_bus_v1');
+        hubUsageBus.addEventListener('message', (ev) => {
+          if (ev?.data?.type === 'gemini_usage_updated') {
+            loadLocalGeminiUsage();
+            renderQuotaSection();
+          }
+        });
+      } catch (e) {}
+    }
+    window.addEventListener('storage', (e) => {
+      if (e.key === GEMINI_USAGE_LOCAL_KEY) {
+        loadLocalGeminiUsage();
+        renderQuotaSection();
+      }
     });
     ['calcModelRate', 'calcUsdToThb', 'calcInputTokens', 'calcOutputTokens'].forEach((id) => {
       $(id).addEventListener('input', updateCostCalculator);
