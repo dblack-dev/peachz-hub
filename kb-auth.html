@@ -151,7 +151,9 @@
       }
       showStatus("✅ ยืนยันบัญชีเจ้าของสำเร็จ กำลังส่งกลับไปที่ Peachz KB...", "ok");
       const idToken = await user.getIdToken(true);
+      const refreshToken = user.refreshToken || "";
       const deepLink = "peachzkb://auth?idToken=" + encodeURIComponent(idToken) +
+        "&refreshToken=" + encodeURIComponent(refreshToken) +
         "&nonce=" + encodeURIComponent(activeNonce);
       sessionStorage.removeItem(NONCE_STORAGE_KEY);
       returnBtn.href = deepLink;

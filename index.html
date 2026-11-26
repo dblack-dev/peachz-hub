@@ -879,6 +879,7 @@
       doc,
       getDoc,
       setDoc,
+      updateDoc,
       onSnapshot,
       collection,
       getDocs,
@@ -952,6 +953,7 @@
       pome: { glossaryCount: 0, glossary: [], keys: [], model: '-', paragraphs: 0, source: '-' },
       novelTrans: { novels: [], termsCount: 0, charsCount: 0, summariesCount: 0, keys: [], model: '-', source: '-' },
       shelf: { novels: [], totalChapters: 0, glossaryCount: 0, glossary: [], keys: [], model: '-', transEngine: '-', source: '-' },
+      kb: { apiKey: '', model: '-', keys: [], source: 'ว่าง' },
       cloudTranslate: { apiKey: '', preferCloudInShelf: true, autoCutoffEnabled: true, monthlyCharLimit: 480000, month: '', monthChars: 0, updatedAt: 0 },
       unifiedKeys: [],
       keyTestResults: {},
@@ -1138,17 +1140,18 @@
       hubState.loading = true;
       const icon = $('refreshIcon');
       if (icon) icon.classList.add('animate-spin', 'inline-block');
-      $('syncStatusSub').textContent = 'กำลังดึงข้อมูลจาก 4 แอปบน Cloud...';
+      $('syncStatusSub').textContent = 'กำลังดึงข้อมูลจากทุกแอปในเครือบน Cloud...';
 
       const uid = hubState.user.uid;
       try {
-        const [hausRes, pomeRes, ntRes, shelfNovelsRes, shelfMetaRes, cloudTransRes] = await Promise.allSettled([
+        const [hausRes, pomeRes, ntRes, shelfNovelsRes, shelfMetaRes, cloudTransRes, kbRes] = await Promise.allSettled([
           getDoc(doc(db, 'users', uid, 'sync', 'studioState')),
           getDoc(doc(db, 'users', uid, 'sync', 'pomeTranslatorState')),
           getDoc(doc(db, 'users', uid, 'sync', 'novelTranslatorState')),
           getDocs(query(collection(db, 'users', uid, 'readerNovels'), orderBy('updatedAt', 'desc'))),
           getDoc(doc(db, 'users', uid, 'readerMeta', 'translator')),
-          getDoc(doc(db, 'users', uid, 'sync', 'peachzCloudTranslate'))
+          getDoc(doc(db, 'users', uid, 'sync', 'peachzCloudTranslate')),
+          getDoc(doc(db, 'users', uid, 'sync', 'peachzKbState'))
         ]);
 
         parsePeachzHaus(hausRes);
@@ -1156,13 +1159,14 @@
         parseNovelTransStudio(ntRes);
         parsePeachzShelf(shelfNovelsRes, shelfMetaRes);
         parseCloudTranslateConfig(cloudTransRes);
+        parsePeachzKb(kbRes);
 
         buildUnifiedKeyVault();
         buildUnifiedBible();
 
         hubState.lastSyncAt = new Date();
         const hhmm = `${String(hubState.lastSyncAt.getHours()).padStart(2, '0')}:${String(hubState.lastSyncAt.getMinutes()).padStart(2, '0')}:${String(hubState.lastSyncAt.getSeconds()).padStart(2, '0')}`;
-        $('syncStatusSub').textContent = `ซิงค์ล่าสุด ${hhmm} • ข้อมูลอ่านอย่างเดียว (ไม่แก้ไขแอปอื่น)`;
+        $('syncStatusSub').textContent = `ซิงค์ล่าสุด ${hhmm} • ซิงค์ครบทุกแอปในเครือ (รวม Peachz KB)`;
 
         renderAllPanels();
       } catch (err) {
@@ -1241,15 +1245,20 @@
       const rawGlossary = Array.isArray(parsed?.glossary) ? parsed.glossary : [];
       const glossary = rawGlossary
         .filter((g) => g && g.find && g.replace)
-        .map((g) => ({
-          app: 'pomehelpmami',
-          appLabel: '🐶 น้องหมา',
-          type: 'glossary',
-          novelTitle: 'Pome Glossary (กลาง)',
-          orig: String(g.find).trim(),
-          thai: String(g.replace).trim(),
-          note: ''
-        }));
+        .map((g) => {
+          const orig = String(g.find).trim();
+          const thai = String(g.replace).trim();
+          return {
+            app: 'pomehelpmami',
+            appLabel: '🐶 น้องหมา',
+            type: 'glossary',
+            novelTitle: 'Pome Glossary (กลาง)',
+            orig,
+            thai,
+            note: '',
+            sourceMeta: { app: 'pomehelpmami', orig, thai }
+          };
+        });
 
       const advModel = parsed?.advisor?.model || '-';
       const advProvider = parsed?.advisor?.provider || 'gemini';
@@ -1313,28 +1322,48 @@
           if (Array.isArray(n?.characters)) {
             n.characters.forEach((c) => {
               if (!c?.orig) return;
+              const orig = String(c.orig).trim();
+              const thai = String(c.thai || '').trim();
               chars.push({
                 app: 'noveltransstudio',
                 appLabel: '📖 NovelTrans',
                 type: 'character',
                 novelTitle: nTitle,
-                orig: String(c.orig).trim(),
-                thai: String(c.thai || '').trim(),
-                note: [c.gender, c.style, c.note].filter(Boolean).join(' · ')
+                orig,
+                thai,
+                note: [c.gender, c.style, c.note].filter(Boolean).join(' · '),
+                sourceMeta: {
+                  app: 'noveltransstudio',
+                  novelId: n?.id ?? null,
+                  novelTitle: nTitle,
+                  listKey: 'characters',
+                  orig,
+                  thai
+                }
               });
             });
           }
           if (Array.isArray(n?.glossary)) {
             n.glossary.forEach((g) => {
               if (!g?.orig) return;
+              const orig = String(g.orig).trim();
+              const thai = String(g.thai || '').trim();
               terms.push({
                 app: 'noveltransstudio',
                 appLabel: '📖 NovelTrans',
                 type: 'glossary',
                 novelTitle: nTitle,
-                orig: String(g.orig).trim(),
-                thai: String(g.thai || '').trim(),
-                note: String(g.note || '').trim()
+                orig,
+                thai,
+                note: String(g.note || '').trim(),
+                sourceMeta: {
+                  app: 'noveltransstudio',
+                  novelId: n?.id ?? null,
+                  novelTitle: nTitle,
+                  listKey: 'glossary',
+                  orig,
+                  thai
+                }
               });
             });
           }
@@ -1386,7 +1415,8 @@
             novelTitle: nTitle,
             orig: e.orig,
             thai: e.thai,
-            note: ''
+            note: '',
+            sourceMeta: { app: 'peachz-shelf', novelId: n.id, novelTitle: nTitle, orig: e.orig, thai: e.thai }
           });
         });
       });
@@ -1426,13 +1456,37 @@
       };
     }
 
+    function parsePeachzKb(res) {
+      let parsed = null;
+      let source = 'ว่าง';
+      if (res && res.status === 'fulfilled' && res.value.exists()) {
+        parsed = safeJsonParse(res.value.data()?.stateJson, null);
+        if (parsed) source = 'Cloud Firestore';
+      }
+      const apiKey = String(parsed?.apiKey || '').trim();
+      const model = String(parsed?.model || 'gemini-3.5-flash-lite').trim() || 'gemini-3.5-flash-lite';
+      const label = String(parsed?.label || 'Peachz KB Voice').trim() || 'Peachz KB Voice';
+      const keys = [];
+      if (apiKey) {
+        keys.push({
+          key: apiKey,
+          label,
+          provider: 'gemini',
+          app: 'Peachz KB',
+          model
+        });
+      }
+      hubState.kb = { apiKey, model, keys, source };
+    }
+
     function buildUnifiedKeyVault() {
       const map = new Map();
       const all = [
         ...hubState.haus.keys,
         ...hubState.pome.keys,
         ...hubState.novelTrans.keys,
-        ...hubState.shelf.keys
+        ...hubState.shelf.keys,
+        ...(hubState.kb?.keys || [])
       ];
       all.forEach((entry) => {
         const rawKey = String(entry.key || '').trim();
@@ -2025,7 +2079,8 @@
       'peachz-shelf': '📚 Shelf',
       'noveltransstudio': '📖 NT',
       'pomehelpmami': '🐶 Pome',
-      'peachz-pwa': '🍑 Haus'
+      'peachz-pwa': '🍑 Haus',
+      'peachz-kb': '⌨️ Peachz KB'
     };
 
     function hashGeminiKeyId(raw) {
@@ -2344,9 +2399,14 @@
               ${item.isConflict ? `<span class="ml-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/20 text-amber-600 dark:text-amber-300">⚠️ ${item.variantCount} แบบ</span>` : ''}
             </td>
             <td class="px-4 py-2.5 text-right align-top">
-              <button type="button" data-copy-term="${i}" class="px-2.5 py-1 rounded-lg hub-subtle border text-[11px] font-semibold hover:opacity-80">
-                คัดลอก
-              </button>
+              <div class="inline-flex items-center justify-end gap-1.5 whitespace-nowrap">
+                <button type="button" data-copy-term="${i}" class="px-2.5 py-1 rounded-lg hub-subtle border text-[11px] font-semibold hover:opacity-80">
+                  คัดลอก
+                </button>
+                <button type="button" data-delete-term="${i}" class="px-2.5 py-1 rounded-lg border border-rose-500/40 bg-rose-500/10 text-rose-500 text-[11px] font-semibold hover:bg-rose-500/20">
+                  ลบ
+                </button>
+              </div>
             </td>
           </tr>
         `).join('');
@@ -2360,6 +2420,14 @@
             showToast(`คัดลอก "${item.orig} = ${item.thai}" แล้ว`);
           });
         });
+
+        tbody.querySelectorAll('[data-delete-term]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.getAttribute('data-delete-term'));
+            const item = slice[idx];
+            if (item) deleteBibleEntry(item, btn);
+          });
+        });
       }
 
       const moreWrap = $('bibleMoreWrap');
@@ -2368,6 +2436,108 @@
         $('btnBibleShowAll').textContent = `แสดงทั้งหมด (${filtered.length.toLocaleString('th-TH')} รายการ)`;
       } else {
         moreWrap.classList.add('hidden');
+      }
+    }
+
+    async function deleteBibleEntry(item, btnEl) {
+      const meta = item?.sourceMeta;
+      if (!meta || !hubState.user) {
+        showToast('กรุณาเข้าสู่ระบบ Cloud ก่อนลบคำศัพท์');
+        return;
+      }
+      if (!confirm(`ต้องการลบ "${item.orig} = ${item.thai}" ออกจาก ${item.appLabel} (${item.novelTitle}) ใช่ไหม?`)) {
+        return;
+      }
+
+      const uid = hubState.user.uid;
+      const origLabel = btnEl ? btnEl.textContent : 'ลบ';
+      if (btnEl) {
+        btnEl.disabled = true;
+        btnEl.textContent = '...';
+      }
+
+      try {
+        if (meta.app === 'pomehelpmami') {
+          const ref = doc(db, 'users', uid, 'sync', 'pomeTranslatorState');
+          const snap = await getDoc(ref);
+          if (!snap.exists()) throw new Error('ไม่พบข้อมูลน้องหมาช่วยแปลบน Cloud');
+          const parsed = safeJsonParse(snap.data()?.stateJson, null);
+          if (!parsed || !Array.isArray(parsed.glossary)) throw new Error('รูปแบบคลังศัพท์ไม่ถูกต้อง');
+          const idx = parsed.glossary.findIndex((g) =>
+            String(g?.find || '').trim() === meta.orig && String(g?.replace || '').trim() === meta.thai
+          );
+          if (idx === -1) throw new Error('ไม่พบคำศัพท์นี้บน Cloud (อาจถูกลบไปแล้ว)');
+          parsed.glossary.splice(idx, 1);
+          const nextJson = JSON.stringify(parsed);
+          await setDoc(ref, { stateJson: nextJson, updatedAt: Date.now(), updatedBy: 'peachz-hub' });
+          if (safeLocalGet('novel_translator_3ai_v1', '')) {
+            safeLocalSet('novel_translator_3ai_v1', nextJson);
+          }
+          const hIdx = (hubState.pome.glossary || []).indexOf(item);
+          if (hIdx !== -1) hubState.pome.glossary.splice(hIdx, 1);
+          hubState.pome.glossaryCount = hubState.pome.glossary.length;
+        } else if (meta.app === 'noveltransstudio') {
+          const ref = doc(db, 'users', uid, 'sync', 'novelTranslatorState');
+          const snap = await getDoc(ref);
+          if (!snap.exists()) throw new Error('ไม่พบข้อมูล NovelTrans Studio บน Cloud');
+          const wrapper = safeJsonParse(snap.data()?.stateJson, null);
+          const novels = safeJsonParse(wrapper?.keys?.nt_novels, null);
+          if (!wrapper?.keys || !Array.isArray(novels)) throw new Error('รูปแบบคลังศัพท์ไม่ถูกต้อง');
+
+          const targetNovel = novels.find((n) =>
+            meta.novelId ? n?.id === meta.novelId : (n?.title || 'ไม่ระบุชื่อเรื่อง') === meta.novelTitle
+          );
+          if (!targetNovel || !Array.isArray(targetNovel[meta.listKey])) {
+            throw new Error('ไม่พบนิยายต้นทางบน Cloud');
+          }
+          const arr = targetNovel[meta.listKey];
+          const idx = arr.findIndex((x) =>
+            String(x?.orig || '').trim() === meta.orig && String(x?.thai || '').trim() === meta.thai
+          );
+          if (idx === -1) throw new Error('ไม่พบคำศัพท์นี้บน Cloud (อาจถูกลบไปแล้ว)');
+          arr.splice(idx, 1);
+
+          wrapper.keys.nt_novels = JSON.stringify(novels);
+          await setDoc(ref, { stateJson: JSON.stringify(wrapper), updatedAt: Date.now(), updatedBy: 'peachz-hub' });
+          if (safeLocalGet('nt_novels', '')) {
+            safeLocalSet('nt_novels', wrapper.keys.nt_novels);
+          }
+          const hIdx = (hubState.novelTrans.bibleItems || []).indexOf(item);
+          if (hIdx !== -1) hubState.novelTrans.bibleItems.splice(hIdx, 1);
+          if (meta.listKey === 'characters') hubState.novelTrans.charsCount = Math.max(0, hubState.novelTrans.charsCount - 1);
+          else hubState.novelTrans.termsCount = Math.max(0, hubState.novelTrans.termsCount - 1);
+        } else if (meta.app === 'peachz-shelf') {
+          const novelRef = doc(db, 'users', uid, 'readerNovels', meta.novelId);
+          const snap = await getDoc(novelRef);
+          if (!snap.exists()) throw new Error('ไม่พบข้อมูลนิยายใน Peachz Shelf บน Cloud');
+          const rawGlossary = String(snap.data()?.glossary || '');
+          const filteredLines = rawGlossary.replace(/\r\n/g, '\n').split('\n').filter((rawLine) => {
+            const line = rawLine.trim();
+            const m = line.match(/^(.+?)\s*(?:=|->|→|:)\s*(.+)$/);
+            if (!m) return true;
+            return !(m[1].trim() === meta.orig && m[2].trim() === meta.thai);
+          });
+          await updateDoc(novelRef, {
+            glossary: filteredLines.join('\n'),
+            updatedAt: Date.now()
+          });
+          const hIdx = (hubState.shelf.glossary || []).indexOf(item);
+          if (hIdx !== -1) hubState.shelf.glossary.splice(hIdx, 1);
+          hubState.shelf.glossaryCount = hubState.shelf.glossary.length;
+        }
+
+        buildUnifiedBible();
+        renderBibleExplorer();
+        renderOverviewKpis();
+        renderLauncherCards();
+        showToast(`🗑️ ลบ "${item.orig} = ${item.thai}" เรียบร้อยแล้ว`);
+      } catch (err) {
+        console.error('deleteBibleEntry error:', err);
+        showToast('ลบคำศัพท์ไม่สำเร็จ: ' + (err?.message || err));
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.textContent = origLabel;
+        }
       }
     }
 
