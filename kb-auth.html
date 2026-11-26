@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peachz KB — ยืนยันตัวตนเจ้าของ</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Noto Sans Thai", sans-serif;
+      background: linear-gradient(155deg, #fff5f2 0%, #ffe6df 100%);
+      color: #3b1f1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      width: 100%;
+      max-width: 410px;
+      background: #ffffff;
+      border: 1px solid #f5d0c5;
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 14px 36px rgba(224, 89, 75, 0.12);
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #fff0ec;
+      color: #e0594b;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+    p {
+      margin: 0 0 18px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #6b4e4c;
+    }
+    .btn {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #e0594b;
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+    .btn-outline {
+      margin-top: 10px;
+      background: #fff;
+      color: #e0594b;
+      border: 1px solid #f5d0c5;
+    }
+    .status {
+      margin-top: 16px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #fff8f6;
+      color: #4a2e2d;
+      display: none;
+    }
+    .status.show { display: block; }
+    .status.err { background: #fef2f2; color: #b91c1c; }
+    .status.ok { background: #f0fdf4; color: #166534; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">Peachz Ecosystem • Sole-Owner Gate</div>
+    <h1>🍑 Peachz KB</h1>
+    <p>เข้าสู่ระบบด้วยบัญชี Google ของเจ้าของ เพื่อปลดล็อกแอปตั้งค่าและคีย์บอร์ด Peachz KB</p>
+    <button id="loginBtn" class="btn" type="button">🔐 เข้าสู่ระบบด้วย Google</button>
+    <a id="returnBtn" class="btn btn-outline" href="#" style="display:none;">🚀 เปิดแอป Peachz KB เพื่อปลดล็อก</a>
+    <div id="statusBox" class="status"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signInWithRedirect,
+      getRedirectResult,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGpnRzcWHDBSaRpEu63NfcK6D8Umh0MJo",
+      authDomain: "peachz-haus-studio.firebaseapp.com",
+      projectId: "peachz-haus-studio",
+      storageBucket: "peachz-haus-studio.firebasestorage.app",
+      messagingSenderId: "287479046466",
+      appId: "1:287479046466:web:f9b35ac2e7d3803162e8db",
+      measurementId: "G-MJEW3T3SCZ"
+    };
+
+    const ALLOWED_OWNER_UID = "b1nmd1qyK0bd48iLLiBGMF3mtCi1";
+    const ALLOWED_OWNER_EMAIL = "dew.blackdevil@gmail.com";
+    const NONCE_STORAGE_KEY = "peachz_kb_auth_nonce";
+
+    const urlNonce = new URLSearchParams(window.location.search).get("nonce") || "";
+    if (urlNonce) {
+      sessionStorage.setItem(NONCE_STORAGE_KEY, urlNonce);
+    }
+    const activeNonce = urlNonce || sessionStorage.getItem(NONCE_STORAGE_KEY) || "";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+
+    const loginBtn = document.getElementById("loginBtn");
+    const returnBtn = document.getElementById("returnBtn");
+    const statusBox = document.getElementById("statusBox");
+
+    function showStatus(msg, cls = "") {
+      statusBox.textContent = msg;
+      statusBox.className = "status show" + (cls ? " " + cls : "");
+    }
+
+    async function handleSignedInUser(user) {
+      if (!user) return;
+      const email = (user.email || "").trim().toLowerCase();
+      if (user.uid !== ALLOWED_OWNER_UID || email !== ALLOWED_OWNER_EMAIL) {
+        await signOut(auth);
+        showStatus("⛔ บัญชีนี้ (" + (user.email || user.uid) + ") ไม่มีสิทธิ์ใช้งาน Peachz KB — อนุญาตเฉพาะบัญชีเจ้าของเท่านั้น", "err");
+        return;
+      }
+      showStatus("✅ ยืนยันบัญชีเจ้าของสำเร็จ กำลังส่งกลับไปที่ Peachz KB...", "ok");
+      const idToken = await user.getIdToken(true);
+      const deepLink = "peachzkb://auth?idToken=" + encodeURIComponent(idToken) +
+        "&nonce=" + encodeURIComponent(activeNonce);
+      sessionStorage.removeItem(NONCE_STORAGE_KEY);
+      returnBtn.href = deepLink;
+      returnBtn.style.display = "inline-block";
+      window.location.href = deepLink;
+    }
+
+    getRedirectResult(auth)
+      .then((res) => {
+        if (res && res.user) return handleSignedInUser(res.user);
+      })
+      .catch((err) => {
+        showStatus("เกิดข้อผิดพลาดในการเข้าสู่ระบบ: " + (err?.message || err), "err");
+      });
+
+    loginBtn.addEventListener("click", async () => {
+      loginBtn.disabled = true;
+      showStatus("กำลังเปิดหน้าต่างเลือกบัญชี Google...");
+      try {
+        const res = await signInWithPopup(auth, provider);
+        await handleSignedInUser(res.user);
+      } catch (err) {
+        const code = err?.code || "";
+        if (code === "auth/popup-blocked" || code === "auth/operation-not-supported-in-this-environment") {
+          showStatus("กำลังเปลี่ยนไปหน้าเข้าสู่ระบบ Google...");
+          await signInWithRedirect(auth, provider);
+          return;
+        }
+        showStatus("เข้าสู่ระบบไม่สำเร็จ: " + (err?.message || code || "กรุณาลองใหม่"), "err");
+      } finally {
+        loginBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
