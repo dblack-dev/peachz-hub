@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Peachz Hub — ศูนย์รวมนักเขียน &amp; นักแปล</title>
   <link rel="manifest" href="./manifest.json" />
-  <meta name="theme-color" content="#f97316" />
+  <meta name="theme-color" content="#ee6b9e" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23fb7185'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='32' fill='url(%23g)'/%3E%3Ctext x='64' y='84' font-size='68' text-anchor='middle'%3E%F0%9F%A7%AC%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+  <link rel="icon" type="image/png" sizes="256x256" href="./icon-256.png" />
+  <link rel="apple-touch-icon" href="./icon-256.png" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -30,26 +32,31 @@
 
   <style>
     :root {
-      --hub-bg: #fff9f5;
+      --hub-bg: #fff6f8;
       --hub-surface: #ffffff;
-      --hub-subtle: #fff1e6;
-      --hub-border: #fed7aa;
-      --hub-text: #1c1917;
-      --hub-sub: #78716c;
-      --hub-accent: #f97316;
+      --hub-subtle: #fceef3;
+      --hub-border: #f3c6d7;
+      --hub-text: #2a1a18;
+      --hub-sub: #7a5c58;
+      --hub-accent: #ec5f99;
+      --hub-accent-2: #f7d774;
     }
     html.dark {
-      --hub-bg: #0b1120;
-      --hub-surface: #111827;
-      --hub-subtle: #1e293b;
-      --hub-border: #334155;
-      --hub-text: #f1f5f9;
-      --hub-sub: #94a3b8;
-      --hub-accent: #fb7185;
+      --hub-bg: #1d1819;
+      --hub-surface: #2a2425;
+      --hub-subtle: #3a3234;
+      --hub-border: #55484b;
+      --hub-text: #fdf2f5;
+      --hub-sub: #c9b3ba;
+      --hub-accent: #f26ea3;
+      --hub-accent-2: #f9c5d5;
     }
     body {
       font-family: 'Prompt', 'Sarabun', system-ui, sans-serif;
       background-color: var(--hub-bg);
+      background-image:
+        radial-gradient(circle at 12% -6%, rgba(242, 110, 163, 0.14), transparent 38%),
+        radial-gradient(circle at 92% 4%, rgba(247, 215, 116, 0.10), transparent 34%);
       color: var(--hub-text);
       transition: background-color 0.2s ease, color 0.2s ease;
     }
@@ -64,35 +71,63 @@
     .hub-text-sub {
       color: var(--hub-sub);
     }
+    .hub-btn-primary {
+      background: linear-gradient(135deg, #ec5f99 0%, #f48bb5 100%);
+      color: #ffffff;
+    }
+    .hub-tab-active {
+      background: linear-gradient(135deg, #ec5f99 0%, #f284b0 100%);
+      color: #ffffff;
+    }
+    .hub-badge-accent {
+      background-color: rgba(236, 95, 153, 0.14);
+      color: #ec5f99;
+      border-color: rgba(236, 95, 153, 0.32);
+    }
+    html.dark .hub-badge-accent {
+      background-color: rgba(242, 110, 163, 0.18);
+      color: #f9c5d5;
+      border-color: rgba(242, 110, 163, 0.35);
+    }
+    .hub-badge-cream {
+      background-color: rgba(247, 215, 116, 0.22);
+      color: #8a5a00;
+      border-color: rgba(234, 179, 8, 0.35);
+    }
+    html.dark .hub-badge-cream {
+      background-color: rgba(247, 215, 116, 0.15);
+      color: #fde68a;
+      border-color: rgba(247, 215, 116, 0.32);
+    }
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: rgba(148, 163, 184, 0.35);
+      background: rgba(242, 110, 163, 0.35);
       border-radius: 9999px;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-orange-500/30">
+<body class="min-h-screen flex flex-col selection:bg-pink-400/30">
 
   <!-- =====================================================================
        SOLE-OWNER LOGIN GATE
        ===================================================================== -->
-  <div id="loginGate" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm">
-    <div class="max-w-md w-full rounded-3xl bg-white dark:bg-slate-900 border border-orange-200 dark:border-slate-700 shadow-2xl p-6 sm:p-8 text-center space-y-5">
-      <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500 text-white text-3xl flex items-center justify-center shadow-lg">
-        🧬
+  <div id="loginGate" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#141011]/92 backdrop-blur-sm">
+    <div class="max-w-md w-full rounded-3xl bg-white dark:bg-[#2a2425] border border-pink-200 dark:border-[#55484b] shadow-2xl p-6 sm:p-8 text-center space-y-5">
+      <div class="w-20 h-20 mx-auto rounded-2xl bg-[#3a3234]/10 dark:bg-[#1d1819] border border-pink-300/50 dark:border-pink-400/30 flex items-center justify-center shadow-lg p-1.5">
+        <img src="./icon-256.png" alt="Peachz Hub" class="w-16 h-16 object-contain drop-shadow-md" />
       </div>
       <div class="space-y-1.5">
-        <h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Peachz Hub</h1>
-        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+        <h1 class="text-xl sm:text-2xl font-bold text-[#2a1a18] dark:text-[#fdf2f5]">Peachz Hub</h1>
+        <p class="text-xs sm:text-sm text-[#7a5c58] dark:text-[#c9b3ba]">
           ศูนย์รวมควบคุม Peachz Writer &amp; Reader Suite (เฉพาะบัญชีเจ้าของคลัง)
         </p>
       </div>
       <div id="gateWarning" class="hidden text-left text-xs rounded-2xl p-3 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-200 leading-relaxed"></div>
       <button id="btnGateLogin" type="button"
-        class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-95 text-white font-semibold text-sm shadow-md flex items-center justify-center gap-2.5 transition active:scale-[0.99] disabled:opacity-60">
+        class="w-full py-3 px-4 rounded-2xl hub-btn-primary hover:opacity-95 font-semibold text-sm shadow-md flex items-center justify-center gap-2.5 transition active:scale-[0.99] disabled:opacity-60">
         <svg class="w-5 h-5 bg-white rounded-full p-0.5 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
           <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -116,14 +151,13 @@
       <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
         <!-- Left Brand -->
         <div class="flex items-center gap-2.5 min-w-0">
-          <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500 text-white text-lg flex items-center justify-center shadow-sm shrink-0">
-            🧬
-          </div>
+          <img src="./icon-256.png" alt="Peachz Hub"
+            class="w-10 h-10 rounded-2xl object-contain bg-[#3a3234]/10 dark:bg-[#1d1819]/80 p-0.5 border border-pink-300/50 dark:border-pink-400/30 shadow-sm shrink-0" />
           <div class="min-w-0">
             <div class="flex items-center gap-2">
               <h1 class="font-bold text-sm sm:text-base truncate">Peachz Hub</h1>
-              <span class="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold bg-orange-500/15 text-orange-600 dark:text-orange-300 border border-orange-500/30">
-                Suite Center v1.0
+              <span class="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold hub-badge-accent border">
+                Suite Center v1.6
               </span>
             </div>
             <p id="syncStatusSub" class="text-[11px] hub-text-sub truncate">รอซิงค์ข้อมูลจาก Cloud...</p>
@@ -173,8 +207,11 @@
                 <span>📚 Peachz Shelf</span>
                 <span class="text-[10px] hub-text-sub">ชั้นอ่าน</span>
               </a>
-              <div class="flex items-center justify-between gap-2 px-2.5 py-2 rounded-xl bg-gradient-to-r from-rose-500/15 to-orange-500/15 text-orange-600 dark:text-orange-300 text-xs font-semibold">
-                <span>🧬 Peachz Hub</span>
+              <div class="flex items-center justify-between gap-2 px-2.5 py-2 rounded-xl hub-badge-accent text-xs font-semibold">
+                <span class="flex items-center gap-1.5">
+                  <img src="./icon-256.png" alt="" class="w-4 h-4 rounded object-contain inline-block shrink-0" />
+                  <span>Peachz Hub</span>
+                </span>
                 <span class="text-[10px]">ใช้งานอยู่</span>
               </div>
             </div>
@@ -185,11 +222,11 @@
             <button id="btnUserMenu" type="button"
               class="flex items-center gap-1.5 p-1 sm:pr-2.5 rounded-xl hub-subtle border hover:opacity-90 transition">
               <img id="userAvatarImg" src="" alt="โปรไฟล์" referrerpolicy="no-referrer" class="w-7 h-7 rounded-lg object-cover hidden" />
-              <span id="userAvatarFallback" class="w-7 h-7 rounded-lg bg-gradient-to-br from-rose-500 to-orange-500 text-white text-xs font-bold flex items-center justify-center">D</span>
+              <span id="userAvatarFallback" class="w-7 h-7 rounded-lg hub-btn-primary text-xs font-bold flex items-center justify-center">D</span>
               <span id="userDisplayName" class="hidden md:inline text-xs font-medium max-w-[110px] truncate"></span>
             </button>
             <div id="userDropdown" class="hidden absolute right-0 mt-2 w-60 rounded-2xl hub-surface border shadow-2xl p-3 z-50 space-y-2.5">
-              <div class="pb-2.5 border-b border-slate-200 dark:border-slate-700">
+              <div class="pb-2.5 border-b border-pink-200/50 dark:border-[#55484b]">
                 <div id="userDropdownName" class="text-xs font-semibold truncate">ผู้ใช้</div>
                 <div id="userDropdownEmail" class="text-[11px] hub-text-sub truncate"></div>
               </div>
@@ -205,7 +242,7 @@
       <!-- Tab Bar -->
       <nav aria-label="หมวดหมู่หลัก" class="max-w-7xl mx-auto mt-2.5 flex items-center gap-1.5 overflow-x-auto pb-0.5 custom-scrollbar">
         <button id="tabOverview" type="button" data-tab="overview"
-          class="hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-gradient-to-r from-rose-500 to-orange-500 text-white shadow-sm">
+          class="hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition hub-tab-active text-white shadow-sm">
           🏠 ภาพรวม &amp; เป้าหมาย
         </button>
         <button id="tabApiQuota" type="button" data-tab="api"
@@ -218,7 +255,7 @@
         </button>
         <button id="tabTools" type="button" data-tab="tools"
           class="hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition hub-subtle border hover:opacity-90">
-          🧰 เครื่องมือเร็ว &amp; Prompt
+          📝 คลัง Prompt
         </button>
       </nav>
     </header>
@@ -812,91 +849,152 @@
       </section>
 
       <!-- ===================================================================
-           TAB 4: QUICK WRITER TOOLS & EDITABLE PROMPT VAULT
+           TAB 4: MULTI-AI PROMPT VAULT (DEDICATED FULL-WIDTH + CLOUD SYNC)
            =================================================================== -->
-      <section id="panelTools" class="hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <!-- Quick Cleaner & Word Counter -->
-        <div class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-3.5 shadow-sm flex flex-col">
-          <div class="flex items-center justify-between gap-2">
-            <div>
-              <h2 class="text-sm sm:text-base font-bold">🧹 นับคำภาษาไทย &amp; ล้างขยะ AI ด่วน</h2>
-              <p class="text-[11px] hub-text-sub">ตัดตัวหนา `**`, เลขอ้างอิง `[1]`, หัวข้อ `###` และนับคำด้วย `Intl.Segmenter('th')`</p>
+      <section id="panelTools" class="hidden space-y-4">
+        <div class="rounded-3xl hub-surface border p-4 sm:p-6 space-y-4 shadow-sm">
+          <!-- Header & Top Controls -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <h2 class="text-base sm:text-lg font-bold">📝 คลัง Prompt ประจำตัว (Multi-AI)</h2>
+                <span id="promptSyncBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold hub-badge-accent border">
+                  ☁️ รอซิงก์ Cloud
+                </span>
+              </div>
+              <p class="text-[11px] sm:text-xs hub-text-sub">
+                รวมคำสั่ง AI ทุกตัวไว้ที่เดียว ผูก 1 Prompt ได้หลาย AI ดูแบบรวมทั้งหมดหรือกรองทีละ AI พร้อมซิงก์ Cloud อัตโนมัติ
+              </p>
             </div>
-          </div>
 
-          <textarea id="quickTextInput" rows="11" placeholder="วางข้อความจาก AI หรือบทนิยายที่ต้องการล้างขยะ / นับคำที่นี่..."
-            class="w-full flex-1 p-3.5 rounded-2xl hub-subtle border text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-orange-500/40 custom-scrollbar"></textarea>
-
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-            <div class="p-2 rounded-xl hub-subtle border">
-              <div class="text-[10px] hub-text-sub">คำไทยจริง</div>
-              <div id="quickStatWords" class="text-sm font-bold text-orange-500">0</div>
-            </div>
-            <div class="p-2 rounded-xl hub-subtle border">
-              <div class="text-[10px] hub-text-sub">~RAW Word</div>
-              <div id="quickStatRaw" class="text-sm font-bold">0</div>
-            </div>
-            <div class="p-2 rounded-xl hub-subtle border">
-              <div class="text-[10px] hub-text-sub">ตัวอักษร</div>
-              <div id="quickStatChars" class="text-sm font-bold">0</div>
-            </div>
-            <div class="p-2 rounded-xl hub-subtle border">
-              <div class="text-[10px] hub-text-sub">~หน้า A5 / เวลาอ่าน</div>
-              <div id="quickStatA5" class="text-sm font-bold">0 หน้า</div>
-            </div>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-2">
-            <button id="btnQuickCleanAi" type="button"
-              class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-95 text-white text-xs font-semibold shadow-sm transition">
-              🧹 ล้างขยะ AI 1 คลิก
-            </button>
-            <button id="btnQuickCopyText" type="button" class="px-3.5 py-2 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-85 transition">
-              📋 คัดลอก
-            </button>
-            <button id="btnQuickSendHaus" type="button" class="px-3.5 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30 text-xs font-semibold transition">
-              🍑 ส่งเข้า Peachz Haus
-            </button>
-            <button id="btnQuickClearText" type="button" class="ml-auto px-3 py-2 rounded-xl text-rose-500 hover:bg-rose-500/10 text-xs font-semibold transition">
-              ล้างช่อง
-            </button>
-          </div>
-        </div>
-
-        <!-- Prompt Vault -->
-        <div class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-4 shadow-sm flex flex-col">
-          <div class="flex items-center justify-between gap-2">
-            <div>
-              <h2 class="text-sm sm:text-base font-bold">📝 คลัง Prompt ประจำตัว</h2>
-              <p class="text-[11px] hub-text-sub">เก็บคำสั่งเกลาสำนวน / ตรวจตัวละคร ใช้ซ้ำได้ในคลิกเดียว</p>
-            </div>
-            <button id="btnResetDefaultPrompts" type="button" class="px-2.5 py-1 rounded-xl hub-subtle border text-[11px] font-semibold">
-              คืนค่าเริ่มต้น
-            </button>
-          </div>
-
-          <!-- Add New Prompt -->
-          <div class="rounded-2xl hub-subtle border p-3 space-y-2">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              <input id="newPromptTitle" type="text" placeholder="ชื่อ Prompt (เช่น เกลานิยายรักจีน)"
-                class="sm:col-span-2 px-3 py-1.5 rounded-xl hub-surface border text-xs focus:outline-none" />
-              <input id="newPromptTag" type="text" placeholder="หมวด (เช่น เกลาสำนวน)"
-                class="px-3 py-1.5 rounded-xl hub-surface border text-xs focus:outline-none" />
-            </div>
-            <textarea id="newPromptBody" rows="2" placeholder="เนื้อหา Prompt..."
-              class="w-full px-3 py-2 rounded-xl hub-surface border text-xs focus:outline-none"></textarea>
-            <div class="flex justify-end">
-              <button id="btnAddPrompt" type="button"
-                class="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition">
-                ＋ เพิ่ม Prompt
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+              <button id="btnTogglePromptForm" type="button"
+                class="px-3.5 py-2 rounded-xl hub-btn-primary text-xs font-semibold shadow-sm hover:opacity-95 transition active:scale-95">
+                ＋ เพิ่ม Prompt ใหม่
+              </button>
+              <button id="btnExportPromptsJson" type="button"
+                class="px-3 py-2 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-90 transition">
+                📤 ส่งออก JSON
+              </button>
+              <button id="btnImportPromptsJson" type="button"
+                class="px-3 py-2 rounded-xl hub-subtle border text-xs font-semibold hover:opacity-90 transition">
+                📥 นำเข้า
+              </button>
+              <input id="inputImportPromptsFile" type="file" accept=".json,application/json" class="hidden" />
+              <button id="btnResetDefaultPrompts" type="button"
+                class="px-2.5 py-2 rounded-xl hub-subtle border text-[11px] font-semibold hover:opacity-90 transition">
+                คืนค่าเริ่มต้น
               </button>
             </div>
           </div>
 
-          <!-- Prompt List -->
-          <div id="promptVaultList" class="space-y-2.5 max-h-[460px] overflow-y-auto pr-1 custom-scrollbar"></div>
-        </div>
+          <!-- Collapsible Add / Edit Prompt Form -->
+          <div id="promptEditorWrap" class="hidden rounded-2xl hub-subtle border p-4 space-y-3.5">
+            <div class="flex items-center justify-between gap-2">
+              <h3 id="promptEditorHeading" class="text-xs sm:text-sm font-bold">✨ เพิ่ม Prompt ใหม่</h3>
+              <button id="btnClosePromptForm" type="button" class="text-xs hub-text-sub hover:opacity-80 px-2 py-1 rounded-lg">✕ ปิด</button>
+            </div>
+            <input id="editPromptId" type="hidden" value="" />
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <input id="newPromptTitle" type="text" placeholder="ชื่อ Prompt (เช่น เกลานิยายรักจีนโบราณ)"
+                class="sm:col-span-2 px-3.5 py-2 rounded-xl hub-surface border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50" />
+              <input id="newPromptTag" type="text" list="promptCategoryDatalist" placeholder="หมวดงาน (เช่น เกลาสำนวน)"
+                class="px-3.5 py-2 rounded-xl hub-surface border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50" />
+              <datalist id="promptCategoryDatalist">
+                <option value="เกลาสำนวน"></option>
+                <option value="แปลนิยาย"></option>
+                <option value="ตรวจความต่อเนื่อง"></option>
+                <option value="สรุป &amp; Bible"></option>
+                <option value="บทสนทนา"></option>
+                <option value="เขียนโค้ด"></option>
+                <option value="ค้นคว้า &amp; วิเคราะห์"></option>
+                <option value="สร้างภาพ / วิดีโอ"></option>
+              </datalist>
+            </div>
+
+            <!-- Multi-AI Selector -->
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="text-[11px] sm:text-xs font-semibold">🤖 AI ที่ใช้ร่วมกับ Prompt นี้ได้ (เลือกได้หลายตัว):</span>
+                <div class="flex items-center gap-1.5">
+                  <button id="btnSelectAllAis" type="button" class="px-2 py-0.5 rounded-lg hub-surface border text-[10px] font-semibold hover:opacity-85">เลือกทั้งหมด</button>
+                  <button id="btnClearAllAis" type="button" class="px-2 py-0.5 rounded-lg hub-surface border text-[10px] font-semibold hover:opacity-85">ล้างการเลือก</button>
+                </div>
+              </div>
+              <div id="promptAiSelector" class="flex flex-wrap gap-1.5"></div>
+              <div class="flex flex-wrap items-center gap-2 pt-1">
+                <input id="inputCustomAiName" type="text" placeholder="+ ชื่อ AI เพิ่มเติม (เช่น Poe, Kimi)"
+                  class="px-3 py-1.5 rounded-xl hub-surface border text-[11px] w-48 focus:outline-none focus:ring-2 focus:ring-pink-400/40" />
+                <input id="inputCustomAiUrl" type="url" placeholder="URL เว็บ AI (ไม่บังคับ เช่น https://...)"
+                  class="px-3 py-1.5 rounded-xl hub-surface border text-[11px] flex-1 min-w-[180px] focus:outline-none focus:ring-2 focus:ring-pink-400/40" />
+                <button id="btnAddCustomAi" type="button"
+                  class="px-3 py-1.5 rounded-xl hub-surface border text-[11px] font-semibold hover:opacity-85 transition">
+                  ＋ เพิ่ม AI เอง
+                </button>
+              </div>
+            </div>
+
+            <textarea id="newPromptBody" rows="5" placeholder="ใส่เนื้อหา Prompt ที่นี่ (รองรับข้อความยาวหลายย่อหน้า)..."
+              class="w-full px-3.5 py-2.5 rounded-xl hub-surface border text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-pink-400/50 custom-scrollbar"></textarea>
+
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <label class="inline-flex items-center gap-2 text-xs font-semibold cursor-pointer select-none">
+                <input id="newPromptPinned" type="checkbox" class="rounded accent-pink-500 w-4 h-4" />
+                <span>⭐ ปักหมุดไว้บนสุดของคลัง</span>
+              </label>
+              <div class="flex items-center gap-2">
+                <button id="btnCancelPromptEdit" type="button"
+                  class="px-3.5 py-2 rounded-xl hub-surface border text-xs font-semibold hover:opacity-85 transition">
+                  ยกเลิก
+                </button>
+                <button id="btnAddPrompt" type="button"
+                  class="px-4 py-2 rounded-xl hub-btn-primary text-xs font-semibold shadow-sm hover:opacity-95 transition">
+                  💾 บันทึก Prompt
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Filter Pills (All vs Per-AI) -->
+          <div class="space-y-2">
+            <div id="promptAiFilterBar" class="flex flex-wrap items-center gap-1.5"></div>
+          </div>
+
+          <!-- Search, Category Filter, Sort & Layout View -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
+            <div class="sm:col-span-5 relative">
+              <input id="promptSearchInput" type="search" placeholder="🔍 ค้นหาชื่อ Prompt, เนื้อหา, หรือชื่อ AI..."
+                class="w-full px-3.5 py-2 rounded-xl hub-subtle border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50" />
+            </div>
+            <div class="sm:col-span-3">
+              <select id="promptCategoryFilter"
+                class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs sm:text-sm focus:outline-none">
+                <option value="ALL">หมวดงาน: ทั้งหมด</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <select id="promptSortSelect"
+                class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs sm:text-sm focus:outline-none">
+                <option value="pinned_recent">⭐ ปักหมุด + ล่าสุด</option>
+                <option value="title_asc">ก–ฮ / A–Z</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2 flex items-center justify-end gap-1.5">
+              <span id="promptMatchCount" class="text-[11px] hub-text-sub mr-auto sm:mr-1">0 รายการ</span>
+              <button id="btnPromptViewGrid" type="button" title="มุมมองการ์ด"
+                class="px-2.5 py-1.5 rounded-xl text-xs font-semibold border transition">
+                ⊞ การ์ด
+              </button>
+              <button id="btnPromptViewList" type="button" title="มุมมองรายการ"
+                class="px-2.5 py-1.5 rounded-xl text-xs font-semibold border transition">
+                ☰ แถว
+              </button>
+            </div>
+          </div>
+
+          <!-- Prompt Cards Grid / List -->
+          <div id="promptVaultList" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
         </div>
       </section>
     </main>
@@ -968,29 +1066,59 @@
     const HUB_PROMPTS_KEY = 'peachz_hub_prompts_v1';
     const CLOUD_TRANS_LOCAL_KEY = 'peachz_cloud_translate_v1';
 
+    const DEFAULT_AI_PRESETS = [
+      { id: 'Gemini', name: 'Gemini', icon: '✨', url: 'https://gemini.google.com/app', badgeClass: 'bg-sky-500/15 text-sky-600 dark:text-sky-300 border-sky-500/30' },
+      { id: 'ChatGPT', name: 'ChatGPT', icon: '🤖', url: 'https://chatgpt.com/', badgeClass: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border-emerald-500/30' },
+      { id: 'Claude', name: 'Claude', icon: '🧠', url: 'https://claude.ai/new', badgeClass: 'bg-amber-500/15 text-amber-600 dark:text-amber-300 border-amber-500/30' },
+      { id: 'AntiGravity', name: 'AntiGravity', icon: '🚀', url: 'https://antigravity.google/', badgeClass: 'bg-pink-500/15 text-pink-600 dark:text-pink-300 border-pink-500/30' },
+      { id: 'Google AI Studio', name: 'Google AI Studio', icon: '🧪', url: 'https://aistudio.google.com/prompts/new_chat', badgeClass: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 border-indigo-500/30' },
+      { id: 'Google AI Mode', name: 'Google AI Mode', icon: '🔎', url: 'https://www.google.com/search?udm=50', badgeClass: 'bg-blue-500/15 text-blue-600 dark:text-blue-300 border-blue-500/30' },
+      { id: 'NotebookLM', name: 'NotebookLM', icon: '📓', url: 'https://notebooklm.google.com/', badgeClass: 'bg-teal-500/15 text-teal-600 dark:text-teal-300 border-teal-500/30' },
+      { id: 'DeepSeek', name: 'DeepSeek', icon: '🐋', url: 'https://chat.deepseek.com/', badgeClass: 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-300 border-cyan-500/30' },
+      { id: 'Grok', name: 'Grok', icon: '⚡', url: 'https://grok.com/', badgeClass: 'bg-slate-500/15 text-slate-600 dark:text-slate-300 border-slate-500/30' },
+      { id: 'Perplexity', name: 'Perplexity', icon: '🌐', url: 'https://www.perplexity.ai/', badgeClass: 'bg-violet-500/15 text-violet-600 dark:text-violet-300 border-violet-500/30' },
+      { id: 'Midjourney', name: 'Midjourney', icon: '🎨', url: 'https://www.midjourney.com/', badgeClass: 'bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-300 border-fuchsia-500/30' }
+    ];
+
     const DEFAULT_PROMPTS = [
       {
         id: 'p_polish',
         title: 'เกลาสำนวนนิยายลื่นไหล',
         tag: 'เกลาสำนวน',
+        ais: ['Gemini', 'Claude', 'ChatGPT'],
+        pinned: true,
+        createdAt: 1700000001000,
+        updatedAt: 1700000001000,
         body: 'ช่วยเกลาสำนวนภาษาไทยของบทนิยายด้านล่างให้สละสลวย อ่านลื่น เป็นธรรมชาติแบบนิยายแปลมืออาชีพ โดยรักษาความหมายเดิม จังหวะอารมณ์ และสรรพนามตัวละครไว้อย่างครบถ้วน ไม่ตัดทอนรายละเอียด:'
       },
       {
         id: 'p_check_bible',
         title: 'ตรวจชื่อตัวละคร & สรรพนามซ้ำ',
         tag: 'ตรวจความต่อเนื่อง',
+        ais: ['Gemini', 'Claude', 'NotebookLM'],
+        pinned: false,
+        createdAt: 1700000002000,
+        updatedAt: 1700000002000,
         body: 'ช่วยตรวจสอบบทแปลนี้เทียบกับรายชื่อตัวละครและคำศัพท์เฉพาะ เพื่อเช็กว่ามีชื่อตัวละคร คำเรียกขาน หรือระดับความสุภาพ (ผม/ฉัน/นาย/ท่าน/คุณ) จุดไหนหลุดจากคาร์แร็กเตอร์หรือแปลไม่สม่ำเสมอบ้าง:'
       },
       {
         id: 'p_recap',
         title: 'สรุปเหตุการณ์ท้ายบทอัปเดตคลังเรื่อง',
         tag: 'สรุป & Bible',
+        ais: ['NotebookLM', 'Gemini', 'Google AI Studio'],
+        pinned: false,
+        createdAt: 1700000003000,
+        updatedAt: 1700000003000,
         body: 'สรุปเหตุการณ์สำคัญในตอนนี้เป็นข้อๆ แบบกระชับแต่ครบปมสำคัญ พร้อมลิสต์ตัวละครที่ปรากฏใหม่ ความสัมพันธ์ที่เปลี่ยนไป และปมปริศนาที่ยังไม่คลี่คลาย:'
       },
       {
         id: 'p_dialogue',
         title: 'ปรับบทสนทนาให้มีมิติ & อารมณ์',
         tag: 'บทสนทนา',
+        ais: ['Claude', 'ChatGPT', 'Grok'],
+        pinned: false,
+        createdAt: 1700000004000,
+        updatedAt: 1700000004000,
         body: 'ช่วยปรับเฉพาะบทสนทนาในข้อความต่อไปนี้ให้ฟังดูเป็นคำพูดธรรมชาติของมนุษย์ มีน้ำหนักอารมณ์ น้ำเสียงกวน/อ้อน/เกรี้ยวกราดตามบริบท โดยยังคงความหมายเดิมไว้:'
       }
     ];
@@ -1021,6 +1149,17 @@
       keyTestResults: {},
       geminiUsageEvents: [],
       geminiUnsubscribe: null,
+      promptsUnsubscribe: null,
+      promptsSeededUid: null,
+      promptUi: {
+        activeAiFilter: 'ALL',
+        search: '',
+        category: 'ALL',
+        sort: 'pinned_recent',
+        viewMode: 'grid',
+        editorAis: new Set(['Gemini']),
+        editingId: null
+      },
       unifiedBible: [],
       conflictSourceKeys: new Set(),
       bibleShowAll: false,
@@ -1145,19 +1284,6 @@
       return entries;
     }
 
-    function cleanAiFormattingText(raw) {
-      return String(raw || '')
-        .replace(/\r\n/g, '\n')
-        .replace(/\*\*(.*?)\*\*/g, '$1')
-        .replace(/__(.*?)__/g, '$1')
-        .replace(/^[ \t]*#{1,6}[ \t]+/gm, '')
-        .replace(/\[(?:\d+(?:\s*[-–,]\s*\d+)*)\]/g, '')
-        .replace(/【\d+】/g, '')
-        .replace(/[ \t]+$/gm, '')
-        .replace(/\n{3,}/g, '\n\n')
-        .trim();
-    }
-
     // =====================================================================
     // THEME & SUITE DROPDOWN
     // =====================================================================
@@ -1189,7 +1315,7 @@
       document.querySelectorAll('.hub-tab-btn').forEach((btn) => {
         const isActive = btn.getAttribute('data-tab') === tabName;
         btn.className = isActive
-          ? 'hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition bg-gradient-to-r from-rose-500 to-orange-500 text-white shadow-sm'
+          ? 'hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition hub-tab-active text-white shadow-sm'
           : 'hub-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition hub-subtle border hover:opacity-90';
       });
     }
@@ -2747,69 +2873,489 @@
     }
 
     // =====================================================================
-    // QUICK TOOLS & PROMPT VAULT
+    // MULTI-AI PROMPT VAULT & FIRESTORE CLOUD SYNC
     // =====================================================================
-    function updateQuickTextStats() {
-      const st = countThaiStats($('quickTextInput').value);
-      $('quickStatWords').textContent = st.words.toLocaleString('th-TH');
-      $('quickStatRaw').textContent = st.rawWords.toLocaleString('th-TH');
-      $('quickStatChars').textContent = st.chars.toLocaleString('th-TH');
-      $('quickStatA5').textContent = `${st.a5Pages} หน้า (~${st.readMins} นาที)`;
+    function normalizePromptItem(raw, fallbackTs = Date.now()) {
+      const aisRaw = Array.isArray(raw?.ais) ? raw.ais : [];
+      const cleanAis = [...new Set(
+        aisRaw.map((x) => String(x || '').trim()).filter(Boolean)
+      )];
+      const createdAt = Number(raw?.createdAt || fallbackTs);
+      const updatedAt = Number(raw?.updatedAt || createdAt);
+      return {
+        id: String(raw?.id || ('p_' + fallbackTs + '_' + Math.random().toString(36).slice(2, 6))),
+        title: String(raw?.title || '').trim() || 'Prompt ไม่มีชื่อ',
+        tag: String(raw?.tag || '').trim() || 'ทั่วไป',
+        ais: cleanAis.length ? cleanAis : ['Gemini'],
+        pinned: Boolean(raw?.pinned),
+        createdAt,
+        updatedAt,
+        body: String(raw?.body || '')
+      };
     }
 
-    function loadPrompts() {
+    function normalizeCustomAis(list) {
+      if (!Array.isArray(list)) return [];
+      const seen = new Set(DEFAULT_AI_PRESETS.map((a) => a.id.toLowerCase()));
+      const out = [];
+      for (const item of list) {
+        const name = String(item?.name || item?.id || '').trim();
+        if (!name || seen.has(name.toLowerCase())) continue;
+        seen.add(name.toLowerCase());
+        const url = String(item?.url || '').trim();
+        out.push({
+          id: name,
+          name,
+          icon: String(item?.icon || '🤖').trim() || '🤖',
+          url: /^https?:\/\//i.test(url) ? url : '',
+          badgeClass: 'hub-badge-accent',
+          custom: true
+        });
+      }
+      return out;
+    }
+
+    function loadPromptsStore() {
       const saved = safeJsonParse(safeLocalGet(HUB_PROMPTS_KEY, ''), null);
-      if (Array.isArray(saved) && saved.length) return saved;
-      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(DEFAULT_PROMPTS));
-      return [...DEFAULT_PROMPTS];
+      const now = Date.now();
+      if (Array.isArray(saved)) {
+        const migrated = {
+          version: 2,
+          prompts: saved.map((p, idx) => normalizePromptItem(p, now - idx)),
+          customAis: [],
+          updatedAt: now
+        };
+        safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(migrated));
+        return migrated;
+      }
+      if (saved && typeof saved === 'object' && Array.isArray(saved.prompts)) {
+        return {
+          version: 2,
+          prompts: saved.prompts.map((p, idx) => normalizePromptItem(p, now - idx)),
+          customAis: normalizeCustomAis(saved.customAis),
+          updatedAt: Number(saved.updatedAt || 0)
+        };
+      }
+      const seeded = {
+        version: 2,
+        prompts: DEFAULT_PROMPTS.map((p) => normalizePromptItem(p, p.updatedAt || now)),
+        customAis: [],
+        updatedAt: 0
+      };
+      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(seeded));
+      return seeded;
+    }
+
+    function getAllAiCatalog(store = loadPromptsStore()) {
+      const merged = [...DEFAULT_AI_PRESETS, ...normalizeCustomAis(store.customAis)];
+      const seen = new Set(merged.map((a) => a.id.toLowerCase()));
+      for (const p of store.prompts) {
+        for (const aiName of (p.ais || [])) {
+          const key = String(aiName || '').trim().toLowerCase();
+          if (key && !seen.has(key)) {
+            seen.add(key);
+            merged.push({
+              id: aiName,
+              name: aiName,
+              icon: '🤖',
+              url: '',
+              badgeClass: 'hub-badge-accent',
+              custom: true
+            });
+          }
+        }
+      }
+      return merged;
+    }
+
+    function findAiMeta(name, catalog = getAllAiCatalog()) {
+      const key = String(name || '').trim().toLowerCase();
+      return catalog.find((a) => a.id.toLowerCase() === key || a.name.toLowerCase() === key) || {
+        id: name,
+        name,
+        icon: '🤖',
+        url: '',
+        badgeClass: 'hub-badge-accent'
+      };
+    }
+
+    function setPromptSyncStatus(label, isOk = true) {
+      const badge = $('promptSyncBadge');
+      if (!badge) return;
+      badge.textContent = label;
+      badge.className = isOk
+        ? 'px-2.5 py-0.5 rounded-full text-[11px] font-semibold hub-badge-accent border'
+        : 'px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/15 text-amber-600 dark:text-amber-300 border border-amber-500/30';
+    }
+
+    async function syncPromptsStoreToCloud(store) {
+      if (!hubState.user) return false;
+      setPromptSyncStatus('⏳ กำลังซิงก์ Cloud...', true);
+      try {
+        const updatedAt = Number(store.updatedAt || Date.now());
+        await setDoc(doc(db, 'users', hubState.user.uid, 'sync', 'peachzHubPrompts'), {
+          stateJson: JSON.stringify({
+            version: 2,
+            prompts: store.prompts,
+            customAis: store.customAis,
+            updatedAt
+          }),
+          updatedAt,
+          updatedBy: 'peachz-hub'
+        });
+        const hm = new Date(updatedAt).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+        setPromptSyncStatus(`☁️ ซิงก์ Cloud แล้ว (${hm})`, true);
+        return true;
+      } catch (err) {
+        console.warn('Prompt Cloud sync failed:', err);
+        setPromptSyncStatus('⚠️ ซิงก์ Cloud ไม่สำเร็จ (เก็บในเครื่องแล้ว)', false);
+        return false;
+      }
+    }
+
+    async function savePromptsAndSync(nextStore, opts = {}) {
+      const stamped = {
+        version: 2,
+        prompts: (nextStore.prompts || []).map((p) => normalizePromptItem(p)),
+        customAis: normalizeCustomAis(nextStore.customAis),
+        updatedAt: opts.preserveUpdatedAt ? Number(nextStore.updatedAt || Date.now()) : Date.now()
+      };
+      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(stamped));
+      renderPromptVault();
+      if (!opts.skipCloud) {
+        await syncPromptsStoreToCloud(stamped);
+      }
+    }
+
+    function renderPromptAiSelector(store = loadPromptsStore()) {
+      const host = $('promptAiSelector');
+      if (!host) return;
+      const catalog = getAllAiCatalog(store);
+      const selected = hubState.promptUi.editorAis;
+      host.innerHTML = catalog.map((ai) => {
+        const active = [...selected].some((s) => s.toLowerCase() === ai.id.toLowerCase());
+        return `
+          <button type="button" data-editor-ai="${escapeHtml(ai.id)}"
+            class="px-2.5 py-1 rounded-xl text-[11px] font-semibold border transition flex items-center gap-1 ${
+              active
+                ? 'hub-btn-primary border-transparent shadow-sm'
+                : 'hub-surface hover:opacity-85'
+            }">
+            <span>${escapeHtml(ai.icon)}</span>
+            <span>${escapeHtml(ai.name)}</span>
+          </button>
+        `;
+      }).join('');
+
+      host.querySelectorAll('[data-editor-ai]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-editor-ai');
+          const existing = [...hubState.promptUi.editorAis].find((s) => s.toLowerCase() === id.toLowerCase());
+          if (existing) {
+            hubState.promptUi.editorAis.delete(existing);
+          } else {
+            hubState.promptUi.editorAis.add(id);
+          }
+          renderPromptAiSelector();
+        });
+      });
+    }
+
+    function openPromptEditor(promptItem = null) {
+      const wrap = $('promptEditorWrap');
+      if (!wrap) return;
+      wrap.classList.remove('hidden');
+      if (promptItem) {
+        hubState.promptUi.editingId = promptItem.id;
+        $('editPromptId').value = promptItem.id;
+        $('promptEditorHeading').textContent = `✏️ แก้ไข Prompt: ${promptItem.title}`;
+        $('newPromptTitle').value = promptItem.title;
+        $('newPromptTag').value = promptItem.tag || '';
+        $('newPromptBody').value = promptItem.body || '';
+        $('newPromptPinned').checked = Boolean(promptItem.pinned);
+        hubState.promptUi.editorAis = new Set(promptItem.ais?.length ? promptItem.ais : ['Gemini']);
+        $('btnAddPrompt').textContent = '💾 บันทึกการแก้ไข';
+      } else {
+        hubState.promptUi.editingId = null;
+        $('editPromptId').value = '';
+        $('promptEditorHeading').textContent = '✨ เพิ่ม Prompt ใหม่';
+        $('newPromptTitle').value = '';
+        $('newPromptTag').value = '';
+        $('newPromptBody').value = '';
+        $('newPromptPinned').checked = false;
+        const activeFilter = hubState.promptUi.activeAiFilter;
+        hubState.promptUi.editorAis = new Set(
+          activeFilter && activeFilter !== 'ALL' && activeFilter !== 'PINNED' ? [activeFilter] : ['Gemini']
+        );
+        $('btnAddPrompt').textContent = '💾 บันทึก Prompt';
+      }
+      renderPromptAiSelector();
+      wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      $('newPromptTitle')?.focus();
+    }
+
+    function closePromptEditor() {
+      hubState.promptUi.editingId = null;
+      $('editPromptId').value = '';
+      $('promptEditorWrap')?.classList.add('hidden');
     }
 
     function renderPromptVault() {
-      const prompts = loadPrompts();
+      const store = loadPromptsStore();
+      const prompts = store.prompts;
+      const catalog = getAllAiCatalog(store);
+      const ui = hubState.promptUi;
+
+      // Update Category Filter Dropdown
+      const catSelect = $('promptCategoryFilter');
+      if (catSelect) {
+        const categories = [...new Set(prompts.map((p) => p.tag).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'th'));
+        const prevCat = ui.category;
+        catSelect.innerHTML = `<option value="ALL">หมวดงาน: ทั้งหมด (${prompts.length})</option>` +
+          categories.map((c) => {
+            const cnt = prompts.filter((p) => p.tag === c).length;
+            return `<option value="${escapeHtml(c)}">${escapeHtml(c)} (${cnt})</option>`;
+          }).join('');
+        catSelect.value = categories.includes(prevCat) ? prevCat : 'ALL';
+        ui.category = catSelect.value;
+      }
+
+      // Update AI Filter Bar
+      const filterBar = $('promptAiFilterBar');
+      if (filterBar) {
+        const pinnedCount = prompts.filter((p) => p.pinned).length;
+        const countForAi = (aiId) => prompts.filter((p) => (p.ais || []).some((x) => x.toLowerCase() === aiId.toLowerCase())).length;
+
+        const pills = [
+          { key: 'ALL', icon: '📚', label: 'ทั้งหมด', count: prompts.length },
+          { key: 'PINNED', icon: '⭐', label: 'ปักหมุด', count: pinnedCount },
+          ...catalog.map((ai) => ({ key: ai.id, icon: ai.icon, label: ai.name, count: countForAi(ai.id) }))
+        ];
+
+        filterBar.innerHTML = pills.map((pill) => {
+          const isActive = ui.activeAiFilter.toLowerCase() === pill.key.toLowerCase();
+          return `
+            <button type="button" data-filter-ai="${escapeHtml(pill.key)}"
+              class="px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold border transition flex items-center gap-1.5 ${
+                isActive
+                  ? 'hub-tab-active border-transparent shadow-sm'
+                  : 'hub-subtle hover:opacity-90'
+              }">
+              <span>${escapeHtml(pill.icon)}</span>
+              <span>${escapeHtml(pill.label)}</span>
+              <span class="px-1.5 py-0.2 rounded-full text-[10px] ${
+                isActive ? 'bg-white/25 text-white' : 'hub-surface border hub-text-sub'
+              }">${pill.count}</span>
+            </button>
+          `;
+        }).join('');
+
+        filterBar.querySelectorAll('[data-filter-ai]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            ui.activeAiFilter = btn.getAttribute('data-filter-ai') || 'ALL';
+            renderPromptVault();
+          });
+        });
+      }
+
+      // View toggle styling
+      const btnGrid = $('btnPromptViewGrid');
+      const btnList = $('btnPromptViewList');
+      if (btnGrid && btnList) {
+        btnGrid.className = ui.viewMode === 'grid'
+          ? 'px-2.5 py-1.5 rounded-xl text-xs font-semibold border hub-tab-active border-transparent transition'
+          : 'px-2.5 py-1.5 rounded-xl text-xs font-semibold border hub-subtle hover:opacity-90 transition';
+        btnList.className = ui.viewMode === 'list'
+          ? 'px-2.5 py-1.5 rounded-xl text-xs font-semibold border hub-tab-active border-transparent transition'
+          : 'px-2.5 py-1.5 rounded-xl text-xs font-semibold border hub-subtle hover:opacity-90 transition';
+      }
+
+      // Filter + Search + Sort
+      const q = ui.search.trim().toLowerCase();
+      let filtered = prompts.filter((p) => {
+        if (ui.activeAiFilter === 'PINNED' && !p.pinned) return false;
+        if (ui.activeAiFilter !== 'ALL' && ui.activeAiFilter !== 'PINNED') {
+          const hasAi = (p.ais || []).some((x) => x.toLowerCase() === ui.activeAiFilter.toLowerCase());
+          if (!hasAi) return false;
+        }
+        if (ui.category !== 'ALL' && p.tag !== ui.category) return false;
+        if (q) {
+          const hay = `${p.title} ${p.tag} ${p.body} ${(p.ais || []).join(' ')}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      filtered = [...filtered].sort((a, b) => {
+        if (ui.sort === 'title_asc') {
+          if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+          return a.title.localeCompare(b.title, 'th');
+        }
+        if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+        return Number(b.updatedAt || b.createdAt || 0) - Number(a.updatedAt || a.createdAt || 0);
+      });
+
+      if ($('promptMatchCount')) {
+        $('promptMatchCount').textContent = `${filtered.length} รายการ`;
+      }
+
       const listEl = $('promptVaultList');
-      if (!prompts.length) {
-        listEl.innerHTML = `<div class="p-5 text-center text-xs hub-text-sub rounded-2xl hub-subtle border">ยังไม่มี Prompt (กดคืนค่าเริ่มต้น หรือเพิ่มใหม่ด้านบน)</div>`;
+      if (!listEl) return;
+      listEl.className = ui.viewMode === 'grid'
+        ? 'grid grid-cols-1 md:grid-cols-2 gap-3.5'
+        : 'grid grid-cols-1 gap-2.5';
+
+      if (!filtered.length) {
+        listEl.innerHTML = `
+          <div class="md:col-span-2 p-8 text-center text-xs sm:text-sm hub-text-sub rounded-2xl hub-subtle border space-y-2">
+            <div>ยังไม่มี Prompt ที่ตรงกับตัวกรองนี้</div>
+            <button id="btnEmptyAddPrompt" type="button" class="px-3.5 py-1.5 rounded-xl hub-btn-primary text-xs font-semibold">
+              ＋ เพิ่ม Prompt ใหม่เลย
+            </button>
+          </div>`;
+        $('btnEmptyAddPrompt')?.addEventListener('click', () => openPromptEditor(null));
         return;
       }
 
-      listEl.innerHTML = prompts.map((p) => `
-        <div class="rounded-2xl hub-subtle border p-3.5 space-y-2">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2 min-w-0">
-              <span class="font-bold text-xs sm:text-sm truncate">${escapeHtml(p.title)}</span>
-              ${p.tag ? `<span class="px-2 py-0.5 rounded-full text-[10px] bg-orange-500/15 text-orange-500 font-semibold shrink-0">${escapeHtml(p.tag)}</span>` : ''}
+      listEl.innerHTML = filtered.map((p) => {
+        const aiList = p.ais?.length ? p.ais : ['Gemini'];
+        const aiBadges = aiList.map((aiName) => {
+          const meta = findAiMeta(aiName, catalog);
+          return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${meta.badgeClass}">${escapeHtml(meta.icon)} ${escapeHtml(meta.name)}</span>`;
+        }).join('');
+
+        const launchButtons = aiList
+          .map((aiName) => findAiMeta(aiName, catalog))
+          .filter((meta) => Boolean(meta.url))
+          .map((meta) => `
+            <button type="button" data-launch-prompt="${escapeHtml(p.id)}" data-launch-url="${escapeHtml(meta.url)}" data-launch-name="${escapeHtml(meta.name)}"
+              title="คัดลอก Prompt แล้วเปิด ${escapeHtml(meta.name)}"
+              class="px-2 py-1 rounded-lg hub-surface border text-[10px] font-semibold hover:opacity-85 transition flex items-center gap-1">
+              <span>${escapeHtml(meta.icon)}</span>
+              <span>↗ ${escapeHtml(meta.name)}</span>
+            </button>
+          `).join('');
+
+        return `
+          <article class="rounded-2xl hub-subtle border p-4 flex flex-col justify-between gap-3 transition hover:shadow-md ${p.pinned ? 'ring-1 ring-amber-400/50' : ''}">
+            <div class="space-y-2">
+              <div class="flex items-start justify-between gap-2">
+                <div class="space-y-1 min-w-0">
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    ${p.pinned ? '<span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold hub-badge-cream border">⭐ ปักหมุด</span>' : ''}
+                    <h3 class="font-bold text-xs sm:text-sm break-words">${escapeHtml(p.title)}</h3>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-1">
+                    ${p.tag ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold hub-badge-cream border">🏷️ ${escapeHtml(p.tag)}</span>` : ''}
+                    ${aiBadges}
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" data-pin-prompt="${escapeHtml(p.id)}" title="${p.pinned ? 'เลิกปักหมุด' : 'ปักหมุด'}"
+                    class="p-1.5 rounded-lg hub-surface border text-xs transition ${p.pinned ? 'text-amber-500' : 'hub-text-sub hover:opacity-85'}">
+                    ${p.pinned ? '★' : '☆'}
+                  </button>
+                  <button type="button" data-edit-prompt="${escapeHtml(p.id)}" title="แก้ไข"
+                    class="p-1.5 rounded-lg hub-surface border text-xs hub-text-sub hover:opacity-85 transition">
+                    ✏️
+                  </button>
+                  <button type="button" data-dup-prompt="${escapeHtml(p.id)}" title="ทำสำเนา"
+                    class="p-1.5 rounded-lg hub-surface border text-xs hub-text-sub hover:opacity-85 transition">
+                    📄
+                  </button>
+                  <button type="button" data-del-prompt="${escapeHtml(p.id)}" title="ลบ"
+                    class="p-1.5 rounded-lg hub-surface border text-xs text-rose-500 hover:bg-rose-500/15 transition">
+                    🗑️
+                  </button>
+                </div>
+              </div>
+
+              <p class="text-[11px] sm:text-xs hub-text-sub leading-relaxed whitespace-pre-wrap break-words ${ui.viewMode === 'grid' ? 'max-h-40 overflow-y-auto pr-1 custom-scrollbar' : ''}">${escapeHtml(p.body)}</p>
             </div>
-            <div class="flex items-center gap-1.5 shrink-0">
+
+            <div class="flex flex-wrap items-center justify-between gap-1.5 pt-2 border-t border-pink-200/40 dark:border-white/10">
+              <div class="flex flex-wrap items-center gap-1">
+                ${launchButtons}
+              </div>
               <button type="button" data-copy-prompt="${escapeHtml(p.id)}"
-                class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-rose-500 to-orange-500 text-white text-[11px] font-semibold">
-                คัดลอก
-              </button>
-              <button type="button" data-del-prompt="${escapeHtml(p.id)}"
-                class="px-2 py-1 rounded-lg text-rose-500 hover:bg-rose-500/15 text-[11px] font-semibold">
-                ลบ
+                class="ml-auto px-3 py-1.5 rounded-xl hub-btn-primary text-[11px] font-semibold shadow-sm hover:opacity-95 transition">
+                📋 คัดลอก Prompt
               </button>
             </div>
-          </div>
-          <p class="text-[11px] sm:text-xs hub-text-sub leading-relaxed whitespace-pre-wrap">${escapeHtml(p.body)}</p>
-        </div>
-      `).join('');
+          </article>
+        `;
+      }).join('');
 
       listEl.querySelectorAll('[data-copy-prompt]').forEach((btn) => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
           const id = btn.getAttribute('data-copy-prompt');
-          const p = loadPrompts().find((x) => x.id === id);
+          const p = loadPromptsStore().prompts.find((x) => x.id === id);
           if (!p) return;
-          navigator.clipboard?.writeText(p.body);
+          try { await navigator.clipboard?.writeText(p.body); } catch (e) {}
           showToast(`คัดลอก Prompt "${p.title}" แล้ว`);
         });
       });
 
-      listEl.querySelectorAll('[data-del-prompt]').forEach((btn) => {
+      listEl.querySelectorAll('[data-launch-prompt]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-launch-prompt');
+          const url = btn.getAttribute('data-launch-url');
+          const aiName = btn.getAttribute('data-launch-name');
+          const p = loadPromptsStore().prompts.find((x) => x.id === id);
+          if (!p || !url) return;
+          try { await navigator.clipboard?.writeText(p.body); } catch (e) {}
+          window.open(url, '_blank', 'noopener');
+          showToast(`คัดลอก "${p.title}" แล้ว & เปิด ${aiName} 🚀`);
+        });
+      });
+
+      listEl.querySelectorAll('[data-pin-prompt]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-pin-prompt');
+          const cur = loadPromptsStore();
+          const next = cur.prompts.map((x) => x.id === id ? { ...x, pinned: !x.pinned, updatedAt: Date.now() } : x);
+          await savePromptsAndSync({ ...cur, prompts: next });
+          showToast('อัปเดตสถานะปักหมุดแล้ว');
+        });
+      });
+
+      listEl.querySelectorAll('[data-edit-prompt]').forEach((btn) => {
         btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-edit-prompt');
+          const p = loadPromptsStore().prompts.find((x) => x.id === id);
+          if (p) openPromptEditor(p);
+        });
+      });
+
+      listEl.querySelectorAll('[data-dup-prompt]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-dup-prompt');
+          const cur = loadPromptsStore();
+          const src = cur.prompts.find((x) => x.id === id);
+          if (!src) return;
+          const now = Date.now();
+          const copyItem = {
+            ...src,
+            id: 'p_' + now + '_' + Math.random().toString(36).slice(2, 5),
+            title: `${src.title} (สำเนา)`,
+            pinned: false,
+            createdAt: now,
+            updatedAt: now
+          };
+          await savePromptsAndSync({ ...cur, prompts: [copyItem, ...cur.prompts] });
+          showToast(`ทำสำเนา "${src.title}" แล้ว`);
+        });
+      });
+
+      listEl.querySelectorAll('[data-del-prompt]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
           const id = btn.getAttribute('data-del-prompt');
-          const next = loadPrompts().filter((x) => x.id !== id);
-          safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(next));
-          renderPromptVault();
+          const cur = loadPromptsStore();
+          const target = cur.prompts.find((x) => x.id === id);
+          if (!target) return;
+          if (!confirm(`ต้องการลบ Prompt "${target.title}" ใช่หรือไม่?`)) return;
+          const next = cur.prompts.filter((x) => x.id !== id);
+          await savePromptsAndSync({ ...cur, prompts: next });
           showToast('ลบ Prompt เรียบร้อย');
         });
       });
@@ -2820,15 +3366,21 @@
     // =====================================================================
     applyTheme(safeLocalGet(HUB_THEME_KEY, 'dark'));
     renderPromptVault();
-    updateQuickTextStats();
+    renderPromptAiSelector();
 
     onAuthStateChanged(auth, async (user) => {
       if (typeof hubState.geminiUnsubscribe === 'function') {
         hubState.geminiUnsubscribe();
         hubState.geminiUnsubscribe = null;
       }
+      if (typeof hubState.promptsUnsubscribe === 'function') {
+        hubState.promptsUnsubscribe();
+        hubState.promptsUnsubscribe = null;
+      }
       if (!user) {
         hubState.user = null;
+        hubState.promptsSeededUid = null;
+        setPromptSyncStatus('☁️ รอล็อกอินเพื่อซิงก์ Cloud', false);
         $('appShell').classList.add('hidden');
         $('loginGate').classList.remove('hidden');
         return;
@@ -2877,6 +3429,44 @@
         renderQuotaSection();
       }, (err) => {
         console.warn('Gemini usage snapshot skipped:', err?.message || err);
+      });
+
+      const promptsSyncRef = doc(db, 'users', user.uid, 'sync', 'peachzHubPrompts');
+      hubState.promptsUnsubscribe = onSnapshot(promptsSyncRef, async (snap) => {
+        const localStore = loadPromptsStore();
+        if (!snap.exists()) {
+          if (hubState.promptsSeededUid !== user.uid) {
+            hubState.promptsSeededUid = user.uid;
+            await syncPromptsStoreToCloud({ ...localStore, updatedAt: localStore.updatedAt || Date.now() });
+          }
+          return;
+        }
+        const parsed = safeJsonParse(snap.data()?.stateJson, null);
+        if (!parsed || !Array.isArray(parsed.prompts)) return;
+        const remoteTs = Number(parsed.updatedAt || snap.data()?.updatedAt || 0);
+        const localTs = Number(localStore.updatedAt || 0);
+        if (remoteTs > localTs) {
+          const adopted = {
+            version: 2,
+            prompts: parsed.prompts.map((p, idx) => normalizePromptItem(p, remoteTs - idx)),
+            customAis: normalizeCustomAis(parsed.customAis),
+            updatedAt: remoteTs
+          };
+          safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(adopted));
+          renderPromptVault();
+          renderPromptAiSelector(adopted);
+          const hm = new Date(remoteTs).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+          setPromptSyncStatus(`☁️ ซิงก์ Cloud แล้ว (${hm})`, true);
+        } else if (localTs > remoteTs && hubState.promptsSeededUid !== user.uid) {
+          hubState.promptsSeededUid = user.uid;
+          await syncPromptsStoreToCloud(localStore);
+        } else {
+          const hm = remoteTs ? new Date(remoteTs).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) : '';
+          setPromptSyncStatus(hm ? `☁️ ซิงก์ Cloud แล้ว (${hm})` : '☁️ ซิงก์ Cloud แล้ว', true);
+        }
+      }, (err) => {
+        console.warn('Prompt Vault snapshot skipped:', err?.message || err);
+        setPromptSyncStatus('⚠️ ซิงก์ Cloud ไม่สำเร็จ (ใช้ข้อมูลในเครื่อง)', false);
       });
 
       await loadAllSuiteData();
@@ -3141,57 +3731,160 @@
       downloadTextFile('\uFEFF' + lines.join('\r\n'), `peachz_bible_${getLocalDateKey()}.csv`, 'text/csv;charset=utf-8');
     });
 
-    // Quick Tools & Prompt Vault Events
-    $('quickTextInput').addEventListener('input', updateQuickTextStats);
-    $('btnQuickCleanAi').addEventListener('click', () => {
-      const cleaned = cleanAiFormattingText($('quickTextInput').value);
-      $('quickTextInput').value = cleaned;
-      updateQuickTextStats();
-      showToast('ล้างขยะ AI เรียบร้อย ✨');
+    // Multi-AI Prompt Vault Events
+    $('btnTogglePromptForm')?.addEventListener('click', () => {
+      const wrap = $('promptEditorWrap');
+      if (wrap && !wrap.classList.contains('hidden') && !hubState.promptUi.editingId) {
+        closePromptEditor();
+      } else {
+        openPromptEditor(null);
+      }
     });
-    $('btnQuickCopyText').addEventListener('click', () => {
-      const txt = $('quickTextInput').value;
-      if (!txt) { showToast('ไม่มีข้อความให้คัดลอก'); return; }
-      navigator.clipboard?.writeText(txt);
-      showToast('คัดลอกข้อความแล้ว');
+    $('btnClosePromptForm')?.addEventListener('click', closePromptEditor);
+    $('btnCancelPromptEdit')?.addEventListener('click', closePromptEditor);
+
+    $('btnSelectAllAis')?.addEventListener('click', () => {
+      hubState.promptUi.editorAis = new Set(getAllAiCatalog().map((a) => a.id));
+      renderPromptAiSelector();
     });
-    $('btnQuickClearText').addEventListener('click', () => {
-      $('quickTextInput').value = '';
-      updateQuickTextStats();
-    });
-    $('btnQuickSendHaus').addEventListener('click', () => {
-      const txt = $('quickTextInput').value;
-      if (!txt.trim()) { showToast('กรุณาวางข้อความก่อนส่ง'); return; }
-      safeLocalSet(SUITE_HANDOFF_KEY, JSON.stringify({
-        target: 'peachz-pwa',
-        sourceApp: 'Peachz Hub',
-        title: 'ข้อความจาก Peachz Hub',
-        content: txt,
-        createdAt: Date.now()
-      }));
-      window.open('https://dblack-dev.github.io/peachz-haus/?handoff=1', '_blank', 'noopener');
-      showToast('ส่งเข้า Peachz Haus Studio แล้ว 🍑');
+    $('btnClearAllAis')?.addEventListener('click', () => {
+      hubState.promptUi.editorAis.clear();
+      renderPromptAiSelector();
     });
 
-    $('btnAddPrompt').addEventListener('click', () => {
-      const title = $('newPromptTitle').value.trim();
-      const tag = $('newPromptTag').value.trim() || 'ทั่วไป';
-      const body = $('newPromptBody').value.trim();
+    $('btnAddCustomAi')?.addEventListener('click', async () => {
+      const name = $('inputCustomAiName')?.value.trim() || '';
+      const url = $('inputCustomAiUrl')?.value.trim() || '';
+      if (!name) { showToast('กรุณากรอกชื่อ AI ที่ต้องการเพิ่ม'); return; }
+      const cur = loadPromptsStore();
+      const catalog = getAllAiCatalog(cur);
+      const exists = catalog.find((a) => a.id.toLowerCase() === name.toLowerCase());
+      if (exists) {
+        hubState.promptUi.editorAis.add(exists.id);
+        renderPromptAiSelector(cur);
+        $('inputCustomAiName').value = '';
+        $('inputCustomAiUrl').value = '';
+        showToast(`เลือก "${exists.name}" แล้ว`);
+        return;
+      }
+      const nextCustom = [...cur.customAis, {
+        id: name,
+        name,
+        icon: '🤖',
+        url: /^https?:\/\//i.test(url) ? url : '',
+        badgeClass: 'hub-badge-accent',
+        custom: true
+      }];
+      hubState.promptUi.editorAis.add(name);
+      $('inputCustomAiName').value = '';
+      $('inputCustomAiUrl').value = '';
+      await savePromptsAndSync({ ...cur, customAis: nextCustom });
+      renderPromptAiSelector();
+      showToast(`เพิ่ม AI "${name}" แล้ว`);
+    });
+
+    $('btnAddPrompt')?.addEventListener('click', async () => {
+      const title = $('newPromptTitle')?.value.trim() || '';
+      const tag = $('newPromptTag')?.value.trim() || 'ทั่วไป';
+      const body = $('newPromptBody')?.value.trim() || '';
+      const pinned = Boolean($('newPromptPinned')?.checked);
+      const selectedAis = [...hubState.promptUi.editorAis];
       if (!title || !body) { showToast('กรุณากรอกชื่อและเนื้อหา Prompt'); return; }
-      const list = loadPrompts();
-      list.unshift({ id: 'p_' + Date.now(), title, tag, body });
-      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(list));
-      $('newPromptTitle').value = '';
-      $('newPromptTag').value = '';
-      $('newPromptBody').value = '';
-      renderPromptVault();
-      showToast('เพิ่ม Prompt ใหม่แล้ว');
+      if (!selectedAis.length) { showToast('กรุณาเลือก AI อย่างน้อย 1 ตัว'); return; }
+
+      const cur = loadPromptsStore();
+      const now = Date.now();
+      const editingId = hubState.promptUi.editingId;
+      let nextPrompts;
+      if (editingId) {
+        nextPrompts = cur.prompts.map((x) => x.id === editingId
+          ? { ...x, title, tag, body, pinned, ais: selectedAis, updatedAt: now }
+          : x
+        );
+      } else {
+        const newItem = {
+          id: 'p_' + now + '_' + Math.random().toString(36).slice(2, 5),
+          title,
+          tag,
+          ais: selectedAis,
+          pinned,
+          createdAt: now,
+          updatedAt: now,
+          body
+        };
+        nextPrompts = [newItem, ...cur.prompts];
+      }
+      closePromptEditor();
+      await savePromptsAndSync({ ...cur, prompts: nextPrompts });
+      showToast(editingId ? `บันทึกการแก้ไข "${title}" แล้ว` : `เพิ่ม Prompt "${title}" แล้ว`);
     });
 
-    $('btnResetDefaultPrompts').addEventListener('click', () => {
-      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(DEFAULT_PROMPTS));
+    $('promptSearchInput')?.addEventListener('input', (e) => {
+      hubState.promptUi.search = e.target.value || '';
       renderPromptVault();
-      showToast('คืนค่า Prompt เริ่มต้นแล้ว');
+    });
+    $('promptCategoryFilter')?.addEventListener('change', (e) => {
+      hubState.promptUi.category = e.target.value || 'ALL';
+      renderPromptVault();
+    });
+    $('promptSortSelect')?.addEventListener('change', (e) => {
+      hubState.promptUi.sort = e.target.value || 'pinned_recent';
+      renderPromptVault();
+    });
+    $('btnPromptViewGrid')?.addEventListener('click', () => {
+      hubState.promptUi.viewMode = 'grid';
+      renderPromptVault();
+    });
+    $('btnPromptViewList')?.addEventListener('click', () => {
+      hubState.promptUi.viewMode = 'list';
+      renderPromptVault();
+    });
+
+    $('btnExportPromptsJson')?.addEventListener('click', () => {
+      const store = loadPromptsStore();
+      if (!store.prompts.length) { showToast('ยังไม่มี Prompt ให้ส่งออก'); return; }
+      downloadTextFile(JSON.stringify(store, null, 2), `peachz_prompts_${getLocalDateKey()}.json`, 'application/json;charset=utf-8');
+      showToast(`ส่งออก ${store.prompts.length} Prompt เรียบร้อย`);
+    });
+
+    $('btnImportPromptsJson')?.addEventListener('click', () => {
+      $('inputImportPromptsFile')?.click();
+    });
+    $('inputImportPromptsFile')?.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      e.target.value = '';
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+        const incomingPrompts = Array.isArray(parsed) ? parsed : (Array.isArray(parsed?.prompts) ? parsed.prompts : null);
+        if (!incomingPrompts) { showToast('ไฟล์ JSON ไม่ถูกต้อง'); return; }
+        const cur = loadPromptsStore();
+        const byId = new Map(cur.prompts.map((p) => [p.id, p]));
+        const now = Date.now();
+        incomingPrompts.forEach((raw, idx) => {
+          const item = normalizePromptItem(raw, now - idx);
+          byId.set(item.id, item);
+        });
+        const mergedCustom = normalizeCustomAis([...(cur.customAis || []), ...(Array.isArray(parsed?.customAis) ? parsed.customAis : [])]);
+        await savePromptsAndSync({ version: 2, prompts: [...byId.values()], customAis: mergedCustom });
+        showToast(`นำเข้าและซิงก์ ${incomingPrompts.length} Prompt แล้ว`);
+      } catch (err) {
+        showToast('อ่านไฟล์ JSON ไม่สำเร็จ: ' + (err?.message || err));
+      }
+    });
+
+    $('btnResetDefaultPrompts')?.addEventListener('click', async () => {
+      if (!confirm('ต้องการคืนค่าคลัง Prompt เป็นค่าเริ่มต้นใช่หรือไม่? (รวมถึงบน Cloud)')) return;
+      const now = Date.now();
+      const seeded = {
+        version: 2,
+        prompts: DEFAULT_PROMPTS.map((p, idx) => normalizePromptItem(p, now - idx)),
+        customAis: []
+      };
+      closePromptEditor();
+      await savePromptsAndSync(seeded);
+      showToast('คืนค่า Prompt เริ่มต้นและซิงก์ Cloud แล้ว');
     });
 
     window.addEventListener('focus', () => {
