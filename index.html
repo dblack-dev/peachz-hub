@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Peachz Hub — ศูนย์รวมนักเขียน &amp; นักแปล</title>
   <link rel="manifest" href="./manifest.json" />
-  <meta name="theme-color" content="#ee6b9e" />
+  <meta name="theme-color" content="#f97316" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="icon" type="image/x-icon" href="./favicon.ico" />
@@ -32,31 +32,28 @@
 
   <style>
     :root {
-      --hub-bg: #fff6f8;
+      --hub-bg: #fff9f5;
       --hub-surface: #ffffff;
-      --hub-subtle: #fceef3;
-      --hub-border: #f3c6d7;
-      --hub-text: #2a1a18;
-      --hub-sub: #7a5c58;
-      --hub-accent: #ec5f99;
-      --hub-accent-2: #f7d774;
+      --hub-subtle: #fff1e6;
+      --hub-border: #fed7aa;
+      --hub-text: #1c1917;
+      --hub-sub: #78716c;
+      --hub-accent: #f97316;
+      --hub-accent-2: #fb7185;
     }
     html.dark {
-      --hub-bg: #1d1819;
-      --hub-surface: #2a2425;
-      --hub-subtle: #3a3234;
-      --hub-border: #55484b;
-      --hub-text: #fdf2f5;
-      --hub-sub: #c9b3ba;
-      --hub-accent: #f26ea3;
-      --hub-accent-2: #f9c5d5;
+      --hub-bg: #0b1120;
+      --hub-surface: #111827;
+      --hub-subtle: #1e293b;
+      --hub-border: #334155;
+      --hub-text: #f1f5f9;
+      --hub-sub: #94a3b8;
+      --hub-accent: #fb7185;
+      --hub-accent-2: #f97316;
     }
     body {
       font-family: 'Prompt', 'Sarabun', system-ui, sans-serif;
       background-color: var(--hub-bg);
-      background-image:
-        radial-gradient(circle at 12% -6%, rgba(242, 110, 163, 0.14), transparent 38%),
-        radial-gradient(circle at 92% 4%, rgba(247, 215, 116, 0.10), transparent 34%);
       color: var(--hub-text);
       transition: background-color 0.2s ease, color 0.2s ease;
     }
@@ -72,56 +69,56 @@
       color: var(--hub-sub);
     }
     .hub-btn-primary {
-      background: linear-gradient(135deg, #ec5f99 0%, #f48bb5 100%);
+      background: linear-gradient(to right, #f43f5e, #f97316);
       color: #ffffff;
     }
     .hub-tab-active {
-      background: linear-gradient(135deg, #ec5f99 0%, #f284b0 100%);
+      background: linear-gradient(to right, #f43f5e, #f97316);
       color: #ffffff;
     }
     .hub-badge-accent {
-      background-color: rgba(236, 95, 153, 0.14);
-      color: #ec5f99;
-      border-color: rgba(236, 95, 153, 0.32);
+      background-color: rgba(249, 115, 22, 0.15);
+      color: #ea580c;
+      border-color: rgba(249, 115, 22, 0.30);
     }
     html.dark .hub-badge-accent {
-      background-color: rgba(242, 110, 163, 0.18);
-      color: #f9c5d5;
-      border-color: rgba(242, 110, 163, 0.35);
+      background-color: rgba(249, 115, 22, 0.16);
+      color: #fdba74;
+      border-color: rgba(249, 115, 22, 0.32);
     }
     .hub-badge-cream {
-      background-color: rgba(247, 215, 116, 0.22);
-      color: #8a5a00;
-      border-color: rgba(234, 179, 8, 0.35);
+      background-color: rgba(245, 158, 11, 0.14);
+      color: #b45309;
+      border-color: rgba(245, 158, 11, 0.30);
     }
     html.dark .hub-badge-cream {
-      background-color: rgba(247, 215, 116, 0.15);
-      color: #fde68a;
-      border-color: rgba(247, 215, 116, 0.32);
+      background-color: rgba(251, 191, 36, 0.14);
+      color: #fcd34d;
+      border-color: rgba(251, 191, 36, 0.30);
     }
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: rgba(242, 110, 163, 0.35);
+      background: rgba(148, 163, 184, 0.35);
       border-radius: 9999px;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-pink-400/30">
+<body class="min-h-screen flex flex-col selection:bg-orange-500/30">
 
   <!-- =====================================================================
        SOLE-OWNER LOGIN GATE
        ===================================================================== -->
-  <div id="loginGate" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#141011]/92 backdrop-blur-sm">
-    <div class="max-w-md w-full rounded-3xl bg-white dark:bg-[#2a2425] border border-pink-200 dark:border-[#55484b] shadow-2xl p-6 sm:p-8 text-center space-y-5">
-      <div class="w-20 h-20 mx-auto rounded-2xl bg-[#3a3234]/10 dark:bg-[#1d1819] border border-pink-300/50 dark:border-pink-400/30 flex items-center justify-center shadow-lg p-1.5">
+  <div id="loginGate" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm">
+    <div class="max-w-md w-full rounded-3xl bg-white dark:bg-slate-900 border border-orange-200 dark:border-slate-700 shadow-2xl p-6 sm:p-8 text-center space-y-5">
+      <div class="w-20 h-20 mx-auto rounded-2xl bg-orange-50 dark:bg-slate-800 border border-orange-200 dark:border-slate-700 flex items-center justify-center shadow-lg p-1.5">
         <img src="./icon-256.png" alt="Peachz Hub" class="w-16 h-16 object-contain drop-shadow-md" />
       </div>
       <div class="space-y-1.5">
-        <h1 class="text-xl sm:text-2xl font-bold text-[#2a1a18] dark:text-[#fdf2f5]">Peachz Hub</h1>
-        <p class="text-xs sm:text-sm text-[#7a5c58] dark:text-[#c9b3ba]">
+        <h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Peachz Hub</h1>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
           ศูนย์รวมควบคุม Peachz Writer &amp; Reader Suite (เฉพาะบัญชีเจ้าของคลัง)
         </p>
       </div>
@@ -152,12 +149,12 @@
         <!-- Left Brand -->
         <div class="flex items-center gap-2.5 min-w-0">
           <img src="./icon-256.png" alt="Peachz Hub"
-            class="w-10 h-10 rounded-2xl object-contain bg-[#3a3234]/10 dark:bg-[#1d1819]/80 p-0.5 border border-pink-300/50 dark:border-pink-400/30 shadow-sm shrink-0" />
+            class="w-10 h-10 rounded-2xl object-contain bg-orange-50 dark:bg-slate-800 p-0.5 border border-orange-200 dark:border-slate-700 shadow-sm shrink-0" />
           <div class="min-w-0">
             <div class="flex items-center gap-2">
               <h1 class="font-bold text-sm sm:text-base truncate">Peachz Hub</h1>
               <span class="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold hub-badge-accent border">
-                Suite Center v1.6
+                Suite Center v1.7
               </span>
             </div>
             <p id="syncStatusSub" class="text-[11px] hub-text-sub truncate">รอซิงค์ข้อมูลจาก Cloud...</p>
@@ -226,7 +223,7 @@
               <span id="userDisplayName" class="hidden md:inline text-xs font-medium max-w-[110px] truncate"></span>
             </button>
             <div id="userDropdown" class="hidden absolute right-0 mt-2 w-60 rounded-2xl hub-surface border shadow-2xl p-3 z-50 space-y-2.5">
-              <div class="pb-2.5 border-b border-pink-200/50 dark:border-[#55484b]">
+              <div class="pb-2.5 border-b border-slate-200 dark:border-slate-700">
                 <div id="userDropdownName" class="text-xs font-semibold truncate">ผู้ใช้</div>
                 <div id="userDropdownEmail" class="text-[11px] hub-text-sub truncate"></div>
               </div>
@@ -898,9 +895,9 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <input id="newPromptTitle" type="text" placeholder="ชื่อ Prompt (เช่น เกลานิยายรักจีนโบราณ)"
-                class="sm:col-span-2 px-3.5 py-2 rounded-xl hub-surface border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50" />
+                class="sm:col-span-2 px-3.5 py-2 rounded-xl hub-surface border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/40" />
               <input id="newPromptTag" type="text" list="promptCategoryDatalist" placeholder="หมวดงาน (เช่น เกลาสำนวน)"
-                class="px-3.5 py-2 rounded-xl hub-surface border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50" />
+                class="px-3.5 py-2 rounded-xl hub-surface border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/40" />
               <datalist id="promptCategoryDatalist">
                 <option value="เกลาสำนวน"></option>
                 <option value="แปลนิยาย"></option>
@@ -925,9 +922,9 @@
               <div id="promptAiSelector" class="flex flex-wrap gap-1.5"></div>
               <div class="flex flex-wrap items-center gap-2 pt-1">
                 <input id="inputCustomAiName" type="text" placeholder="+ ชื่อ AI เพิ่มเติม (เช่น Poe, Kimi)"
-                  class="px-3 py-1.5 rounded-xl hub-surface border text-[11px] w-48 focus:outline-none focus:ring-2 focus:ring-pink-400/40" />
+                  class="px-3 py-1.5 rounded-xl hub-surface border text-[11px] w-48 focus:outline-none focus:ring-2 focus:ring-orange-500/40" />
                 <input id="inputCustomAiUrl" type="url" placeholder="URL เว็บ AI (ไม่บังคับ เช่น https://...)"
-                  class="px-3 py-1.5 rounded-xl hub-surface border text-[11px] flex-1 min-w-[180px] focus:outline-none focus:ring-2 focus:ring-pink-400/40" />
+                  class="px-3 py-1.5 rounded-xl hub-surface border text-[11px] flex-1 min-w-[180px] focus:outline-none focus:ring-2 focus:ring-orange-500/40" />
                 <button id="btnAddCustomAi" type="button"
                   class="px-3 py-1.5 rounded-xl hub-surface border text-[11px] font-semibold hover:opacity-85 transition">
                   ＋ เพิ่ม AI เอง
@@ -936,11 +933,11 @@
             </div>
 
             <textarea id="newPromptBody" rows="5" placeholder="ใส่เนื้อหา Prompt ที่นี่ (รองรับข้อความยาวหลายย่อหน้า)..."
-              class="w-full px-3.5 py-2.5 rounded-xl hub-surface border text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-pink-400/50 custom-scrollbar"></textarea>
+              class="w-full px-3.5 py-2.5 rounded-xl hub-surface border text-xs sm:text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-orange-500/40 custom-scrollbar"></textarea>
 
             <div class="flex flex-wrap items-center justify-between gap-2">
               <label class="inline-flex items-center gap-2 text-xs font-semibold cursor-pointer select-none">
-                <input id="newPromptPinned" type="checkbox" class="rounded accent-pink-500 w-4 h-4" />
+                <input id="newPromptPinned" type="checkbox" class="rounded accent-orange-500 w-4 h-4" />
                 <span>⭐ ปักหมุดไว้บนสุดของคลัง</span>
               </label>
               <div class="flex items-center gap-2">
@@ -965,7 +962,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
             <div class="sm:col-span-5 relative">
               <input id="promptSearchInput" type="search" placeholder="🔍 ค้นหาชื่อ Prompt, เนื้อหา, หรือชื่อ AI..."
-                class="w-full px-3.5 py-2 rounded-xl hub-subtle border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-400/50" />
+                class="w-full px-3.5 py-2 rounded-xl hub-subtle border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/40" />
             </div>
             <div class="sm:col-span-3">
               <select id="promptCategoryFilter"
@@ -1149,8 +1146,20 @@
       keyTestResults: {},
       geminiUsageEvents: [],
       geminiUnsubscribe: null,
+      hubStateUnsubscribe: null,
+      hubStateSeededUid: null,
+      theme: 'dark',
+      goals: null,
+      quota: null,
+      hubStateUpdatedAt: 0,
       promptsUnsubscribe: null,
       promptsSeededUid: null,
+      promptsStore: {
+        version: 2,
+        prompts: DEFAULT_PROMPTS.map((p) => ({ ...p, ais: [...p.ais] })),
+        customAis: [],
+        updatedAt: 0
+      },
       promptUi: {
         activeAiFilter: 'ALL',
         search: '',
@@ -1285,14 +1294,57 @@
     }
 
     // =====================================================================
-    // THEME & SUITE DROPDOWN
+    // THEME, HUB CLOUD STATE & SUITE DROPDOWN (ZERO localStorage PERSISTENCE)
     // =====================================================================
-    function applyTheme(themeName) {
+    const LEGACY_HUB_STORAGE_KEYS = [
+      HUB_THEME_KEY,
+      HUB_GOALS_KEY,
+      HUB_QUOTA_KEY,
+      HUB_PROMPTS_KEY,
+      CLOUD_TRANS_LOCAL_KEY,
+      GEMINI_USAGE_LOCAL_KEY
+    ];
+
+    function clearLegacyHubLocalStorage(keys = LEGACY_HUB_STORAGE_KEYS) {
+      keys.forEach((k) => {
+        try { localStorage.removeItem(k); } catch (e) {}
+      });
+    }
+
+    async function syncHubStateToCloud(opts = {}) {
+      if (!hubState.user) return false;
+      const updatedAt = opts.preserveUpdatedAt
+        ? Number(hubState.hubStateUpdatedAt || Date.now())
+        : Date.now();
+      hubState.hubStateUpdatedAt = updatedAt;
+      try {
+        await setDoc(doc(db, 'users', hubState.user.uid, 'sync', 'peachzHubState'), {
+          stateJson: JSON.stringify({
+            version: 1,
+            theme: hubState.theme || 'dark',
+            goals: hubState.goals,
+            quota: hubState.quota,
+            updatedAt
+          }),
+          updatedAt,
+          updatedBy: 'peachz-hub'
+        });
+        return true;
+      } catch (err) {
+        console.warn('Hub state Cloud sync failed:', err);
+        return false;
+      }
+    }
+
+    function applyTheme(themeName, opts = {}) {
       const isDark = themeName !== 'light';
+      hubState.theme = isDark ? 'dark' : 'light';
       document.documentElement.classList.toggle('dark', isDark);
       const btn = $('btnToggleTheme');
       if (btn) btn.textContent = isDark ? '☀️' : '🌙';
-      safeLocalSet(HUB_THEME_KEY, isDark ? 'dark' : 'light');
+      if (opts.sync && hubState.user) {
+        syncHubStateToCloud();
+      }
     }
 
     function closeAllDropdowns() {
@@ -1871,11 +1923,11 @@
     }
 
     // =====================================================================
-    // GOALS & POMODORO SPRINT
+    // GOALS & POMODORO SPRINT (CLOUD-FIRST, IN-MEMORY)
     // =====================================================================
     function loadGoalsState() {
       const today = getLocalDateKey();
-      const saved = safeJsonParse(safeLocalGet(HUB_GOALS_KEY, ''), null);
+      const saved = hubState.goals;
       if (saved && saved.date === today) return saved;
       const fresh = {
         date: today,
@@ -1885,12 +1937,13 @@
         targetChapters: saved?.targetChapters || 3,
         sprintsDone: 0
       };
-      safeLocalSet(HUB_GOALS_KEY, JSON.stringify(fresh));
+      hubState.goals = fresh;
       return fresh;
     }
 
     function saveGoalsState(g) {
-      safeLocalSet(HUB_GOALS_KEY, JSON.stringify(g));
+      hubState.goals = { ...g };
+      syncHubStateToCloud();
     }
 
     function renderGoalSection() {
@@ -2132,7 +2185,17 @@
         parsed = safeJsonParse(data?.stateJson, null);
       }
       if (!parsed) {
-        parsed = safeJsonParse(safeLocalGet(CLOUD_TRANS_LOCAL_KEY, ''), null);
+        const legacyRaw = safeLocalGet(CLOUD_TRANS_LOCAL_KEY, '');
+        parsed = safeJsonParse(legacyRaw, null);
+        if (parsed && hubState.user) {
+          setDoc(doc(db, 'users', hubState.user.uid, 'sync', 'peachzCloudTranslate'), {
+            stateJson: JSON.stringify(parsed),
+            updatedAt: Number(parsed.updatedAt || Date.now()),
+            updatedBy: 'peachz-hub-migrate'
+          }).then(() => clearLegacyHubLocalStorage([CLOUD_TRANS_LOCAL_KEY])).catch(() => {});
+        }
+      } else {
+        clearLegacyHubLocalStorage([CLOUD_TRANS_LOCAL_KEY]);
       }
       const curMonth = getLocalMonthKey();
       const rawLimit = Number(parsed?.monthlyCharLimit || 480000);
@@ -2146,14 +2209,13 @@
         updatedAt: updatedAt || Number(parsed?.updatedAt || 0)
       };
       hubState.cloudTranslate = normalized;
-      safeLocalSet(CLOUD_TRANS_LOCAL_KEY, JSON.stringify(normalized));
 
-      // Keep monthly Cloud Translate counter aligned with local quota tracker
+      // Keep monthly Cloud Translate counter aligned with Cloud quota tracker
       const q = loadQuotaState();
       const mergedChars = Math.max(q.translateChars || 0, normalized.monthChars || 0);
       if (mergedChars !== q.translateChars) {
         q.translateChars = mergedChars;
-        safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+        saveQuotaState(q);
       }
       renderCloudTranslateCard();
     }
@@ -2198,7 +2260,6 @@
         updatedAt: now
       };
       hubState.cloudTranslate = payloadObj;
-      safeLocalSet(CLOUD_TRANS_LOCAL_KEY, JSON.stringify(payloadObj));
 
       if (hubState.user) {
         try {
@@ -2296,7 +2357,9 @@
     function loadLocalGeminiUsage() {
       const parsed = safeJsonParse(safeLocalGet(GEMINI_USAGE_LOCAL_KEY, ''), null);
       const localEvs = Array.isArray(parsed?.events) ? parsed.events : [];
-      hubState.geminiUsageEvents = mergeGeminiUsageEvents(hubState.geminiUsageEvents, localEvs);
+      if (localEvs.length) {
+        hubState.geminiUsageEvents = mergeGeminiUsageEvents(hubState.geminiUsageEvents, localEvs);
+      }
       return hubState.geminiUsageEvents;
     }
 
@@ -2473,7 +2536,7 @@
     function loadQuotaState() {
       const today = getLocalDateKey();
       const month = getLocalMonthKey();
-      const saved = safeJsonParse(safeLocalGet(HUB_QUOTA_KEY, ''), null) || {};
+      const saved = hubState.quota || {};
       const state = {
         date: today,
         month,
@@ -2481,8 +2544,13 @@
         geminiLimit: Number(saved.geminiLimit || 250),
         translateChars: saved.month === month ? Number(saved.translateChars || 0) : 0
       };
-      safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(state));
+      hubState.quota = state;
       return state;
+    }
+
+    function saveQuotaState(q) {
+      hubState.quota = { ...q };
+      syncHubStateToCloud();
     }
 
     function renderQuotaSection() {
@@ -2916,33 +2984,18 @@
     }
 
     function loadPromptsStore() {
-      const saved = safeJsonParse(safeLocalGet(HUB_PROMPTS_KEY, ''), null);
+      const s = hubState.promptsStore;
+      if (s && Array.isArray(s.prompts)) {
+        return s;
+      }
       const now = Date.now();
-      if (Array.isArray(saved)) {
-        const migrated = {
-          version: 2,
-          prompts: saved.map((p, idx) => normalizePromptItem(p, now - idx)),
-          customAis: [],
-          updatedAt: now
-        };
-        safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(migrated));
-        return migrated;
-      }
-      if (saved && typeof saved === 'object' && Array.isArray(saved.prompts)) {
-        return {
-          version: 2,
-          prompts: saved.prompts.map((p, idx) => normalizePromptItem(p, now - idx)),
-          customAis: normalizeCustomAis(saved.customAis),
-          updatedAt: Number(saved.updatedAt || 0)
-        };
-      }
       const seeded = {
         version: 2,
         prompts: DEFAULT_PROMPTS.map((p) => normalizePromptItem(p, p.updatedAt || now)),
         customAis: [],
         updatedAt: 0
       };
-      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(seeded));
+      hubState.promptsStore = seeded;
       return seeded;
     }
 
@@ -3020,7 +3073,7 @@
         customAis: normalizeCustomAis(nextStore.customAis),
         updatedAt: opts.preserveUpdatedAt ? Number(nextStore.updatedAt || Date.now()) : Date.now()
       };
-      safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(stamped));
+      hubState.promptsStore = stamped;
       renderPromptVault();
       if (!opts.skipCloud) {
         await syncPromptsStoreToCloud(stamped);
@@ -3364,7 +3417,7 @@
     // =====================================================================
     // AUTH & EVENT WIRING
     // =====================================================================
-    applyTheme(safeLocalGet(HUB_THEME_KEY, 'dark'));
+    applyTheme(hubState.theme, { sync: false });
     renderPromptVault();
     renderPromptAiSelector();
 
@@ -3373,12 +3426,17 @@
         hubState.geminiUnsubscribe();
         hubState.geminiUnsubscribe = null;
       }
+      if (typeof hubState.hubStateUnsubscribe === 'function') {
+        hubState.hubStateUnsubscribe();
+        hubState.hubStateUnsubscribe = null;
+      }
       if (typeof hubState.promptsUnsubscribe === 'function') {
         hubState.promptsUnsubscribe();
         hubState.promptsUnsubscribe = null;
       }
       if (!user) {
         hubState.user = null;
+        hubState.hubStateSeededUid = null;
         hubState.promptsSeededUid = null;
         setPromptSyncStatus('☁️ รอล็อกอินเพื่อซิงก์ Cloud', false);
         $('appShell').classList.add('hidden');
@@ -3421,52 +3479,112 @@
         const clearedAt = Number(parsed.clearedAt || 0);
         if (remoteEvs.length === 0 && clearedAt) {
           hubState.geminiUsageEvents = (hubState.geminiUsageEvents || []).filter((e) => Number(e?.ts || 0) > clearedAt);
-          safeLocalSet(GEMINI_USAGE_LOCAL_KEY, JSON.stringify({ version: 1, events: hubState.geminiUsageEvents }));
         } else {
           hubState.geminiUsageEvents = mergeGeminiUsageEvents(hubState.geminiUsageEvents, remoteEvs);
-          safeLocalSet(GEMINI_USAGE_LOCAL_KEY, JSON.stringify({ version: 1, events: hubState.geminiUsageEvents }));
         }
+        clearLegacyHubLocalStorage([GEMINI_USAGE_LOCAL_KEY]);
         renderQuotaSection();
       }, (err) => {
         console.warn('Gemini usage snapshot skipped:', err?.message || err);
       });
 
+      const hubStateRef = doc(db, 'users', user.uid, 'sync', 'peachzHubState');
+      hubState.hubStateUnsubscribe = onSnapshot(hubStateRef, async (snap) => {
+        if (!snap.exists()) {
+          if (hubState.hubStateSeededUid !== user.uid) {
+            hubState.hubStateSeededUid = user.uid;
+            const legacyTheme = safeLocalGet(HUB_THEME_KEY, '');
+            const legacyGoals = safeJsonParse(safeLocalGet(HUB_GOALS_KEY, ''), null);
+            const legacyQuota = safeJsonParse(safeLocalGet(HUB_QUOTA_KEY, ''), null);
+            if (legacyTheme === 'light' || legacyTheme === 'dark') hubState.theme = legacyTheme;
+            if (legacyGoals) hubState.goals = legacyGoals;
+            if (legacyQuota) hubState.quota = legacyQuota;
+            applyTheme(hubState.theme, { sync: false });
+            renderGoalSection();
+            renderQuotaSection();
+            await syncHubStateToCloud();
+            clearLegacyHubLocalStorage([HUB_THEME_KEY, HUB_GOALS_KEY, HUB_QUOTA_KEY]);
+          }
+          return;
+        }
+        const parsed = safeJsonParse(snap.data()?.stateJson, null);
+        if (!parsed) return;
+        const remoteTs = Number(parsed.updatedAt || snap.data()?.updatedAt || 0);
+        if (remoteTs >= Number(hubState.hubStateUpdatedAt || 0)) {
+          hubState.hubStateUpdatedAt = remoteTs;
+          if (parsed.theme === 'light' || parsed.theme === 'dark') {
+            applyTheme(parsed.theme, { sync: false });
+          }
+          if (parsed.goals && typeof parsed.goals === 'object') {
+            hubState.goals = parsed.goals;
+          }
+          if (parsed.quota && typeof parsed.quota === 'object') {
+            hubState.quota = parsed.quota;
+          }
+          renderGoalSection();
+          renderQuotaSection();
+          clearLegacyHubLocalStorage([HUB_THEME_KEY, HUB_GOALS_KEY, HUB_QUOTA_KEY]);
+        }
+      }, (err) => {
+        console.warn('Hub state snapshot skipped:', err?.message || err);
+      });
+
       const promptsSyncRef = doc(db, 'users', user.uid, 'sync', 'peachzHubPrompts');
       hubState.promptsUnsubscribe = onSnapshot(promptsSyncRef, async (snap) => {
-        const localStore = loadPromptsStore();
         if (!snap.exists()) {
           if (hubState.promptsSeededUid !== user.uid) {
             hubState.promptsSeededUid = user.uid;
-            await syncPromptsStoreToCloud({ ...localStore, updatedAt: localStore.updatedAt || Date.now() });
+            const legacyRaw = safeJsonParse(safeLocalGet(HUB_PROMPTS_KEY, ''), null);
+            const now = Date.now();
+            if (Array.isArray(legacyRaw) && legacyRaw.length) {
+              hubState.promptsStore = {
+                version: 2,
+                prompts: legacyRaw.map((p, idx) => normalizePromptItem(p, now - idx)),
+                customAis: [],
+                updatedAt: now
+              };
+            } else if (legacyRaw && typeof legacyRaw === 'object' && Array.isArray(legacyRaw.prompts)) {
+              hubState.promptsStore = {
+                version: 2,
+                prompts: legacyRaw.prompts.map((p, idx) => normalizePromptItem(p, now - idx)),
+                customAis: normalizeCustomAis(legacyRaw.customAis),
+                updatedAt: Number(legacyRaw.updatedAt || now)
+              };
+            }
+            const store = loadPromptsStore();
+            renderPromptVault();
+            renderPromptAiSelector(store);
+            await syncPromptsStoreToCloud({ ...store, updatedAt: store.updatedAt || now });
+            clearLegacyHubLocalStorage([HUB_PROMPTS_KEY]);
           }
           return;
         }
         const parsed = safeJsonParse(snap.data()?.stateJson, null);
         if (!parsed || !Array.isArray(parsed.prompts)) return;
         const remoteTs = Number(parsed.updatedAt || snap.data()?.updatedAt || 0);
-        const localTs = Number(localStore.updatedAt || 0);
-        if (remoteTs > localTs) {
+        const curStore = loadPromptsStore();
+        const localTs = Number(curStore.updatedAt || 0);
+        if (remoteTs >= localTs) {
           const adopted = {
             version: 2,
             prompts: parsed.prompts.map((p, idx) => normalizePromptItem(p, remoteTs - idx)),
             customAis: normalizeCustomAis(parsed.customAis),
             updatedAt: remoteTs
           };
-          safeLocalSet(HUB_PROMPTS_KEY, JSON.stringify(adopted));
+          hubState.promptsStore = adopted;
           renderPromptVault();
           renderPromptAiSelector(adopted);
-          const hm = new Date(remoteTs).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
-          setPromptSyncStatus(`☁️ ซิงก์ Cloud แล้ว (${hm})`, true);
-        } else if (localTs > remoteTs && hubState.promptsSeededUid !== user.uid) {
-          hubState.promptsSeededUid = user.uid;
-          await syncPromptsStoreToCloud(localStore);
-        } else {
+          clearLegacyHubLocalStorage([HUB_PROMPTS_KEY]);
           const hm = remoteTs ? new Date(remoteTs).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) : '';
           setPromptSyncStatus(hm ? `☁️ ซิงก์ Cloud แล้ว (${hm})` : '☁️ ซิงก์ Cloud แล้ว', true);
+        } else if (localTs > remoteTs && hubState.promptsSeededUid !== user.uid) {
+          hubState.promptsSeededUid = user.uid;
+          await syncPromptsStoreToCloud(curStore);
+          clearLegacyHubLocalStorage([HUB_PROMPTS_KEY]);
         }
       }, (err) => {
         console.warn('Prompt Vault snapshot skipped:', err?.message || err);
-        setPromptSyncStatus('⚠️ ซิงก์ Cloud ไม่สำเร็จ (ใช้ข้อมูลในเครื่อง)', false);
+        setPromptSyncStatus('⚠️ ซิงก์ Cloud ไม่สำเร็จ', false);
       });
 
       await loadAllSuiteData();
@@ -3497,7 +3615,7 @@
     $('btnRefreshAll').addEventListener('click', loadAllSuiteData);
     $('btnToggleTheme').addEventListener('click', () => {
       const currentlyDark = document.documentElement.classList.contains('dark');
-      applyTheme(currentlyDark ? 'light' : 'dark');
+      applyTheme(currentlyDark ? 'light' : 'dark', { sync: true });
     });
 
     $('btnPeachzSuiteMenu').addEventListener('click', (e) => {
@@ -3614,7 +3732,7 @@
       btn.addEventListener('click', () => {
         const q = loadQuotaState();
         q.geminiCount += Number(btn.getAttribute('data-add-gemini'));
-        safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+        saveQuotaState(q);
         renderQuotaSection();
       });
     });
@@ -3622,21 +3740,21 @@
       btn.addEventListener('click', () => {
         const q = loadQuotaState();
         q.translateChars += Number(btn.getAttribute('data-add-trans'));
-        safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+        saveQuotaState(q);
         renderQuotaSection();
       });
     });
     $('inputGeminiLimit').addEventListener('change', (e) => {
       const q = loadQuotaState();
       q.geminiLimit = Math.max(10, Number(e.target.value || 250));
-      safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+      saveQuotaState(q);
       renderQuotaSection();
     });
     $('btnResetQuotaToday').addEventListener('click', () => {
       const q = loadQuotaState();
       q.geminiCount = 0;
       q.translateChars = 0;
-      safeLocalSet(HUB_QUOTA_KEY, JSON.stringify(q));
+      saveQuotaState(q);
       renderQuotaSection();
       showToast('รีเซ็ตตัวนับโควตาแล้ว');
     });
@@ -3647,7 +3765,7 @@
       if (!confirm('ต้องการล้างสถิติ Gemini API (Requests & Tokens) ทั้งบนเครื่องและ Cloud ใช่หรือไม่? (API Key ทั้งหมดจะยังอยู่ครบ)')) return;
       const clearedAt = Date.now();
       hubState.geminiUsageEvents = [];
-      safeLocalSet(GEMINI_USAGE_LOCAL_KEY, JSON.stringify({ version: 1, events: [], clearedAt }));
+      clearLegacyHubLocalStorage([GEMINI_USAGE_LOCAL_KEY]);
       renderQuotaSection();
       if (hubState.user) {
         try {

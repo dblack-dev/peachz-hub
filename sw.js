@@ -3,7 +3,7 @@
  * - Network-first for page navigation & HTML
  * - Bypass Firestore / Firebase Auth / Gemini API / Google APIs
  */
-const VERSION = 'v1.6.0';
+const VERSION = 'v1.7.0';
 const CACHE_NAME = 'peachz-hub-' + VERSION;
 const SHELL_ASSETS = [
   './',
