@@ -153,7 +153,7 @@
             </button>
             <div id="peachzSuiteDropdown" class="hidden absolute right-0 mt-2 w-64 rounded-2xl hub-surface border shadow-2xl p-1.5 z-50 text-left space-y-0.5">
               <div class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide hub-text-sub">Peachz Writer &amp; Reader Suite</div>
-              <a href="https://dblack-dev.github.io/peachz-pwa/" target="_blank" rel="noopener"
+              <a href="https://dblack-dev.github.io/peachz-haus/" target="_blank" rel="noopener"
                 class="flex items-center justify-between gap-2 px-2.5 py-2 rounded-xl hover:bg-orange-500/10 text-xs transition">
                 <span>🍑 Peachz Haus Studio</span>
                 <span class="text-[10px] hub-text-sub">จัดหน้า</span>
@@ -616,40 +616,102 @@
 
           <!-- Right: Cost Estimator & Tier Reference -->
           <div class="rounded-3xl hub-surface border p-4 sm:p-5 space-y-4 shadow-sm">
-            <div>
-              <h3 class="text-sm sm:text-base font-bold">💰 คำนวณค่าใช้จ่ายโดยประมาณ (Paid Tier)</h3>
-              <p class="text-[11px] hub-text-sub">ช่วยประเมินค่าแปลนิยายต่อตอนหรือทั้งเล่มก่อนเปิด Paid Tier บน Google Cloud</p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 text-xs">
-              <label class="space-y-1">
-                <span class="hub-text-sub block">เรตราคาโมเดล (USD / 1M Tokens)</span>
-                <select id="calcModelRate" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs">
-                  <option value="0.10|0.40">Gemini Flash-Lite (~$0.10 / $0.40)</option>
-                  <option value="0.30|2.50" selected>Gemini Flash (~$0.30 / $2.50)</option>
-                  <option value="1.25|10.00">Gemini Pro (~$1.25 / $10.00)</option>
-                </select>
-              </label>
-              <label class="space-y-1">
-                <span class="hub-text-sub block">เรตค่าเงิน (บาท / 1 USD)</span>
-                <input id="calcUsdToThb" type="number" step="0.5" value="34.5" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs" />
-              </label>
-              <label class="space-y-1">
-                <span class="hub-text-sub block">Input Tokens (ต้นฉบับ+Prompt)</span>
-                <input id="calcInputTokens" type="number" step="1000" value="15000" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs" />
-              </label>
-              <label class="space-y-1">
-                <span class="hub-text-sub block">Output Tokens (คำแปลไทย+Thinking)</span>
-                <input id="calcOutputTokens" type="number" step="1000" value="10000" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs" />
-              </label>
-            </div>
-
-            <div class="rounded-2xl hub-subtle border p-3.5 flex items-center justify-between">
+            <div class="flex flex-wrap items-start justify-between gap-2">
               <div>
-                <div class="text-[11px] hub-text-sub">ค่าใช้จ่ายประมาณการตาม Token ที่ใส่</div>
-                <div id="calcResultThb" class="text-lg font-bold text-orange-500">฿1.02</div>
+                <h3 class="text-sm sm:text-base font-bold">💰 คำนวณค่าใช้จ่ายโดยประมาณ (Paid Tier)</h3>
+                <p class="text-[11px] hub-text-sub">คิดค่าใช้จ่ายแยกตามโมเดลและแอปจากยอด Token จริง หรือจำลองก่อนเปิด Billing</p>
               </div>
-              <div id="calcResultUsd" class="text-xs font-mono hub-text-sub">$0.0295 USD</div>
+              <div class="inline-flex rounded-xl hub-subtle border p-0.5 text-[11px] font-semibold">
+                <button id="btnCostModeReal" type="button" class="px-2.5 py-1 rounded-lg bg-orange-500 text-white transition">📊 จากยอดใช้จริง</button>
+                <button id="btnCostModeManual" type="button" class="px-2.5 py-1 rounded-lg hub-text-sub hover:opacity-80 transition">🧮 จำลองเอง</button>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-2 rounded-2xl hub-subtle border px-3 py-2 text-xs">
+              <span class="hub-text-sub">เรตแลกเปลี่ยน (บาท / 1 USD)</span>
+              <input id="calcUsdToThb" type="number" step="0.5" value="34.5" class="w-24 px-2.5 py-1 rounded-lg hub-surface border text-xs text-right font-semibold" />
+            </div>
+
+            <!-- Panel A: Real Usage Cost Breakdown -->
+            <div id="costRealPanel" class="space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                <span class="font-semibold hub-text-sub">ช่วงเวลาที่คำนวณ:</span>
+                <select id="selectCostTimeRange" class="px-2.5 py-1.5 rounded-xl hub-subtle border text-xs font-medium">
+                  <option value="today" selected>วันนี้</option>
+                  <option value="24h">24 ชม. ล่าสุด</option>
+                  <option value="7d">7 วันล่าสุด</option>
+                  <option value="30d">30 วันล่าสุด</option>
+                  <option value="month">เดือนนี้</option>
+                  <option value="all">ทั้งหมด</option>
+                  <option value="custom">กำหนดวันเอง</option>
+                </select>
+              </div>
+
+              <div id="costCustomDateRow" class="hidden grid grid-cols-2 gap-2 text-[11px]">
+                <label class="space-y-0.5">
+                  <span class="hub-text-sub block">ตั้งแต่</span>
+                  <input id="inputCostDateFrom" type="date" class="w-full px-2.5 py-1.5 rounded-lg hub-surface border text-xs" />
+                </label>
+                <label class="space-y-0.5">
+                  <span class="hub-text-sub block">ถึง</span>
+                  <input id="inputCostDateTo" type="date" class="w-full px-2.5 py-1.5 rounded-lg hub-surface border text-xs" />
+                </label>
+              </div>
+
+              <div class="rounded-2xl hub-subtle border p-3.5 flex items-center justify-between gap-3">
+                <div class="min-w-0">
+                  <div class="text-[11px] hub-text-sub">ค่าใช้จ่ายรวมโดยประมาณ (หากคิดเรต Paid Tier)</div>
+                  <div id="costRealTotalThb" class="text-xl font-extrabold text-orange-500">฿0.00</div>
+                  <div id="costRealMeta" class="text-[10px] hub-text-sub mt-0.5 truncate">0 req • In: 0 • Out: 0 tok</div>
+                </div>
+                <div id="costRealTotalUsd" class="text-xs font-mono hub-text-sub shrink-0">$0.0000 USD</div>
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between text-[11px]">
+                  <span class="font-semibold hub-text-sub">แยกค่าใช้จ่ายรายโมเดล</span>
+                  <span class="text-[10px] hub-text-sub">USD / 1M tok</span>
+                </div>
+                <div id="costModelBreakdownList" class="space-y-2 max-h-72 overflow-y-auto pr-0.5"></div>
+              </div>
+            </div>
+
+            <!-- Panel B: Manual Token Simulator -->
+            <div id="costManualPanel" class="hidden space-y-3">
+              <div class="flex justify-end">
+                <button id="btnFillCalcFromReal" type="button" class="px-2.5 py-1 rounded-lg hub-subtle border text-[11px] font-semibold hover:border-orange-500 transition">
+                  📥 ดึงยอด Token จริงมาคำนวณ
+                </button>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                <label class="space-y-1">
+                  <span class="hub-text-sub block">เรตราคาโมเดล (USD / 1M)</span>
+                  <select id="calcModelRate" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs">
+                    <option value="0.10|0.40">Gemini 2.5 Flash-Lite (~$0.10 / $0.40)</option>
+                    <option value="0.25|1.50">Gemini 3.x Flash-Lite (~$0.25 / $1.50)</option>
+                    <option value="0.30|2.50" selected>Gemini 2.5 Flash (~$0.30 / $2.50)</option>
+                    <option value="0.50|3.00">Gemini 3.x Flash (~$0.50 / $3.00)</option>
+                    <option value="1.25|10.00">Gemini 2.5 Pro (~$1.25 / $10.00)</option>
+                    <option value="2.00|12.00">Gemini 3.x Pro (~$2.00 / $12.00)</option>
+                  </select>
+                </label>
+                <label class="space-y-1">
+                  <span class="hub-text-sub block">Input Tokens</span>
+                  <input id="calcInputTokens" type="number" step="1000" value="15000" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs" />
+                </label>
+                <label class="space-y-1">
+                  <span class="hub-text-sub block">Output Tokens (+Think)</span>
+                  <input id="calcOutputTokens" type="number" step="1000" value="10000" class="w-full px-3 py-2 rounded-xl hub-subtle border text-xs" />
+                </label>
+              </div>
+
+              <div class="rounded-2xl hub-subtle border p-3.5 flex items-center justify-between">
+                <div>
+                  <div class="text-[11px] hub-text-sub">ค่าใช้จ่ายประมาณการตาม Token ที่ใส่</div>
+                  <div id="calcResultThb" class="text-lg font-bold text-orange-500">฿1.02</div>
+                </div>
+                <div id="calcResultUsd" class="text-xs font-mono hub-text-sub">$0.0295 USD</div>
+              </div>
             </div>
 
             <!-- Reference Table -->
@@ -1596,7 +1658,7 @@
 
       const targetUrl = payload.target === 'peachz-shelf'
         ? 'https://dblack-dev.github.io/peachz-shelf/'
-        : 'https://dblack-dev.github.io/peachz-pwa/?handoff=1';
+        : 'https://dblack-dev.github.io/peachz-haus/?handoff=1';
       const targetName = payload.target === 'peachz-shelf' ? '📚 Peachz Shelf' : '🍑 Peachz Haus Studio';
       const charCount = String(payload.content).length.toLocaleString('th-TH');
       statusEl.innerHTML = `<span class="font-semibold text-orange-500">รอรับเข้า ${escapeHtml(targetName)}</span> • จาก ${escapeHtml(payload.sourceApp || '-')} • "${escapeHtml(payload.title || 'ไม่มีชื่อตอน')}" (${charCount} ตัวอักษร)`;
@@ -1624,7 +1686,7 @@
           icon: '🍑',
           name: 'Peachz Haus Studio',
           desc: 'จัดหน้านิยาย ตรวจคำซ้ำ & ส่งออก .doc / .epub / PDF',
-          url: 'https://dblack-dev.github.io/peachz-pwa/',
+          url: 'https://dblack-dev.github.io/peachz-haus/',
           badge: hubState.haus.source,
           stats: `${hubState.haus.novels.length} เรื่อง • ${hubState.haus.chapters} ตอน • ${hubState.haus.words.toLocaleString('th-TH')} คำ`,
           sub: `🤖 ${hubState.haus.model} (${hubState.haus.thinking})`
@@ -2080,6 +2142,7 @@
       'noveltransstudio': '📖 NT',
       'pomehelpmami': '🐶 Pome',
       'peachz-pwa': '🍑 Haus',
+      'peachz-haus': '🍑 Haus',
       'peachz-kb': '⌨️ Peachz KB'
     };
 
@@ -2111,11 +2174,11 @@
       return hubState.geminiUsageEvents;
     }
 
-    function getGeminiRangeBounds() {
-      const mode = $('selectGeminiTimeRange')?.value || 'today';
+    function getGeminiRangeBounds(selectId = 'selectGeminiTimeRange', rowId = 'geminiCustomDateRow', fromId = 'inputGeminiDateFrom', toId = 'inputGeminiDateTo') {
+      const mode = $(selectId)?.value || 'today';
       const now = new Date();
       const nowMs = now.getTime();
-      const customRow = $('geminiCustomDateRow');
+      const customRow = $(rowId);
       if (customRow) customRow.classList.toggle('hidden', mode !== 'custom');
 
       if (mode === '24h') return { fromTs: nowMs - 24 * 60 * 60 * 1000, toTs: nowMs, mode };
@@ -2124,8 +2187,8 @@
       if (mode === 'month') return { fromTs: new Date(now.getFullYear(), now.getMonth(), 1).getTime(), toTs: nowMs, mode };
       if (mode === 'all') return { fromTs: 0, toTs: Infinity, mode };
       if (mode === 'custom') {
-        const fromEl = $('inputGeminiDateFrom');
-        const toEl = $('inputGeminiDateTo');
+        const fromEl = $(fromId);
+        const toEl = $(toId);
         const todayStr = getLocalDateKey();
         if (fromEl && !fromEl.value) fromEl.value = todayStr;
         if (toEl && !toEl.value) toEl.value = todayStr;
@@ -2330,15 +2393,157 @@
       updateCostCalculator();
     }
 
+    function getGeminiModelPricing(modelName) {
+      const m = String(modelName || '').toLowerCase();
+      if (m.includes('flash-lite')) {
+        if (m.includes('2.5') || m.includes('2.0')) return { inRate: 0.10, outRate: 0.40, note: '2.x Flash-Lite' };
+        return { inRate: 0.25, outRate: 1.50, note: '3.x Flash-Lite' };
+      }
+      if (m.includes('pro')) {
+        if (m.includes('2.5')) return { inRate: 1.25, outRate: 10.00, note: '2.5 Pro' };
+        return { inRate: 2.00, outRate: 12.00, note: '3.x Pro' };
+      }
+      if (m.includes('2.0-flash')) return { inRate: 0.10, outRate: 0.40, note: '2.0 Flash' };
+      if (m.includes('2.5-flash')) return { inRate: 0.30, outRate: 2.50, note: '2.5 Flash' };
+      if (m.includes('flash')) return { inRate: 0.50, outRate: 3.00, note: '3.x Flash' };
+      return { inRate: 0.30, outRate: 2.50, note: 'Est. Flash' };
+    }
+
+    function getFilteredCostUsageTotals() {
+      loadLocalGeminiUsage();
+      const { fromTs, toTs } = getGeminiRangeBounds(
+        'selectCostTimeRange',
+        'costCustomDateRow',
+        'inputCostDateFrom',
+        'inputCostDateTo'
+      );
+      const filtered = (hubState.geminiUsageEvents || []).filter((e) => {
+        const ts = Number(e?.ts || 0);
+        return ts >= fromTs && ts <= toTs;
+      });
+      let reqs = 0;
+      let inTok = 0;
+      let outTok = 0;
+      filtered.forEach((ev) => {
+        reqs++;
+        inTok += Math.max(0, Number(ev.inTok || 0));
+        outTok += Math.max(0, Number(ev.outTok || 0));
+      });
+      return { filtered, reqs, inTok, outTok };
+    }
+
+    function setCostEstimatorMode(mode) {
+      const isReal = mode !== 'manual';
+      $('costRealPanel')?.classList.toggle('hidden', !isReal);
+      $('costManualPanel')?.classList.toggle('hidden', isReal);
+      const bReal = $('btnCostModeReal');
+      const bManual = $('btnCostModeManual');
+      if (bReal && bManual) {
+        bReal.className = isReal
+          ? 'px-2.5 py-1 rounded-lg bg-orange-500 text-white transition'
+          : 'px-2.5 py-1 rounded-lg hub-text-sub hover:opacity-80 transition';
+        bManual.className = !isReal
+          ? 'px-2.5 py-1 rounded-lg bg-orange-500 text-white transition'
+          : 'px-2.5 py-1 rounded-lg hub-text-sub hover:opacity-80 transition';
+      }
+      updateCostCalculator();
+    }
+
+    function renderRealUsageCost() {
+      const usdToThb = Math.max(1, Number($('calcUsdToThb')?.value || 34.5));
+      const { filtered, reqs, inTok, outTok } = getFilteredCostUsageTotals();
+      const byModel = new Map();
+      let grandUsd = 0;
+
+      filtered.forEach((ev) => {
+        const mName = String(ev.model || 'unknown');
+        const eIn = Math.max(0, Number(ev.inTok || 0));
+        const eOut = Math.max(0, Number(ev.outTok || 0));
+        const eThink = Math.max(0, Number(ev.thinkTok || 0));
+        const pricing = getGeminiModelPricing(mName);
+        const inUsd = (eIn / 1_000_000) * pricing.inRate;
+        const outUsd = (eOut / 1_000_000) * pricing.outRate;
+        const totalUsd = inUsd + outUsd;
+        grandUsd += totalUsd;
+
+        let entry = byModel.get(mName);
+        if (!entry) {
+          entry = {
+            model: mName,
+            pricing,
+            reqs: 0,
+            inTok: 0,
+            outTok: 0,
+            thinkTok: 0,
+            inUsd: 0,
+            outUsd: 0,
+            totalUsd: 0,
+            apps: new Set()
+          };
+          byModel.set(mName, entry);
+        }
+        entry.reqs++;
+        entry.inTok += eIn;
+        entry.outTok += eOut;
+        entry.thinkTok += eThink;
+        entry.inUsd += inUsd;
+        entry.outUsd += outUsd;
+        entry.totalUsd += totalUsd;
+        if (ev.app) entry.apps.add(ev.app);
+      });
+
+      const grandThb = grandUsd * usdToThb;
+      if ($('costRealTotalThb')) $('costRealTotalThb').textContent = `฿${grandThb.toFixed(2)}`;
+      if ($('costRealTotalUsd')) $('costRealTotalUsd').textContent = `$${grandUsd.toFixed(4)} USD`;
+      if ($('costRealMeta')) {
+        $('costRealMeta').textContent = `${reqs.toLocaleString('th-TH')} req • In: ${inTok.toLocaleString('th-TH')} • Out: ${outTok.toLocaleString('th-TH')} tok`;
+      }
+
+      const listEl = $('costModelBreakdownList');
+      if (!listEl) return;
+      const rows = Array.from(byModel.values()).sort((a, b) => (b.totalUsd - a.totalUsd) || (b.reqs - a.reqs));
+      if (!rows.length) {
+        listEl.innerHTML = `<div class="p-3 rounded-xl hub-subtle border text-[11px] hub-text-sub text-center">ยังไม่มีประวัติการเรียก Gemini API ในช่วงเวลานี้</div>`;
+        return;
+      }
+
+      listEl.innerHTML = rows.map((r) => {
+        const thb = r.totalUsd * usdToThb;
+        const pct = grandUsd > 0 ? Math.round((r.totalUsd / grandUsd) * 100) : 0;
+        const appsHtml = Array.from(r.apps)
+          .map((a) => `<span class="px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-[9px] font-semibold">${escapeHtml(GEMINI_APP_BADGES[a] || a)}</span>`)
+          .join('');
+        return `
+          <div class="rounded-xl hub-subtle border p-2.5 space-y-1">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center gap-1 min-w-0">
+                <span class="font-mono font-bold text-xs text-amber-600 dark:text-amber-400 truncate">${escapeHtml(r.model)}</span>
+                ${appsHtml}
+              </div>
+              <div class="text-right shrink-0">
+                <span class="text-xs font-extrabold text-orange-500">฿${thb.toFixed(2)}</span>
+                <span class="text-[10px] font-mono hub-text-sub ml-1">($${r.totalUsd.toFixed(4)} • ${pct}%)</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-2 text-[10px] hub-text-sub">
+              <span>${r.reqs.toLocaleString('th-TH')} req • เรต $${r.pricing.inRate.toFixed(2)} / $${r.pricing.outRate.toFixed(2)}</span>
+              <span>In: ${r.inTok.toLocaleString('th-TH')} ($${r.inUsd.toFixed(4)}) • Out: ${r.outTok.toLocaleString('th-TH')}${r.thinkTok > 0 ? ` (T:${r.thinkTok.toLocaleString('th-TH')})` : ''} ($${r.outUsd.toFixed(4)})</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
     function updateCostCalculator() {
-      const [inRate, outRate] = String($('calcModelRate').value || '0.30|2.50').split('|').map(Number);
-      const usdToThb = Number($('calcUsdToThb').value || 34.5);
-      const inTok = Number($('calcInputTokens').value || 0);
-      const outTok = Number($('calcOutputTokens').value || 0);
+      renderRealUsageCost();
+      const [inRate, outRate] = String($('calcModelRate')?.value || '0.30|2.50').split('|').map(Number);
+      const usdToThb = Number($('calcUsdToThb')?.value || 34.5);
+      const inTok = Number($('calcInputTokens')?.value || 0);
+      const outTok = Number($('calcOutputTokens')?.value || 0);
       const usd = (inTok / 1_000_000) * inRate + (outTok / 1_000_000) * outRate;
       const thb = usd * usdToThb;
-      $('calcResultThb').textContent = `฿${thb.toFixed(2)}`;
-      $('calcResultUsd').textContent = `$${usd.toFixed(4)} USD`;
+      if ($('calcResultThb')) $('calcResultThb').textContent = `฿${thb.toFixed(2)}`;
+      if ($('calcResultUsd')) $('calcResultUsd').textContent = `$${usd.toFixed(4)} USD`;
     }
 
     // =====================================================================
@@ -2884,9 +3089,21 @@
         renderQuotaSection();
       }
     });
+    $('btnCostModeReal')?.addEventListener('click', () => setCostEstimatorMode('real'));
+    $('btnCostModeManual')?.addEventListener('click', () => setCostEstimatorMode('manual'));
+    ['selectCostTimeRange', 'inputCostDateFrom', 'inputCostDateTo'].forEach((id) => {
+      $(id)?.addEventListener('change', updateCostCalculator);
+    });
+    $('btnFillCalcFromReal')?.addEventListener('click', () => {
+      const { inTok, outTok } = getFilteredCostUsageTotals();
+      if ($('calcInputTokens')) $('calcInputTokens').value = inTok;
+      if ($('calcOutputTokens')) $('calcOutputTokens').value = outTok;
+      updateCostCalculator();
+      showToast(`ดึงยอดจริง ${inTok.toLocaleString('th-TH')} In / ${outTok.toLocaleString('th-TH')} Out มาคำนวณแล้ว`);
+    });
     ['calcModelRate', 'calcUsdToThb', 'calcInputTokens', 'calcOutputTokens'].forEach((id) => {
-      $(id).addEventListener('input', updateCostCalculator);
-      $(id).addEventListener('change', updateCostCalculator);
+      $(id)?.addEventListener('input', updateCostCalculator);
+      $(id)?.addEventListener('change', updateCostCalculator);
     });
 
     // Bible Explorer Events
@@ -2952,7 +3169,7 @@
         content: txt,
         createdAt: Date.now()
       }));
-      window.open('https://dblack-dev.github.io/peachz-pwa/?handoff=1', '_blank', 'noopener');
+      window.open('https://dblack-dev.github.io/peachz-haus/?handoff=1', '_blank', 'noopener');
       showToast('ส่งเข้า Peachz Haus Studio แล้ว 🍑');
     });
 
